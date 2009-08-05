@@ -1,0 +1,5 @@
+﻿#if ( $httpContext.Request.IsAuthenticated )
+    Welcome <b>$html.Encode( $httpContext.User.Identity.Name )</b>! $html.ActionLink("[ Log Off ]", "LogOff", "Account")
+#else
+    $html.ActionLink("[ Log On ]", "LogOn", "Account")
+#end

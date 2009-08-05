@@ -1,0 +1,28 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-access="">
+  <class name="Laan.ContentMatters.Models.Blog, Laan.ContentMatters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" table="`Blog`" xmlns="urn:nhibernate-mapping-2.2">
+    <id name="ID" type="Int32" column="ID">
+      <generator class="native" />
+    </id>
+    <property name="TypeName" type="String">
+      <column name="TypeName" />
+    </property>
+    <property name="Created" type="DateTime">
+      <column name="Created" />
+    </property>
+    <property name="Modified" type="DateTime">
+      <column name="Modified" />
+    </property>
+    <property name="Description" type="String">
+      <column name="Description" />
+    </property>
+    <property name="Title" type="String">
+      <column name="Title" />
+    </property>
+    <bag name="Posts" cascade="save-update">
+      <key column="BlogID" />
+      <one-to-many class="Laan.ContentMatters.Models.Post, Laan.ContentMatters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    </bag>
+    <many-to-one fetch="join" name="ItemDefinition" column="ItemDefinitionID" />
+    <many-to-one fetch="join" name="Author" column="AuthorID" />
+  </class>
+</hibernate-mapping>

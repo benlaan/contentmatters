@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Data>
+  <Blogs>
+    <Blog>
+      <ID>1</ID>
+      <Title>The Family Blog</Title>
+      <Description>A blog about family life</Description>
+      <Posts>
+        <Post>
+          <ID>10</ID>
+          <Title>A New blog engine!</Title>
+          <Body>This is our new blog engine.  It is built using ASP.NET MVC and NVelocity for templating. We hope you like it</Body>
+          <Comments>
+            <Comment>
+              <ID>100</ID>
+              <Body>Great Post</Body>
+            </Comment>
+            <Comment>
+              <ID>101</ID>
+              <Body>Not bad, but you could have mentioned more about the technology</Body>
+            </Comment>
+            <Comment>
+              <ID>102</ID>
+              <Body>Actually, there is a tech blog that covers that in more detail</Body>
+            </Comment>
+          </Comments>
+        </Post>
+        <Post>
+          <ID>10</ID>
+          <Title>It's A Girl!!</Title>
+          <Body>We would like to introduce the newest member of our family to the world.. Welcome, little one</Body>
+          <Comments>
+            <Comment>
+              <ID>103</ID>
+              <Body>Congratulations</Body>
+            </Comment>
+            <Comment>
+              <ID>104</ID>
+              <Body>Who's the daddy?? :-> Kidding!!!</Body>
+            </Comment>
+            <Comment>
+              <ID>105</ID>
+              <Body>No more late nights, eh?</Body>
+            </Comment>
+          </Comments>
+        </Post>
+      </Posts>
+    </Blog>
+    <Blog>
+      <ID>2</ID>
+      <Title>Lounging With Laany</Title>
+      <Description>Philosophical opinions about life, the universe, and everything!</Description>
+      <Posts>
+        <Post>
+          <ID>11</ID>
+          <Title>Peak Oil - Can we save what's left?</Title>
+          <Body>Peak Oil is real. BUT, is it now? And if so, can we get the word out in time..</Body>
+        </Post>
+      </Posts>
+    </Blog>
+    <Blog>
+      <ID>3</ID>
+      <Title>Code Monkey Screech</Title>
+      <Description>The art and science of software development, in theory and practice</Description>
+      <Posts>
+        <Post>
+          <ID>15</ID>
+          <Title>Writing a CMS with MVC, NVelocity and NHibernate</Title>
+          <Body>Sounds easy.. Is it??? Not yet.. But, with some time, and effort, it will be great!</Body>
+        </Post>
+      </Posts>
+    </Blog>
+  </Blogs>
+</Data>
