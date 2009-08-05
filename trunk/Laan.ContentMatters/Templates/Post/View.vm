@@ -1,0 +1,18 @@
+﻿<div class="post">
+  <h1>$item.Title</h1>
+  <p>Posted by $item.Author.Link</p>
+  <p>$item.Body</p>
+
+  <ul class="list">
+#foreach ($comment in $item.Comments ) 
+    <li>
+        <div class="comment">
+          $comment.Body
+          <br/>
+          <div class="author">- $comment.Author.Link</div>
+        </div>
+    </li>
+#end
+  </ul>
+   <span class="date">$item.Modified</span>
+</div>

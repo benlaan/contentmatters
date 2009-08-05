@@ -1,0 +1,6 @@
+﻿<h2>$title</h2>
+<ul class="list">
+#foreach ($item in $List ) 
+    <li> $do.output( $item ) </li>
+#end
+</ul>

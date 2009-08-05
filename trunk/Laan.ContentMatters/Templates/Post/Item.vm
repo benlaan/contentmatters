@@ -1,0 +1,4 @@
+<div class="readmore">
+<h1>$item.Link</h1>
+  <p>$item.Body.SubString(0, 50)...</p>
+</div>
