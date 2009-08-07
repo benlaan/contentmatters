@@ -1,17 +1,19 @@
 
-    drop table if exists "Comment"
+    drop table if exists Custom_Comment
 
-    drop table if exists "News"
+    drop table if exists Custom_News
 
-    drop table if exists "Post"
+    drop table if exists Models_FieldDefinition
 
-    drop table if exists "User"
+    drop table if exists Custom_Post
 
-    drop table if exists "ItemDefinition"
+    drop table if exists Models_User
 
-    drop table if exists "Blog"
+    drop table if exists Models_ItemDefinition
 
-    create table "Comment" (
+    drop table if exists Custom_Blog
+
+    create table Custom_Comment (
         ID  integer,
        Body TEXT,
        TypeName TEXT,
@@ -25,7 +27,7 @@
        primary key (ID)
     )
 
-    create table "News" (
+    create table Custom_News (
         ID  integer,
        TypeName TEXT,
        Created DATETIME,
@@ -37,7 +39,15 @@
        primary key (ID)
     )
 
-    create table "Post" (
+    create table Models_FieldDefinition (
+        ID  integer,
+       Name TEXT,
+       FieldType INTEGER,
+       ItemDefinitionID INTEGER,
+       primary key (ID)
+    )
+
+    create table Custom_Post (
         ID  integer,
        Body TEXT,
        TypeName TEXT,
@@ -51,27 +61,23 @@
        primary key (ID)
     )
 
-    create table "User" (
+    create table Models_User (
         ID  integer,
        Name TEXT,
        EmailAddress TEXT,
        primary key (ID)
     )
 
-    create table "ItemDefinition" (
+    create table Models_ItemDefinition (
         ID  integer,
        MasterPage TEXT,
-       TypeName TEXT,
-       Created DATETIME,
-       Modified DATETIME,
+       Namespace TEXT,
        Description TEXT,
-       Title TEXT,
-       ItemDefinitionID INTEGER,
-       AuthorID INTEGER,
+       Name TEXT,
        primary key (ID)
     )
 
-    create table "Blog" (
+    create table Custom_Blog (
         ID  integer,
        TypeName TEXT,
        Created DATETIME,
