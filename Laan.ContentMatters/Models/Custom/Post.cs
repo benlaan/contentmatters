@@ -4,7 +4,7 @@ using System.Web.Mvc;
 
 using Laan.ContentMatters.Models;
 
-namespace Laan.ContentMatters.Models
+namespace Laan.ContentMatters.Models.Custom
 {
     public class Post : Item
     {

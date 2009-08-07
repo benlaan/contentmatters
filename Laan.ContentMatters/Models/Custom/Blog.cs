@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Laan.ContentMatters.Models
+namespace Laan.ContentMatters.Models.Custom
 {
     public class Blog : Item
     {

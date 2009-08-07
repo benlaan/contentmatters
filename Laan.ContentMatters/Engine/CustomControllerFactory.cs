@@ -1,16 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-
-using Laan.ContentMatters.Controllers;
-using Laan.ContentMatters.Models;
-using Laan.Persistence;
-using Castle.Core.Logging;
-using Laan.Persistence.Interfaces;
-using Castle.Facilities.NHibernateIntegration;
 
 namespace Laan.ContentMatters.Engine
 {
@@ -29,7 +19,10 @@ namespace Laan.ContentMatters.Engine
             if ( Type.GetType( controllerFullName ) != null )
                 return base.CreateController( requestContext, controllerName );
 
-            Type argumentType = Type.GetType( "Laan.ContentMatters.Models." + controllerName );
+            //TODO: This needs to be configured as a list of probe paths, and each checked in turn..
+            string namespacePrefix = "Laan.ContentMatters.Models.Custom";
+
+            Type argumentType = Type.GetType( String.Format( "{0}.{1}", namespacePrefix, controllerName ), true );
             Type type = typeof( Laan.ContentMatters.Controllers.IController<> ).MakeGenericType( argumentType );
 
             return IoC.Container.Resolve( type ) as IController;

@@ -129,8 +129,10 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMapping\Conventions\EnumConvention.cs" />
     <Compile Include="AutoMapping\Conventions\IdentityConvention.cs" />
     <Compile Include="AutoMapping\Conventions\OneToManyConvention.cs" />
+    <Compile Include="Build.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -143,6 +145,7 @@
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Engine\TypeConstructor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -151,14 +154,17 @@
     <Compile Include="Models\Custom\Comment.cs" />
     <Compile Include="Models\Custom\News.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\FieldDefinition.cs" />
+    <Compile Include="Models\FieldType.cs" />
     <Compile Include="Models\Files\BaseItem.cs" />
     <Compile Include="Models\Files\FileSystemItem.cs" />
     <Compile Include="Models\Files\HttpContext.cs" />
     <Compile Include="Models\Files\HttpContextSession.cs" />
     <Compile Include="Models\Files\IContext.cs" />
     <Compile Include="Models\Files\ISession.cs" />
-    <Compile Include="Models\IItem.cs" />
+    <Compile Include="Models\HtmlHelper.cs" />
     <Compile Include="Models\Interfaces\IIdentifiable.cs" />
+    <Compile Include="Models\Interfaces\IItem.cs" />
     <Compile Include="Models\Interfaces\ILoadable.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Custom\Post.cs" />
@@ -196,7 +202,6 @@
     <Content Include="Images\bullet.gif" />
     <Content Include="Images\clock.gif" />
     <Content Include="Images\comment.gif" />
-    <Content Include="Images\firefox-gray.jpg" />
     <Content Include="Images\gradientbg.jpg" />
     <Content Include="Images\headerphoto.jpg" />
     <Content Include="Images\page.gif" />

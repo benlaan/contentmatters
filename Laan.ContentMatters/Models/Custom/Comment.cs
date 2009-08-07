@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Laan.ContentMatters.Models
+namespace Laan.ContentMatters.Models.Custom
 {
     public class Comment : Item
     {
