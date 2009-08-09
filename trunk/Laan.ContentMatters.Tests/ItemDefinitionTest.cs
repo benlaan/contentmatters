@@ -13,6 +13,16 @@ namespace Laan.ContentMatters.Tests
     [TestFixture]
     public class ItemDefinitionTest
     {
+        private const string Namespace = "Laan.Test.Model";
+
+        private TypeConstructor _constructor;
+
+        [SetUp]
+        public void Setup()
+        {
+            string path = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location );
+            _constructor = new TypeConstructor( Namespace, path );
+        }
 
         private void VerifyTypeProperty( object supplier, string name, Type type )
         {
@@ -22,7 +32,7 @@ namespace Laan.ContentMatters.Tests
             Assert.IsTrue( prop.PropertyType == type );
         }
 
-        private void SetValue( object supplier, string propertyName, string value )
+        private void SetValue( object supplier, string propertyName, object value )
         {
             var prop = supplier.GetType().GetProperty( propertyName );
             prop.SetValue( supplier, value, null );
@@ -34,97 +44,102 @@ namespace Laan.ContentMatters.Tests
             Assert.AreEqual( expected, actual );
         }
 
+        private ItemDefinition GetSupplierDefinition()
+        {
+            var def = new ItemDefinition();
+            def.Name = "Supplier";
+            def.Namespace = Namespace;
+            def.Description = "A list of corporate suppliers";
+            def.Fields.Add( new FieldDefinition() { Name = "Name", FieldType = FieldType.Text } );
+            def.Fields.Add( new FieldDefinition() { Name = "Age", FieldType = FieldType.Number } );
+            def.Fields.Add( new FieldDefinition() { Name = "BirthDate", FieldType = FieldType.DateTime } );
+            return def;
+        }
+
+        private ItemDefinition GetCityDefinition()
+        {
+            var def = new ItemDefinition();
+            def.Name = "City";
+            def.Namespace = Namespace;
+            def.Description = "a city";
+            def.Fields.Add( new FieldDefinition() { Name = "Name", FieldType = FieldType.Text } );
+            def.Fields.Add( new FieldDefinition() { Name = "Population", FieldType = FieldType.Number } );
+            return def;
+        }
+
         [Test]
         public void Test_Can_Construct_Item_By_Definition()
         {
             // Setup
-            var def = new ItemDefinition();
-            def.Name = "Supplier";
-            def.Namespace = "Laan.Test.Model";
-            def.Description = "A list of corporate suppliers";
-            def.Fields.Add( new FieldDefinition() { Name = "Name", FieldType = FieldType.Text } );
-            def.Fields.Add( new FieldDefinition() { Name = "Address", FieldType = FieldType.Memo } );
-            def.Fields.Add( new FieldDefinition() { Name = "LastUsed", FieldType = FieldType.DateTime } );
+            ItemDefinition def = GetSupplierDefinition();
 
             // Exercise
-            var constructor = new TypeConstructor( def.Namespace );
-            Type supplierType = constructor.AddType( typeof( Item ), def );
-
+            Type supplierType = _constructor.AddType( typeof( Item ), def );
             object supplier = Activator.CreateInstance( supplierType );
 
             // Verify outcome
             Assert.IsNotNull( supplier );
 
             VerifyTypeProperty( supplier, "Name", typeof( string ) );
-            VerifyTypeProperty( supplier, "Address", typeof( string ) );
-            VerifyTypeProperty( supplier, "LastUsed", typeof( DateTime ) );
+            VerifyTypeProperty( supplier, "Age", typeof( Int32 ) );
+            VerifyTypeProperty( supplier, "BirthDate", typeof( DateTime ) );
         }
 
         [Test]
         public void Test_Can_Construct_Item_By_Definition_And_Set_Value()
         {
             // Setup
-            var def = new ItemDefinition();
-            def.Name = "Supplier";
-            def.Namespace = "Laan.Test.Model";
-            def.Description = "A list of corporate suppliers";
-            def.Fields.Add( new FieldDefinition() { Name = "Name", FieldType = FieldType.Text } );
+            var def = GetSupplierDefinition();
 
             // Exercise
-            var constructor = new TypeConstructor( def.Namespace );
-            Type supplierType = constructor.AddType( typeof( Item ), def );
-
+            Type supplierType = _constructor.AddType( typeof( Item ), def );
             object supplier = Activator.CreateInstance( supplierType );
             SetValue( supplier, "Name", "Ben Laan" );
+            SetValue( supplier, "Age", 21 );
+            SetValue( supplier, "BirthDate", DateTime.Parse( "25/12/2009" ) );
+            
 
             // Verify outcome
             Assert.IsNotNull( supplier );
-
             VerifyPropertyValue( supplier, "Name", "Ben Laan" );
+            VerifyPropertyValue( supplier, "Age", 21 );
+            VerifyPropertyValue( supplier, "BirthDate", DateTime.Parse( "25/12/2009" ) );
         }
 
         [Test]
         public void Test_Can_Construct_Item_By_Definition_And_Set_Value_As_Reference_Type()
         {
-            string path = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location );
-            var constructor = new TypeConstructor( "Laan.Test.Model", path );
-
             // Setup
-            var cityDef = new ItemDefinition
-            {
-                Name = "City",
-                Namespace = "Laan.Test.Model",
-                Description = "a city"
-            };
-            cityDef.Fields.Add( new FieldDefinition() { Name = "Name", FieldType = FieldType.Text } );
-            cityDef.Fields.Add( new FieldDefinition() { Name = "Population", FieldType = FieldType.Number } );
-
+            ItemDefinition cityDef = GetCityDefinition();
+            var supplierDef = GetSupplierDefinition();
+            var cityType = _constructor.AddType( typeof( Item ), cityDef );
+            supplierDef.Fields.Add( new FieldDefinition { Name = "City", FieldType = FieldType.Lookup, ReferenceType = "Laan.Test.Model.City" } );
+   
             // Exercise
-            //String.Format( "{0}\\{1}.dll", path, def.Namespace ) 
-            var cityType = constructor.AddType( typeof( Item ), cityDef );
-
-            // Setup
-            var supplierDef = new ItemDefinition
-            {
-                Name = "Supplier",
-                Namespace = "Laan.Test.Model",
-                Description = "A list of corporate suppliers"
-            };
-            supplierDef.Fields.Add(
-                new FieldDefinition()
-                {
-                    Name = "City",
-                    FieldType = FieldType.Lookup,
-                    ReferenceType = cityType
-                }
-            );
-
-            // Exercise
-            var supplierType = constructor.AddType( typeof( Item ), supplierDef );
+            var supplierType = _constructor.AddType( typeof( Item ), supplierDef );
+            object supplier = Activator.CreateInstance( supplierType );
 
             //constructor.SaveAssembly();
 
+            // Verify outcome
+            Assert.IsNotNull( supplier );
+            Assert.AreEqual( cityType, supplier.GetType().GetProperty( "City" ).PropertyType );
+        }
+
+        [Test]
+        public void Test_Can_Construct_Item_By_Definition_And_Set_Value_As_Reference_Type_Using_Implicit_Refernece_Type()
+        {
+            // Setup
+            ItemDefinition cityDef = GetCityDefinition();
+            var supplierDef = GetSupplierDefinition();
+            var cityType = _constructor.AddType( typeof( Item ), cityDef );
+            supplierDef.Fields.Add( new FieldDefinition { Name = "City", FieldType = FieldType.Lookup } );
+
+            // Exercise
+            var supplierType = _constructor.AddType( typeof( Item ), supplierDef );
             object supplier = Activator.CreateInstance( supplierType );
+
+            //constructor.SaveAssembly();
 
             // Verify outcome
             Assert.IsNotNull( supplier );

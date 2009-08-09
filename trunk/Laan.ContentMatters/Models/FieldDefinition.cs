@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Reflection.Emit;
 
 namespace Laan.ContentMatters.Models
 {
@@ -39,7 +40,7 @@ namespace Laan.ContentMatters.Models
 
         public virtual string Name { get; set; }
         public virtual FieldType FieldType { get; set; }
-        public virtual Type ReferenceType { get; set; }
+        public virtual string ReferenceType { get; set; }
 
         public virtual string ToViewHtml( object value )
         {
@@ -51,7 +52,7 @@ namespace Laan.ContentMatters.Models
             return HtmlHelper.ToEditHtml( this, value );
         }
 
-        public Type ToSystemType()
+        public Type ToSystemType( ModuleBuilder moduleBuilder )
         {
             var lookup = new Dictionary<FieldType, Type>()
             {
@@ -78,11 +79,10 @@ namespace Laan.ContentMatters.Models
                 switch ( FieldType )
                 {
                     case FieldType.Lookup:
-                        {
-                            return ReferenceType;
-                            //Type argType = Type.GetType( ReferenceType, true );
-                            //return argType;// typeof( IList<> ).MakeGenericType( argType );
-                        }
+                    {
+                        string referenceType = ReferenceType ?? moduleBuilder.ScopeName + "." + Name;
+                        return moduleBuilder.GetType( referenceType, true );
+                    }
                     default:
                         throw new NotSupportedException( String.Format( "FieldType {0} not supported", FieldType ) );
                 }
