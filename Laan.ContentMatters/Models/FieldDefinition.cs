@@ -71,22 +71,14 @@ namespace Laan.ContentMatters.Models
                 { FieldType.Hidden, typeof(string) }
             };
 
+            string referenceType = ReferenceType ?? moduleBuilder.ScopeName + "." + Name;
+            lookup.Add( FieldType.Lookup, moduleBuilder.GetType( referenceType, false ) );
+
             Type type;
-            if ( lookup.TryGetValue( FieldType, out type ) )
-                return type;
+            if ( !lookup.TryGetValue( FieldType, out type ) || type == null )
+                throw new NotSupportedException( String.Format( "FieldType {0} not supported", FieldType ) );
             else
-            {
-                switch ( FieldType )
-                {
-                    case FieldType.Lookup:
-                    {
-                        string referenceType = ReferenceType ?? moduleBuilder.ScopeName + "." + Name;
-                        return moduleBuilder.GetType( referenceType, true );
-                    }
-                    default:
-                        throw new NotSupportedException( String.Format( "FieldType {0} not supported", FieldType ) );
-                }
-            }
+                return type;
         }
 
     }
