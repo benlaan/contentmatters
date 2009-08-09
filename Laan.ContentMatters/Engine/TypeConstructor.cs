@@ -74,7 +74,7 @@ namespace Laan.ContentMatters.Engine
 
         private void CreateProperty( FieldDefinition definition )
         {
-            var fieldType = definition.ToSystemType();
+            var fieldType = definition.ToSystemType( _moduleBuilder );
             var fieldName = String.Format( "_{0}{1}", definition.Name.Substring( 0, 1 ).ToLower(), definition.Name.Substring( 1 ) );
 
             // backing field
@@ -90,17 +90,17 @@ namespace Laan.ContentMatters.Engine
             property.SetSetMethod( setter );
         }
 
-        public Type AddType( Type baseType, ItemDefinition itemDefinition )
+        public Type AddType( Type baseType, ItemDefinition definition )
         {
             var attr =
                 TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.AutoClass |
                 TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit | TypeAttributes.AutoLayout;
 
             // create a type in the module
-            _builder = _moduleBuilder.DefineType( String.Format( "{0}.{1}", itemDefinition.Namespace, itemDefinition.Name ), attr, baseType );
+            _builder = _moduleBuilder.DefineType( String.Format( "{0}.{1}", definition.Namespace, definition.Name ), attr, baseType );
 
             // build the properties
-            itemDefinition.Fields.ForEach( CreateProperty );
+            definition.Fields.ForEach( CreateProperty );
 
             return _builder.CreateType();
         }
