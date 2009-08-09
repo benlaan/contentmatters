@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using MbUnit.Framework;
-using Laan.ContentMatters.Models;
-using Laan.ContentMatters.Engine;
-using System.Reflection;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+
+using Laan.ContentMatters.Engine;
+using Laan.ContentMatters.Models;
+
+using MbUnit.Framework;
 
 namespace Laan.ContentMatters.Tests
 {
@@ -17,12 +17,7 @@ namespace Laan.ContentMatters.Tests
 
         private TypeConstructor _constructor;
 
-        [SetUp]
-        public void Setup()
-        {
-            string path = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location );
-            _constructor = new TypeConstructor( Namespace, path );
-        }
+        #region Utilities
 
         private void VerifyTypeProperty( object supplier, string name, Type type )
         {
@@ -67,8 +62,17 @@ namespace Laan.ContentMatters.Tests
             return def;
         }
 
+        #endregion
+
+        [SetUp]
+        public void Setup()
+        {
+            string path = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location );
+            _constructor = new TypeConstructor( Namespace, path );
+        }
+
         [Test]
-        public void Test_Can_Construct_Item_By_Definition()
+        public void Can_Construct_Item_By_Definition()
         {
             // Setup
             ItemDefinition def = GetSupplierDefinition();
@@ -86,7 +90,7 @@ namespace Laan.ContentMatters.Tests
         }
 
         [Test]
-        public void Test_Can_Construct_Item_By_Definition_And_Set_Value()
+        public void Can_Construct_Item_By_Definition_And_Set_Value()
         {
             // Setup
             var def = GetSupplierDefinition();
@@ -107,7 +111,7 @@ namespace Laan.ContentMatters.Tests
         }
 
         [Test]
-        public void Test_Can_Construct_Item_By_Definition_And_Set_Value_As_Reference_Type()
+        public void Can_Construct_Item_By_Definition_And_Set_Value_As_Reference_Type()
         {
             // Setup
             ItemDefinition cityDef = GetCityDefinition();
@@ -127,7 +131,7 @@ namespace Laan.ContentMatters.Tests
         }
 
         [Test]
-        public void Test_Can_Construct_Item_By_Definition_And_Set_Value_As_Reference_Type_Using_Implicit_Refernece_Type()
+        public void Can_Construct_Item_By_Definition_And_Set_Value_As_Reference_Type_Using_Implicit_Reference_Type()
         {
             // Setup
             ItemDefinition cityDef = GetCityDefinition();
