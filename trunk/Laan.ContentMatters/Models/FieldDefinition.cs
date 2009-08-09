@@ -39,7 +39,7 @@ namespace Laan.ContentMatters.Models
 
         public virtual string Name { get; set; }
         public virtual FieldType FieldType { get; set; }
-        public virtual string ReferenceType { get; set; }
+        public virtual Type ReferenceType { get; set; }
 
         public virtual string ToViewHtml( object value )
         {
@@ -55,7 +55,7 @@ namespace Laan.ContentMatters.Models
         {
             var lookup = new Dictionary<FieldType, Type>()
             {
-                { FieldType.Number, typeof(string) },
+                { FieldType.Number, typeof(Int32) },
                 { FieldType.CheckBox, typeof(bool) },
                 { FieldType.Text, typeof(string) },
                 { FieldType.Memo, typeof(string) },
@@ -78,12 +78,13 @@ namespace Laan.ContentMatters.Models
                 switch ( FieldType )
                 {
                     case FieldType.Lookup:
-                    {
-                        Type argType = Type.GetType( ReferenceType, true );
-                        return typeof( IList<> ).MakeGenericType( argType );
-                    }
+                        {
+                            return ReferenceType;
+                            //Type argType = Type.GetType( ReferenceType, true );
+                            //return argType;// typeof( IList<> ).MakeGenericType( argType );
+                        }
                     default:
-                        throw new NotSupportedException( String.Format("FieldType {0} not supported", FieldType ) );
+                        throw new NotSupportedException( String.Format( "FieldType {0} not supported", FieldType ) );
                 }
             }
         }
