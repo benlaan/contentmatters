@@ -1,17 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
-
-using MvcContrib.Filters;
 
 using Laan.ContentMatters.Models;
-using Laan.ContentMatters.Models.Services;
-using Laan.ContentMatters.Engine;
-using Laan.ContentMatters.Models.Interfaces;
 using Laan.Persistence.Interfaces;
+
 using Castle.Core.Logging;
 
 namespace Laan.ContentMatters.Controllers
@@ -60,7 +53,8 @@ namespace Laan.ContentMatters.Controllers
 
         private IItemList<T> GetAll()
         {
-            return new ItemList<T>( _repository.GetAll() );
+            IList<T> all = _repository.GetAll();
+            return new ItemList<T>( all );
         }
 
         private T GetOne( int id )

@@ -49,6 +49,35 @@ namespace Laan.ContentMatters.Engine
                 _engine.Init();
         }
 
+        private string GetTargetView( string viewName, string folder )
+        {
+            var targetView = String.Format( @"..\Templates\{0}\{1}", folder, viewName );
+            return Path.HasExtension( targetView ) ? targetView : targetView + ".vm";
+        }
+
+        private Template ResolveMasterTemplate( string masterName )
+        {
+            Template masterTemplate = null;
+            if ( string.IsNullOrEmpty( masterName ) )
+                return masterTemplate;
+
+            var targetMaster = Path.Combine( _masterFolder, masterName );
+
+            if ( !Path.HasExtension( targetMaster ) )
+                targetMaster = targetMaster + ".vm";
+
+            if ( !_engine.TemplateExists( targetMaster ) )
+                throw new InvalidOperationException( 
+                    String.Format(
+                        "Could not find view for master template named {0}. Full path searched was '{1}'",
+                        masterName,
+                        targetMaster
+                    ) 
+                );
+
+            return _engine.GetTemplate( targetMaster );
+        }
+
         #region IViewEngine Members
 
         public ViewEngineResult FindPartialView( ControllerContext controllerContext, string partialViewName, bool useCache )
@@ -74,35 +103,5 @@ namespace Laan.ContentMatters.Engine
         }
 
         #endregion
-
-        private string GetTargetView( string viewName, string folder )
-        {
-            var targetView = String.Format( @"..\Templates\{0}\{1}", folder, viewName );
-            return Path.HasExtension( targetView ) ? targetView : targetView + ".vm";
-        }
-
-        private Template ResolveMasterTemplate( string masterName )
-        {
-            Template masterTemplate = null;
-            if ( string.IsNullOrEmpty( masterName ) )
-                return masterTemplate;
-
-            var targetMaster = Path.Combine( _masterFolder, masterName );
-
-            if ( !Path.HasExtension( targetMaster ) )
-                targetMaster = targetMaster + ".vm";
-
-            if ( !_engine.TemplateExists( targetMaster ) )
-                throw new InvalidOperationException( 
-                    String.Format(
-                        "Could not find view for master template named {0}. I searched for '{1}' file. " + 
-                        "Maybe the file doesn't exist?",
-                        masterName,
-                        targetMaster
-                    ) 
-                );
-
-            return _engine.GetTemplate( targetMaster );
-        }
     }
 }

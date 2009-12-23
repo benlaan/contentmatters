@@ -1,27 +1,26 @@
 using System;
 
 using MbUnit.Framework;
-using Laan.ContentMatters.Utilities;
+
 using Rhino.Mocks;
+
 using Castle.Core.Configuration;
+using Laan.Persistence.AutoMapping;
+using Laan.ContentMatters.Engine;
+using Laan.Persistence.Interfaces;
+using Castle.MicroKernel;
 
 namespace Laan.ContentMatters.Tests
 {
     [TestFixture]
-    public class AutoMappingTest
+    public class AutoMappingTest : BaseTestFixture
     {
-        private MockRepository _mock;
-
-        [SetUp]
-        public void Setup()
-        {
-            _mock = new MockRepository();
-        }
-
         [Test]
         public void Test_Can_Create_AutoMap_Configurator()
         {
-            var autoMapper = new AutoMappingBuilder();
+            var kernel = Dynamic<IKernel>();
+            var mapper = Dynamic<IMapper>();
+            var autoMapper = new AutoMappingBuilder( kernel );
 
             IConfiguration config = _mock.Stub<IConfiguration>();
 
@@ -34,6 +33,7 @@ namespace Laan.ContentMatters.Tests
                 children.Add( assemblies );
                 
                 Expect.Call( config.Children ).Return( children );
+                Expect.Call( kernel.Resolve<IMapper>() ).Return( mapper );
             }
 
             using ( _mock.Playback() )
@@ -43,6 +43,3 @@ namespace Laan.ContentMatters.Tests
         }
     }
 }
-
-
-

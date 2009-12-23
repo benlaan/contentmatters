@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Reflection.Emit;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Laan.ContentMatters.Models
 {
@@ -15,6 +17,7 @@ namespace Laan.ContentMatters.Models
 
         #region IIdentifiable Members
 
+        [XmlIgnore]
         public virtual int ID { get; set; }
 
         #endregion
@@ -38,8 +41,13 @@ namespace Laan.ContentMatters.Models
 
         #endregion
 
+        [XmlAttribute( "name" )]
         public virtual string Name { get; set; }
+
+        [XmlAttribute( "fieldType" )]
         public virtual FieldType FieldType { get; set; }
+
+        [XmlAttribute( "referenceType" )]
         public virtual string ReferenceType { get; set; }
 
         public virtual string ToViewHtml( object value )
@@ -52,7 +60,12 @@ namespace Laan.ContentMatters.Models
             return HtmlHelper.ToEditHtml( this, value );
         }
 
-        public Type ToSystemType( ModuleBuilder moduleBuilder )
+        public virtual string GetReferenceType( ModuleBuilder moduleBuilder )
+        {
+            return ReferenceType.Contains( '.' ) ? ReferenceType : moduleBuilder.ScopeName + "." + ReferenceType;
+        }
+
+        public virtual Type ToSystemType( ModuleBuilder moduleBuilder )
         {
             var lookup = new Dictionary<FieldType, Type>()
             {
@@ -71,8 +84,27 @@ namespace Laan.ContentMatters.Models
                 { FieldType.Hidden, typeof(string) }
             };
 
-            string referenceType = ReferenceType ?? moduleBuilder.ScopeName + "." + Name;
-            lookup.Add( FieldType.Lookup, moduleBuilder.GetType( referenceType, false ) );
+            if ( FieldType == FieldType.Reference && ReferenceType == null )
+                ReferenceType = moduleBuilder.GetType( moduleBuilder.ScopeName + "." + Name ).FullName;
+
+            if ( ReferenceType != null )
+            {
+                var referenceType = GetReferenceType( moduleBuilder );
+
+                switch ( FieldType )
+                {
+                    case FieldType.List:
+
+                        Type referredType = moduleBuilder.GetType( referenceType, true, false );
+                        Type listOfType = typeof( IList<> ).MakeGenericType( referredType );
+                        lookup.Add( FieldType.List, listOfType );
+                        break;
+
+                    case FieldType.Reference:
+                        lookup.Add( FieldType.Reference, moduleBuilder.GetType( referenceType, true, false ) );
+                        break;
+                }
+            }
 
             Type type;
             if ( !lookup.TryGetValue( FieldType, out type ) || type == null )
