@@ -9,18 +9,42 @@ namespace Laan.ContentMatters
         private static IWindsorContainer _container;
         private static string _configPath = "castle.config";
 
-        public static string ConfigPath
+        internal static string ConfigPath
         {
             get { return _configPath; }
-            set { _configPath = value; }
+            set
+            {
+                if ( _configPath == value )
+                    return;
+                _configPath = value;
+                Rebuild();
+            }
         }
 
-        public static IWindsorContainer Container
+        internal static IWindsorContainer Load()
+        {
+            _container = new WindsorContainer( ConfigPath );
+            return _container;
+        }
+
+        internal static IWindsorContainer Rebuild()
+        {
+            Container.Dispose();
+            Load();
+            return _container;
+        }
+
+        internal static T Resolve<T>()
+        {
+            return _container.Resolve<T>();
+        }
+
+        internal static IWindsorContainer Container
         {
             get
             {
                 if ( _container == null )
-                    _container = new WindsorContainer( ConfigPath );
+                    Load();
 
                 return _container;
             }

@@ -63,17 +63,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="FluentNHibernate, Version=0.1.0.536, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+    <Reference Include="FluentNHibernate, Version=0.1.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\FluentNHibernate.dll</HintPath>
+      <HintPath>..\..\Laan.Persistence\References\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Laan.Library, Version=1.0.3499.14637, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Laan.Library.dll</HintPath>
-    </Reference>
-    <Reference Include="Laan.Persistence, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\Laan.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -102,6 +98,10 @@
     <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\NVelocity.dll</HintPath>
+    </Reference>
+    <Reference Include="RouteDebug, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\RouteDebug.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -133,9 +133,6 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMapping\Conventions\EnumConvention.cs" />
-    <Compile Include="AutoMapping\Conventions\IdentityConvention.cs" />
-    <Compile Include="AutoMapping\Conventions\OneToManyConvention.cs" />
     <Compile Include="Build.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -143,6 +140,20 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Engine\Component.cs" />
+    <Compile Include="Engine\Configuration\HtmlFile.cs" />
+    <Compile Include="Engine\Configuration\Layout.cs" />
+    <Compile Include="Engine\Configuration\PageLoader.cs" />
+    <Compile Include="Engine\Configuration\Template.cs" />
+    <Compile Include="Engine\DebuggableRouteHandler.cs" />
+    <Compile Include="Engine\Services\DefinitionService.cs" />
+    <Compile Include="Engine\Interfaces\IDefinitionService.cs" />
+    <Compile Include="Engine\Page.cs" />
+    <Compile Include="Engine\Configuration\PageConfiguration.cs" />
+    <Compile Include="Engine\PageRouteHandler.cs" />
+    <Compile Include="Engine\PageRouteHttpHandler.cs" />
+    <Compile Include="Engine\ServerMapper.cs" />
     <Compile Include="Engine\TemplateLoader.cs" />
     <Compile Include="Engine\CustomControllerFactory.cs" />
     <Compile Include="Default.aspx.cs">
@@ -150,13 +161,11 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Engine\TypeConstructor.cs" />
+    <Compile Include="Extensions\Path.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IoC.cs" />
-    <Compile Include="Models\Custom\Blog.cs" />
-    <Compile Include="Models\Custom\Comment.cs" />
-    <Compile Include="Models\Custom\News.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Models\FieldDefinition.cs" />
     <Compile Include="Models\FieldType.cs" />
@@ -171,20 +180,34 @@
     <Compile Include="Models\Interfaces\IItem.cs" />
     <Compile Include="Models\Interfaces\ILoadable.cs" />
     <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\Custom\Post.cs" />
     <Compile Include="Models\ItemDefinition.cs" />
     <Compile Include="Models\ItemList.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Engine\TemplatingViewEngine.cs" />
     <Compile Include="Models\Services\File.cs" />
-    <Compile Include="AutoMapping\Conventions\ManyToOneConvention.cs" />
-    <Compile Include="AutoMapping\Conventions\CollectionListTypeConvention.cs" />
-    <Compile Include="AutoMapping\AutoMappingBuilder.cs" />
-    <Compile Include="AutoMapping\Conventions\ForeignKeyConvention.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\References\sqlite3.dll">
+      <Link>sqlite3.dll</Link>
+    </Content>
+    <Content Include="App_Data\Copy of Pages.xml" />
     <Content Include="App_Data\data.xml" />
+    <Content Include="App_Data\Definitions\definition.xml" />
+    <None Include="App_Data\Layouts\twoColumn.vm" />
+    <None Include="App_Data\Layouts\oneColumn.vm" />
+    <Content Include="App_Data\Models\Laan.ContentMatters.Models.Custom.dll" />
+    <Content Include="App_Data\Pages.xml" />
+    <Content Include="App_Data\Templates\blogs.xml" />
+    <Content Include="App_Data\Templates\files.xml" />
+    <Content Include="App_Data\Templates\tags.xml" />
+    <Content Include="App_Data\Templates\bios.xml" />
+    <Content Include="App_Data\Templates\documents.xml" />
+    <Content Include="App_Data\Templates\snippets.xml" />
+    <Content Include="App_Data\Templates\photos.xml" />
+    <Content Include="App_Data\Templates\search.xml" />
+    <Content Include="App_Data\Templates\news.xml" />
+    <Content Include="App_Data\Templates\home.xml" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="castle.config">
@@ -209,9 +232,7 @@
     <Content Include="Images\gradientbg.jpg" />
     <Content Include="Images\headerphoto.jpg" />
     <Content Include="Images\page.gif" />
-    <Content Include="sqlite3.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Notes\Content Matters.txt" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery-1.3.2.js" />
@@ -226,6 +247,12 @@
     <Content Include="Views\Shared\Error.aspx" />
     <None Include="Views\Shared\logon.vm" />
     <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Laan.Persistence\Laan.Persistence.csproj">
+      <Project>{F8863A9A-34E2-41D5-878B-68B95386704C}</Project>
+      <Name>Laan.Persistence</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

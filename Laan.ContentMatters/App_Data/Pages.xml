@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pageConfiguration
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+  <layouts>
+    <layout name="oneColumn" file="~/App_Data/Layouts/oneColumn.vm"/>
+    <layout name="twoColumn" file="~/App_Data/Layouts/twoColumn.vm"/>
+  </layouts>
+
+  <templates>
+
+    <template name="home">
+      <dataSources>
+        <dataSource name="news"   type="news"   top="5"  order="date desc"/>
+        <dataSource name="photos" type="photos" top="20" order="CreationDate desc"/>
+      </dataSources>
+    </template>
+
+    <template name="news">
+      <dataSources>
+        <dataSource name="news" type="news"/>
+      </dataSources>
+    </template>
+
+    <template name="blogs">
+      <dataSources>
+        <dataSource name="blogs" type="blog"/>
+      </dataSources>
+    </template>
+
+    <template name="posts">
+      <dataSources>
+        <dataSource name="posts" type="post" filter="BlogID=$parent.Key"/>
+      </dataSources>
+    </template>
+
+    <template name="comments">
+      <dataSources>
+        <dataSource name="comments" type="comments" filter="PostID=$parent.Key"/>
+      </dataSources>
+    </template>
+
+    <template name="photos">
+      <dataSources>
+        <dataSource name="photos" type="photo"/>
+      </dataSources>
+    </template>
+
+    <template name="files">
+      <dataSources>
+        <dataSource name="files" type="file" filter="path:~/App_Data/Files/"/>
+      </dataSources>
+    </template>
+
+    <template name="snippets">
+      <dataSources>
+        <dataSource name="snippets" type="snippet"/>
+      </dataSources>
+    </template>
+    
+    <template name="doc">
+      <dataSources>
+        <dataSource name="documents" type="document"/>
+      </dataSources>
+    </template>
+
+    <template name="bios">
+      <dataSources>
+        <dataSource name="bios" type="bio"/>
+      </dataSources>
+    </template>
+
+    <template name="tags">
+      <dataSources>
+        <dataSource name="tags" type="tag"/>
+      </dataSources>
+    </template>
+    <template name="search"/>
+  </templates>
+
+  <pages>
+    <page name="home" template="home" layout="twoColumn" default="true"/>
+    <page name="news" template="news" layout="oneColumn"/>
+    <page name="blogs" template="blogs" layout="oneColumn">
+      <page name="posts" template="posts">
+        <page name="comments" template="comments"/>
+      </page>
+    </page>
+    <page name="photos" template="photos" layout="oneColumn"/>
+    <page name="files" template="files" layout="oneColumn"/>
+    <page name="code">
+      <page name="wiki" template="wiki" layout="oneColumn"/>
+      <page name="projects" template="projects"/>
+      <page name="snippets" template="snippets" layout="oneColumn"/>
+    </page>
+
+    <!--<page name="cookng" link="http://cookng.laanfamily.com"/>-->
+
+    <page name="recipes" template="recipes" layout="oneColumn">
+      <page name="search" template="search"/>
+      <page name="tags" template="tags"/>
+      <page name="addRecipe" template="newRecipe"/>
+      <page name="recipe" template="viewRecipe"/>
+      <page name="about" template="documents" layout="oneColumn"/>
+    </page>
+
+    <page name="bios" template="bios" layout="oneColumn"/>
+    <page name="about" template="documents" layout="oneColumn"/>
+  </pages>
+
+</pageConfiguration>

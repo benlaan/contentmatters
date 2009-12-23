@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pageConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <layouts>
+    <layout name="oneColumn" file="~/App_Data/Layouts/onecolumn.html"/>
+    <layout name="twoColumn" file="~/App_Data/Layouts/twocolumn.html"/>
+  </layouts>
+
+  <templates>
+    <template name="home" file="~/App_Data/Templates/home.xml"/>
+    <template name="news" file="~/App_Data/Templates/news.xml"/>
+    <template name="blog" file="~/App_Data/Templates/blog.xml"/>
+    <template name="photos" file="~/App_Data/Templates/photos.xml"/>
+    <template name="files" file="~/App_Data/Templates/files.xml"/>
+    <template name="snippets" file="~/App_Data/Templates/snippets.xml"/>
+    <template name="doc" file="~/App_Data/Templates/documents.xml"/>
+    <template name="bios" file="~/App_Data/Templates/bios.xml"/>
+    <template name="tags" file="~/App_Data/Templates/tags.xml"/>
+    <template name="search" file="~/App_Data/Templates/search.xml"/>
+  </templates>
+
+  <pages>
+    <page name="home" template="home" layout="twoColumn" default="true">
+      <properties>
+        <property key="type" value="blog"/>
+        <property key="type" value="photo"/>
+      </properties>
+    </page>
+    <page name="news" template="news" layout="oneColumn">
+      <properties>
+        <property key="type" value="news"/>
+      </properties>
+    </page>
+    <page name="blogs" template="blogs" layout="oneColumn">
+      <properties>
+        <property key="type" value="blog"/>
+      </properties>
+      <page name="posts" template="blogs">
+        <properties>
+          <property key="type" value="posts"/>
+        </properties>
+        <page name="comments" template="comments">
+          <properties>
+            <property key="type" value="comments"/>
+          </properties>
+        </page>
+      </page>
+    </page>    
+    <page name="photos" template="photos" layout="oneColumn">
+      <properties>
+        <property key="path" value="~/App_Data/Photos/"/>
+      </properties>
+    </page>
+    <page name="files" template="files" layout="oneColumn">
+      <properties>
+        <property key="path" value="~/App_Data/Files/"/>
+      </properties>
+    </page>
+    <page name="code">
+      <page name="wiki" template="wiki" layout="oneColumn">
+        <properties>
+          <property key="type" value="wiki"/>
+        </properties>
+      </page>
+      <page name="projects" template="projects">
+        <properties>
+          <property key="type" value="project"/>
+        </properties>
+      </page>
+      <page name="snippets" template="snippets" layout="oneColumn">
+        <properties>
+          <property key="type" value="snippet"/>
+        </properties>
+      </page>
+    </page>
+
+    <!--<page name="cookng" link="http://cookng.laanfamily.com"/>-->
+
+    <page name="recipes" template="recipes" layout="oneColumn">
+      <page name="search" template="search">
+        <properties>
+          <property key="type" value="recipe"/>
+        </properties>
+      </page>
+      <page name="tags" template="tags">
+        <properties>
+          <property key="type" value="tag"/>
+        </properties>
+      </page>
+      <page name="addRecipe" template="newRecipe">
+        <properties/>
+      </page>
+      <page name="recipe" template="viewRecipe">
+        <properties>
+          <property key="type" value="recipe"/>
+        </properties>
+      </page>
+      <page name="about" template="documents" layout="oneColumn">
+        <properties>
+          <property key="id" value="1"/>
+          <property key="type" value="document"/>
+        </properties>
+      </page>
+    </page>
+
+    <page name="bios" template="bios" layout="oneColumn">
+      <property key="type" value="bio"/>
+    </page>
+    <page name="about" template="documents" layout="oneColumn">
+      <properties>
+        <property key="id" value="2"/>
+        <property key="type" value="document"/>
+      </properties>
+    </page>
+  </pages>
+
+</pageConfiguration>

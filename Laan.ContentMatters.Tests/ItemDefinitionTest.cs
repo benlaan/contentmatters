@@ -117,7 +117,7 @@ namespace Laan.ContentMatters.Tests
             ItemDefinition cityDef = GetCityDefinition();
             var supplierDef = GetSupplierDefinition();
             var cityType = _constructor.AddType( typeof( Item ), cityDef );
-            supplierDef.Fields.Add( new FieldDefinition { Name = "City", FieldType = FieldType.Lookup, ReferenceType = "Laan.Test.Model.City" } );
+            supplierDef.Fields.Add( new FieldDefinition { Name = "City", FieldType = FieldType.Reference, ReferenceType = "Laan.Test.Model.City" } );
    
             // Exercise
             var supplierType = _constructor.AddType( typeof( Item ), supplierDef );
@@ -137,7 +137,7 @@ namespace Laan.ContentMatters.Tests
             ItemDefinition cityDef = GetCityDefinition();
             var supplierDef = GetSupplierDefinition();
             var cityType = _constructor.AddType( typeof( Item ), cityDef );
-            supplierDef.Fields.Add( new FieldDefinition { Name = "City", FieldType = FieldType.Lookup } );
+            supplierDef.Fields.Add( new FieldDefinition { Name = "City", FieldType = FieldType.Reference } );
 
             // Exercise
             var supplierType = _constructor.AddType( typeof( Item ), supplierDef );
