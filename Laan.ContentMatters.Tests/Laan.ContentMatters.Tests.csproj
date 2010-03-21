@@ -133,11 +133,14 @@
   <ItemGroup>
     <Compile Include="AutoMappingTest.cs" />
     <Compile Include="BaseTestFixture.cs" />
+    <Compile Include="Externsions.cs" />
+    <Compile Include="SitePageTest.cs" />
     <Compile Include="PageLoaderTest.cs" />
     <Compile Include="PageRoutesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ItemDefinitionTest.cs" />
     <Compile Include="SessionFactoryTest.cs" />
+    <Compile Include="ViewLoaderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -165,10 +168,6 @@
       <Project>{96E9B1FF-FB6F-40CC-9456-3F3483DE6510}</Project>
       <Name>Laan.ContentMatters</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Libs\MvcContrib.TestHelper\MvcContrib.TestHelper.csproj">
-      <Project>{F2A3F400-A20E-4B83-959B-EBD14D6C143E}</Project>
-      <Name>MvcContrib.TestHelper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Laan.ContentMatters\castle.config">
@@ -179,6 +178,47 @@
     <Content Include="..\References\sqlite3.dll">
       <Link>sqlite3.dll</Link>
     </Content>
+    <Content Include="App_Data\Pages\Blogs\posts.xml" />
+    <Content Include="App_Data\Pages\Blogs\comments.xml" />
+    <Content Include="App_Data\Pages\photos.xml" />
+    <Content Include="App_Data\Pages\about.xml" />
+    <Content Include="App_Data\Pages\code.xml" />
+    <Content Include="App_Data\Pages\files.xml" />
+    <Content Include="App_Data\Pages\news.xml" />
+    <Content Include="App_Data\Types\Blogs\Comment\Detail.xml" />
+    <Content Include="App_Data\Types\Blogs\Comment\Preview.xml" />
+    <Content Include="App_Data\Types\Blogs\Post\Detail.xml" />
+    <Content Include="App_Data\Types\Blogs\Post\Preview.xml" />
+    <Content Include="App_Data\Types\CookNg\Ingredient\Detail.xml" />
+    <Content Include="App_Data\Types\CookNg\Ingredient\Preview.xml" />
+    <Content Include="App_Data\Types\CookNg\Method\Detail.xml" />
+    <Content Include="App_Data\Types\CookNg\Method\Preview.xml" />
+    <Content Include="App_Data\Types\CookNg\Recipe\Detail.xml" />
+    <Content Include="App_Data\Types\CookNg\Recipe\Preview.xml" />
+    <Content Include="App_Data\Types\CookNg\Section\Detail.xml" />
+    <Content Include="App_Data\Types\CookNg\Section\Preview.xml" />
+    <Content Include="App_Data\Views\Home\popular_posts.xml" />
+    <Content Include="App_Data\Layouts\vert-split.xml" />
+    <Content Include="App_Data\Views\Site\footer.xml" />
+    <Content Include="App_Data\Views\Site\sidebar.xml" />
+    <Content Include="App_Data\Pages\site.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Types\Blogs\Blog\Detail.xml" />
+    <Content Include="App_Data\Types\Blogs\Blog\Preview.xml" />
+    <Content Include="App_Data\Types\Default\Detail.xml" />
+    <Content Include="App_Data\Types\Default\Preview.xml" />
+    <Content Include="App_Data\Types\System\float.xml" />
+    <Content Include="App_Data\Types\System\integer.xml" />
+    <Content Include="App_Data\Types\System\time.xml" />
+    <Content Include="App_Data\Types\System\date.xml" />
+    <Content Include="App_Data\Types\System\datetime.xml" />
+    <Content Include="App_Data\Views\Site\master.xml" />
+    <Content Include="App_Data\Views\Home\welcome.xml" />
+    <Content Include="App_Data\Views\Home\recent_posts.xml" />
+    <Content Include="App_Data\Layouts\horz-split.xml" />
+    <Content Include="App_Data\Pages\Blogs\blogs.xml" />
+    <Content Include="App_Data\Pages\home.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

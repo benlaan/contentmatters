@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view>
+  <div id="footer-content">
+    <div class="col float-left">
+      <h1>Site Partners</h1>
+      <!--<ul/>-->
+    </div>
+    <div class="col float-left">
+      <h1>Links</h1>
+      <!--<ul/>-->
+    </div>
+    <div class="col2 float-right">
+      <p>
+        $site.Copyright <strong>$site.Company.Name</strong><br />
+        Design by: <a href="index.html">
+          <strong>styleshout</strong>
+        </a> Valid
+        <a href="http://jigsaw.w3.org/css-validator/check/referer">
+          <strong>CSS</strong>
+        </a> | <a href="http://validator.w3.org/check/referer">
+          <strong>XHTML</strong>
+        </a>
+      </p>
+      <ul/>
+    </div>
+  </div>
+</view>

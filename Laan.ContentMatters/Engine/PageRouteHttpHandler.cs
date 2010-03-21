@@ -12,22 +12,18 @@ using Castle.MicroKernel;
 using Laan.Persistence.Interfaces;
 using Laan.Utilities.Xml;
 using Laan.ContentMatters.Configuration;
+using Laan.ContentMatters.Loaders;
 
 namespace Laan.ContentMatters.Engine
 {
     public class PageNotFoundException : Exception
     {
-        public PageNotFoundException( string path ) : base( "No Page Found at path " + path ) { }
-    }
-
-    public class TemplateNotFoundException : Exception
-    {
-        public TemplateNotFoundException( string name ) : base( "No Template found with name " + name ) { }
+        public PageNotFoundException( string path ) : base( String.Format( "No Page found with name '{0}'", path ) ) { }
     }
 
     public class LayoutNotFoundException : Exception
     {
-        public LayoutNotFoundException( string name ) : base( "No Layout found with name " + name ) { }
+        public LayoutNotFoundException( string name ) : base( String.Format( "No Layout found with name '{0}'", name ) ) { }
     }
 
     public class PageRouteHttpHandler : MvcHandler
@@ -55,17 +51,17 @@ namespace Laan.ContentMatters.Engine
             Trace.WriteLine( "Path: " + path );
             Trace.WriteLine( "RouteData: " + RequestContext.RouteData );
 
-            PageLoader pageLoader = new PageLoader( config );
+            PageLoader pageLoader = new PageLoader();
             Page page = pageLoader.GetPageFromPath( path );
 
             // RouteData Values
-            string action = "Index";
+            string action = page.Action;
             string name = page.Name;
-            string controllerName = page.Template.DataSources.First().Type;
+            string controllerName = page.Data.First().Type;
 
             RequestContext.RouteData.Values.Add( "page", page );
             RequestContext.RouteData.Values.Add( "action", action );
-            RequestContext.RouteData.Values.Add( "id", null ); // TODO: remove this when nanme key works correctly
+            RequestContext.RouteData.Values.Add( "id", null ); // TODO: remove this when name key works correctly
             RequestContext.RouteData.Values.Add( "name", name );
             RequestContext.RouteData.Values.Add( "controller", controllerName );
 

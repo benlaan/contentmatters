@@ -13,6 +13,7 @@ using MvcContrib.ViewEngines;
 
 using NVelocity;
 using NVelocity.App;
+using Laan.ContentMatters.Loaders;
 
 namespace Laan.ContentMatters.Engine
 {

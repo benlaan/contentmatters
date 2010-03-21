@@ -3,303 +3,128 @@ using Laan.ContentMatters.Configuration;
 using MbUnit.Framework;
 using Laan.Utilities.Xml;
 using Laan.ContentMatters.Engine;
+using Laan.ContentMatters.Loaders;
 
 namespace Laan.ContentMatters.Tests
 {
+    [ TestFixture ]
     public class PageLoaderTest
     {
         private PageLoader _pageLoader;
-        private PageConfiguration _pageConfiguration;
 
         public PageLoaderTest()
         {
         }
 
-        private void LoadConfig( string[] xml )
+        [SetUp]
+        public void Setup()
         {
-            var fullXml = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
-                <pageConfiguration
-                  xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
-                  xmlns:xsd=""http://www.w3.org/2001/XMLSchema""
-                >" + String.Join( "\n", xml ) + "</pageConfiguration>";
-
-            _pageConfiguration = XmlPersistence<PageConfiguration>.LoadFromString( fullXml );
-            _pageLoader = new PageLoader( _pageConfiguration );
+            _pageLoader = new PageLoader();
         }
 
         [Test]
-        [ExpectedException( typeof( PageNotFoundException ) )]
-        public void Empty_Configuration_Raises_Exception()
+        [Row( "" )]
+        [Row( "/" )]
+        public void Blank_Page_Loads_Default( string path )
         {
-            string[] configXml = 
-            { 
-                "" 
-            };
-
-            // Setup
-            LoadConfig( configXml );
-            string path = "/";
-
-            // Exercise
+            _pageLoader = new PageLoader();
             Page page = _pageLoader.GetPageFromPath( path );
-        }
-
-        [Test]
-        [ExpectedException( typeof( TemplateNotFoundException ) )]
-        public void Default_Page_Selected_But_Template_Not_Found()
-        {
-            string[] configXml = 
-            { 
-                "<pages>",
-                "  <page name='home' template='home' layout='twoColumn' default='true'/>",
-                "</pages>",
-            };
-
-            // Setup
-            LoadConfig( configXml );
-            string path = "/";
-
-            // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
-        }
-
-        [Test]
-        [ExpectedException( typeof( LayoutNotFoundException ) )]
-        public void Default_Page_Selected_But_Layout_Not_Found()
-        {
-            string[] configXml = 
-            { 
-                "<pages>",
-                "  <page name='home' template='home' layout='twoColumn' default='true'/>",
-                "</pages>",
-                "<templates>",
-                "  <template name='home'/>",
-                "</templates>",
-            };
-
-            // Setup
-            LoadConfig( configXml );
-            string path = "/";
-
-            // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
-        }
-
-        [Test]
-        public void Default_Page_Selected()
-        {
-            string[] configXml =
-            { 
-                "<pages>",
-                "  <page name='home' template='home' layout='twoColumn' default='true'/>",
-                "</pages>",
-                "<templates>",
-                "  <template name='home'/>",
-                "</templates>",
-                "<layouts>",
-                "  <layout name='twoColumn'/>",
-                "</layouts>",
-            };
-
-            // Setup
-            LoadConfig( configXml );
-            string path = "/";
-
-            // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
-
-            Assert.IsNotNull( page );
-            Assert.AreEqual( "home", page.Name );
-        }
-
-        [Test]
-        public void Default_Page_With_Named_Key_Selected()
-        {
-            string[] configXml = 
-            { 
-                "<pages>",
-                "  <page name='home' template='home' layout='twoColumn' default='true'/>",
-                "</pages>",
-                "<templates>",
-                "  <template name='home'/>",
-                "</templates>",
-                "<layouts>",
-                "  <layout name='twoColumn'/>",
-                "</layouts>",
-            };
-
-            // Setup
-            LoadConfig( configXml );
-            string path = "/Hello-World";
-
-            // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
-
-            Assert.IsNotNull( page );
-            Assert.AreEqual( "home", page.Name );
-            Assert.AreEqual( "hello world", page.Key );
+            Assert.AreEqual(page.Name, "home");
         }
 
         [Test]
         public void Blog_Page_With_Name_Selected()
         {
-            string[] configXml = 
-            { 
-                "<pages>",
-                "  <page name='home' template='general' layout='twoColumn' default='true'/>",
-                "  <page name='blog' template='general' layout='twoColumn'/>",
-                "</pages>",
-                "<templates>",
-                "  <template name='general'/>",
-                "</templates>",
-                "<layouts>",
-                "  <layout name='twoColumn'/>",
-                "</layouts>",
-            };
-
             // Setup
-            LoadConfig( configXml );
-            string path = "/Blog/My-Blog";
+            string path = "/Blogs/My-Blog";
 
             // Exercise
             Page page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
-            Assert.AreEqual( "blog", page.Name );
+            Assert.AreEqual( "blogs", page.Name );
             Assert.AreEqual( "my blog", page.Key );
         }
 
         [Test]
-        public void Blog_Child_Post_Page_Inherits_Parent_Template_And_Layout_Is_Selected()
+        public void Blog_Child_Post_Page_With_Verb()
         {
-            string[] configXml = 
-            { 
-                "<pages>",
-                "  <page name='home' template='general' layout='twoColumn' default='true'/>",
-                "  <page name='blog' template='general' layout='twoColumn'>",
-                "    <page name='post'/>",
-                "  </page>",
-                "</pages>",
-                "<templates>",
-                "  <template name='general'/>",
-                "</templates>",
-                "<layouts>",
-                "  <layout name='twoColumn'/>",
-                "</layouts>",
-            };
-
-            // Setup
-            LoadConfig( configXml );
-            string path = "/Blog/My-Blog/Post/A-Short-Thought/Edit";
+            string path = "/Blogs/My-Blog/Posts/A-Short-Thought/Edit";
 
             // Exercise
             Page page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
-            Assert.AreEqual( "post", page.Name );
-            Assert.AreEqual( "general", page.Template.Name );
-            Assert.AreEqual( "twoColumn", page.Layout.Name );
+            Assert.AreEqual( "posts", page.Name );
         }
 
         [Test]
-        public void Blog_Child_Post_Page_With_Name_Is_Selected()
+        public void Blog_Child_Post_Page_With_Name()
         {
-            string[] configXml = 
-            { 
-                "<pages>",
-                "  <page name='home' template='general' layout='twoColumn' default='true'/>",
-                "  <page name='blog' template='general' layout='twoColumn'>",
-                "    <page name='post' layout='twoColumn'/>",
-                "  </page>",
-                "</pages>",
-                "<templates>",
-                "  <template name='general'/>",
-                "</templates>",
-                "<layouts>",
-                "  <layout name='twoColumn'/>",
-                "</layouts>",
-            };
-
-            // Setup
-            LoadConfig( configXml );
-            string path = "/Blog/My-Blog/Post/A-Short-Thought";
+            string path = "/Blogs/My-Blog/Posts/A-Short-Thought";
 
             // Exercise
             Page page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
-            Assert.AreEqual( "post", page.Name );
+            Assert.AreEqual( "posts", page.Name );
             Assert.AreEqual( "a short thought", page.Key );
-            Assert.AreEqual( "blog", page.Parent.Name );
+            Assert.AreEqual( "blogs", page.Parent.Name );
             Assert.AreEqual( "my blog", page.Parent.Key );
         }
 
         [Test]
-        public void Blog_Child_Post_Page_With_Name_And_Action_With_Overriden_Layout_Is_Selected()
+        public void Blog_Child_Post_Page_With_Name_And_Action_Is_Selected()
         {
-            string[] configXml = 
-            { 
-                "<pages>",
-                "  <page name='home' template='general' layout='twoColumn' default='true'/>",
-                "  <page name='blog' template='general' layout='twoColumn'>",
-                "    <page name='post'>",
-                "      <page name='comment' layout='oneColumn'/>",
-                "    </page>",
-                "  </page>",
-                "</pages>",
-                "<templates>",
-                "  <template name='general'/>",
-                "</templates>",
-                "<layouts>",
-                "  <layout name='oneColumn'/>",
-                "  <layout name='twoColumn'/>",
-                "</layouts>",
-            };
-
-            // Setup
-            LoadConfig( configXml );
-            string path = "/Blog/My-Blog/Post/A-Short-Thought/Comment/New";
+            string path = "/Blogs/My-Blog/Posts/A-Short-Thought/Comments/New";
 
             // Exercise
             Page page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
-            Assert.AreEqual( "comment", page.Name );
+            Assert.AreEqual( "comments", page.Name );
             Assert.AreEqual( "new", page.Action );
-            Assert.AreEqual( "oneColumn", page.Layout.Name );
         }
 
-        //[Test]
-        //public void Verify_Links()
-        //{
-        //    string[] configXml = { 
-        //        "<pages>",
-        //        "  <page name='home' template='general' layout='twoColumn' default='true'/>",
-        //        "  <page name='blog' template='general' layout='twoColumn'>",
-        //        "    <page name='post'>",
-        //        "      <page name='comment' layout='oneColumn'/>",
-        //        "    </page>",
-        //        "  </page>",
-        //        "</pages>",
-        //        "<templates>",
-        //        "  <template name='general'/>",
-        //        "</templates>",
-        //        "<layouts>",
-        //        "  <layout name='oneColumn'/>",
-        //        "  <layout name='twoColumn'/>",
-        //        "</layouts>",
-        //    };
+        [Test]
+        public void Specific_Blog_By_Name()
+        {
+            string path = "/Blogs/My-Blog";
 
-        //    // Setup
-        //    LoadConfig( configXml );
-        //    string path = "/Blog/My-Blog/Post/A-Short-Thought/Comment/New";
+            // Exercise
+            Page page = _pageLoader.GetPageFromPath( path );
 
-        //    // Exercise
-        //    Page page = _pageLoader.GetPageFromPath( path );
+            Assert.IsNotNull( page );
+            Assert.AreEqual( "blogs", page.Name );
+            Assert.AreEqual( "my blog", page.Key, StringComparison.InvariantCultureIgnoreCase );
+        }
 
-        //    Assert.IsNotNull( page );
-        //    Assert.AreEqual( "/Blog/My-Blog/Post/A-Short-Thought/Comment", page.Link );
-        //}
-    
+        [Test]
+        public void All_Posts_Within_Blog()
+        {
+            string path = "/Blogs/My-Blog/Posts";
+
+            // Exercise
+            Page page = _pageLoader.GetPageFromPath( path );
+
+            Assert.IsNotNull( page );
+            Assert.AreEqual( "posts", page.Name );
+            Assert.AreEqual( "my blog", page.Parent.Key, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        [Test]
+        public void Specific_Post_Within_Blog_With_Detail_Page()
+        {
+            string path = "/Blogs/My-Blog/Posts/An-Interesting-Story";
+
+            // Exercise
+            Page page = _pageLoader.GetPageFromPath( path );
+
+            Assert.IsNotNull( page );
+            Assert.AreEqual( "blogs", page.Parent.Name );
+            Assert.AreEqual( "my blog", page.Parent.Key, StringComparison.InvariantCultureIgnoreCase );
+            Assert.AreEqual( "posts", page.Name );
+            Assert.AreEqual( "an interesting story", page.Key, StringComparison.InvariantCultureIgnoreCase );
+        }
     }
 }

@@ -9,61 +9,15 @@ using Laan.ContentMatters.Models.Files;
 
 namespace Laan.ContentMatters.Models.Services
 {
-    internal class WindowsAPI 
-    {
-        public const int LOGON32_PROVIDER_DEFAULT = 0;
-        public const int LOGON32_LOGON_INTERACTIVE = 2;
-
-        [DllImport( "advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode )]
-        public static extern bool LogonUser( String lpszUsername, String lpszDomain, String lpszPassword,
-            int dwLogonType, int dwLogonProvider, ref IntPtr phToken );
-
-        [DllImport( "kernel32.dll", CharSet = CharSet.Auto )]
-        public extern static bool CloseHandle( IntPtr handle );
-    }
-
-    public class PasswordNotSetException : Exception { }
-
     [Serializable]
     public class FileService : IDisposable
     {
-        private IContext _httpContext;
-        private WindowsIdentity _identity;
-        private IntPtr _userToken;
-
         private const string Domain = "laanfamily";
         private const int PageSize = 100;
 
-        public FileService( IContext httpContext )
+        public FileService()
         {
-            _httpContext = httpContext;
-            CalcIdentity();
         }        
-        
-        private void CalcIdentity()
-        {
-            string userName = _httpContext.Principal.Identity.Name;
-            string password = (string) _httpContext.Session[ "password" ];
-
-            if ( String.IsNullOrEmpty( password ) )
-                throw new PasswordNotSetException();
-
-            _userToken = IntPtr.Zero;
-
-            if ( !WindowsAPI.LogonUser(
-                userName,
-                Domain,
-                password,
-                WindowsAPI.LOGON32_LOGON_INTERACTIVE, WindowsAPI.LOGON32_PROVIDER_DEFAULT,
-                ref _userToken
-            ) )
-            {
-                int errorCode = Marshal.GetLastWin32Error();
-                throw new System.ComponentModel.Win32Exception( errorCode );
-            }
-
-            _identity = new WindowsIdentity( _userToken );
-        }
 
         private StoredFileItem BuildStoredFileItem( string path )
         {
@@ -144,18 +98,18 @@ namespace Laan.ContentMatters.Models.Services
 
         public List<string> LoadFile( string path, int? page, out int totalPages )
         {
-            using ( WindowsImpersonationContext wic = _identity.Impersonate() )
+            //using ( WindowsImpersonationContext wic = _identity.Impersonate() )
             {
                 var lines = new List<string>();
 
                 // if the session contains the paged positions, use it instead..
-                StoredFileItem storedFileItem = (StoredFileItem) _httpContext.Session[ path ];
+                //StoredFileItem storedFileItem = (StoredFileItem) _httpContext.Session[ path ];
 
-                if ( storedFileItem == null )
-                {
-                    storedFileItem = BuildStoredFileItem( path );
-                    _httpContext.Session[ path ] = storedFileItem;
-                }
+                //if ( storedFileItem == null )
+                //{
+                    var storedFileItem = BuildStoredFileItem( path );
+               //     _httpContext.Session[ path ] = storedFileItem;
+               // }
 
                 using ( FileStream stream = new FileStream( path, FileMode.Open, FileAccess.Read ) )
                 {
@@ -174,7 +128,7 @@ namespace Laan.ContentMatters.Models.Services
 
         internal List<FileSystemItem> LoadFilesAndDirectories( string machineName, string path )
         {
-            using ( WindowsImpersonationContext wic = _identity.Impersonate() )
+           // using ( WindowsImpersonationContext wic = _identity.Impersonate() )
             {
                 var result = new List<FileSystemItem>();
                 GetItems( machineName, result, path );
@@ -186,8 +140,8 @@ namespace Laan.ContentMatters.Models.Services
 
         public void Dispose()
         {
-            if ( _userToken != IntPtr.Zero )
-                WindowsAPI.CloseHandle( _userToken );
+            //if ( _userToken != IntPtr.Zero )
+            //    WindowsAPI.CloseHandle( _userToken );
         }
 
         #endregion

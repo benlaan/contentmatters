@@ -1,6 +1,8 @@
 using System;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Laan.Persistence.AutoMapping;
+using System.Web.Hosting;
 
 using Castle.MicroKernel;
 

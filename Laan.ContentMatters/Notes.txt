@@ -1,0 +1,62 @@
+﻿HTML extension elements
+
+zone
+
+	- referenced within a view, these are place holders for inner views
+
+template
+
+	- an abstract html rendering component
+
+	content
+	
+		- a type-specific rendering
+
+	layout
+	
+		- provides structural composition
+
+list
+
+	- defines a repeating data component, with optional item template
+	
+	<list data="todo">
+		<before><li class="todo"></before>
+		<item.template>
+			<li><div class="todo-item">$item.Name</div></li>
+		</item.template>
+		<after></li></after>
+	</list>
+
+grid
+
+	as per list, but with columns. with optional column include/exclude *or* row template
+	
+	<grid data="address">
+		<columns mode="include">
+			<column name="Line1/>
+			<column name="Line2/>
+			<column name="State/>
+		</columns>
+	</grid>
+
+link (need to think of new name, or possibly provide all items with a namespace)
+
+	provides a way to provide a link for a page by referencing the page instance and the text to display
+	
+	<link page="$page.parent">View All</link>
+
+
+Variables
+
+	$site
+		Name
+		Copyright
+		CompanyName
+		
+	$page
+		Title
+		Tags
+		Description
+		
+			

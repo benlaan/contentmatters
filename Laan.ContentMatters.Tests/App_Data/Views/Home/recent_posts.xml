@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view id="recent_posts">
+  <h2>Recent Posts</h2>
+  <hr/>
+  <list data="recentPosts"/>
+</view>
