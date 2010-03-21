@@ -17,7 +17,7 @@ namespace Laan.ContentMatters.Controllers
             get
             {
                 if ( _fileService == null )
-                    _fileService = new FileService( new FileView.HttpContext( this.HttpContext ) );
+                    _fileService = new FileService();
 
                 return _fileService;
             }
@@ -31,7 +31,7 @@ namespace Laan.ContentMatters.Controllers
             if ( path == "" )
                 path = "c$";
 
-            try
+            //try
             {
                 ViewData.Model = new PathItem()
                 {
@@ -41,10 +41,10 @@ namespace Laan.ContentMatters.Controllers
 
                 return View();
             }
-            catch ( PasswordNotSetException )
-            {
-                return RedirectToAction( "LogOn", "Account" );
-            }
+            //catch ( PasswordNotSetException )
+            //{
+            //    return RedirectToAction( "LogOn", "Account" );
+            //}
         }
 
         public ActionResult View( string machineName, string path, int? page )
@@ -57,7 +57,7 @@ namespace Laan.ContentMatters.Controllers
                 .Select( con => Server.HtmlEncode( con ) )
                 .ToList();
 
-            try
+            //try
             {
                 ViewData.Model = new FileItem()
                 {
@@ -73,10 +73,10 @@ namespace Laan.ContentMatters.Controllers
 
                 return View();
             }
-            catch ( PasswordNotSetException )
-            {
-                return RedirectToAction( "LogOn", "Account" );
-            }
+            //catch ( PasswordNotSetException )
+            //{
+            //    return RedirectToAction( "LogOn", "Account" );
+            //}
         }
 
         #region IDisposable Members

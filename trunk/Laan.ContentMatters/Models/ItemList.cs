@@ -19,7 +19,7 @@ namespace Laan.ContentMatters.Models
             TypeName = "List";
         }
 
-        public ItemList( IEnumerable<T> list ) : base( list )
+        public ItemList( IEnumerable<T> list ) : base( list ?? new List<T>() )
         {
             TypeName = "List";
         }
@@ -30,7 +30,7 @@ namespace Laan.ContentMatters.Models
         
         public string Title
         {
-            get { return GetGenericArgName() + "List"; }
+            get { return String.Format("{0}List", GetGenericArgName()); }
             set { throw new NotSupportedException(); }
         }
 

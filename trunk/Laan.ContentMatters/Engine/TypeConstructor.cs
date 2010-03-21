@@ -55,9 +55,9 @@ namespace Laan.ContentMatters.Engine
                 _moduleBuilder = _assemblyBuilder.DefineDynamicModule( @namespace );
         }
 
-        private FieldBuilder CreateField( TypeBuilder tb, Type fieldType, string fieldName )
+        private FieldBuilder CreateBackingField( string fieldName, Type fieldType )
         {
-            return tb.DefineField( fieldName, fieldType, FieldAttributes.Private );
+            return _builder.DefineField( fieldName, fieldType, FieldAttributes.Private );
         }
 
         private MethodBuilder CreateGetter( FieldBuilder accessField )
@@ -91,7 +91,7 @@ namespace Laan.ContentMatters.Engine
             var fieldName = "_" + definition.Name.ToJavaCase();
 
             // backing field
-            var accessField = CreateField( _builder, fieldType, fieldName );
+            var accessField = CreateBackingField( fieldName, fieldType );
 
             // accessors
             var getter = CreateGetter( accessField );

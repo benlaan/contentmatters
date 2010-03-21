@@ -17,10 +17,10 @@
                 <h2 id="slogan">$title</h2>
                         <!-- Menu Tabs -->
                         <ul>
-                            <li>$Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>$Html.ActionLink("Blogs", "Index", "Blog")</li>
-                            <li>$Html.ActionLink("News", "Index", "News")</li>
-                            <li>$Html.ActionLink("About", "About", "Home")</li>
+                            <li<a href="/">Home</a></li>
+                            <li><a href="Blogs">Blogs</a></li>
+                            <li><a href="News">News</a></li>
+                            <li><a href="About">About</a></li>
                             <li>#parse( "../Views/Shared/logon.vm" )</li>
                         </ul>
             </div>
@@ -47,9 +47,9 @@
                     <div class="sidebox">
                         <h1 class="clear">Sidebar Menu</h1>
                         <ul class="sidemenu">
-                            <li>$Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>$Html.ActionLink("Blogs", "Index", "Blog")</li>
-                            <li>$Html.ActionLink("News", "Index", "News")</li>
+                            <li<a href="/">Home</a></li>
+                            <li><a href="/Blogs">Blogs</a></li>
+                            <li><a href="/News">News</a></li>
                         </ul>
                     </div>
                     <div class="sidebox">

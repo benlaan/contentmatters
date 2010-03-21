@@ -75,13 +75,6 @@ namespace Laan.ContentMatters.Models.Files
         public List<string> Contents { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
-
-        private string CalcPageDisplay( int? page )
-        {
-            string result = "";
-
-            return result;
-        }
     }
 
     public class FilePage

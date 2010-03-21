@@ -5,7 +5,7 @@ using Laan.ContentMatters.Models;
 using NVelocity;
 using NVelocity.App;
 
-namespace Laan.ContentMatters.Engine
+namespace Laan.ContentMatters.Loaders
 {
     public class TemplateLoader 
     {

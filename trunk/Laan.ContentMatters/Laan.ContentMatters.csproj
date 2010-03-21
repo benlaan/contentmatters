@@ -99,10 +99,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\NVelocity.dll</HintPath>
     </Reference>
-    <Reference Include="RouteDebug, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\RouteDebug.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
@@ -141,26 +137,32 @@
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\PageController.cs" />
-    <Compile Include="Engine\Component.cs" />
+    <Compile Include="Engine\Configuration\DataSource.cs" />
     <Compile Include="Engine\Configuration\HtmlFile.cs" />
+    <Compile Include="Engine\Interfaces\IHtmlProvider.cs" />
     <Compile Include="Engine\Configuration\Layout.cs" />
-    <Compile Include="Engine\Configuration\PageLoader.cs" />
-    <Compile Include="Engine\Configuration\Template.cs" />
+    <Compile Include="Engine\Loaders\PageLoader.cs" />
+    <Compile Include="Engine\Configuration\SelectionMode.cs" />
+    <Compile Include="View.cs" />
+    <Compile Include="Engine\HtmlProviders\ZoneExpander.cs" />
     <Compile Include="Engine\DebuggableRouteHandler.cs" />
     <Compile Include="Engine\Services\DefinitionService.cs" />
     <Compile Include="Engine\Interfaces\IDefinitionService.cs" />
-    <Compile Include="Engine\Page.cs" />
+    <Compile Include="Engine\Components\Page.cs" />
     <Compile Include="Engine\Configuration\PageConfiguration.cs" />
     <Compile Include="Engine\PageRouteHandler.cs" />
     <Compile Include="Engine\PageRouteHttpHandler.cs" />
     <Compile Include="Engine\ServerMapper.cs" />
-    <Compile Include="Engine\TemplateLoader.cs" />
+    <Compile Include="Engine\Components\Site.cs" />
+    <Compile Include="Engine\Components\SitePage.cs" />
+    <Compile Include="Engine\Loaders\TemplateLoader.cs" />
     <Compile Include="Engine\CustomControllerFactory.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Engine\TypeConstructor.cs" />
+    <Compile Include="Engine\Loaders\ViewLoader.cs" />
     <Compile Include="Extensions\Path.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -198,16 +200,6 @@
     <None Include="App_Data\Layouts\oneColumn.vm" />
     <Content Include="App_Data\Models\Laan.ContentMatters.Models.Custom.dll" />
     <Content Include="App_Data\Pages.xml" />
-    <Content Include="App_Data\Templates\blogs.xml" />
-    <Content Include="App_Data\Templates\files.xml" />
-    <Content Include="App_Data\Templates\tags.xml" />
-    <Content Include="App_Data\Templates\bios.xml" />
-    <Content Include="App_Data\Templates\documents.xml" />
-    <Content Include="App_Data\Templates\snippets.xml" />
-    <Content Include="App_Data\Templates\photos.xml" />
-    <Content Include="App_Data\Templates\search.xml" />
-    <Content Include="App_Data\Templates\news.xml" />
-    <Content Include="App_Data\Templates\home.xml" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="castle.config">
@@ -232,7 +224,9 @@
     <Content Include="Images\gradientbg.jpg" />
     <Content Include="Images\headerphoto.jpg" />
     <Content Include="Images\page.gif" />
+    <Content Include="Notes.txt" />
     <Content Include="Notes\Content Matters.txt" />
+    <Content Include="Views\Home\home.xml" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery-1.3.2.js" />

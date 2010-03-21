@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layout id="horz-split">
+  <div class="top_split">
+    <zone id="top"/>
+  </div>
+  <div class="bottom_split">
+    <zone id="bottom"/>
+  </div>
+</layout>

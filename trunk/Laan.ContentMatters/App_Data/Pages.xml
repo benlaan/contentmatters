@@ -8,105 +8,56 @@
     <layout name="twoColumn" file="~/App_Data/Layouts/twoColumn.vm"/>
   </layouts>
 
-  <templates>
-
-    <template name="home">
-      <dataSources>
-        <dataSource name="news"   type="news"   top="5"  order="date desc"/>
-        <dataSource name="photos" type="photos" top="20" order="CreationDate desc"/>
-      </dataSources>
-    </template>
-
-    <template name="news">
-      <dataSources>
-        <dataSource name="news" type="news"/>
-      </dataSources>
-    </template>
-
-    <template name="blogs">
-      <dataSources>
-        <dataSource name="blogs" type="blog"/>
-      </dataSources>
-    </template>
-
-    <template name="posts">
-      <dataSources>
-        <dataSource name="posts" type="post" filter="BlogID=$parent.Key"/>
-      </dataSources>
-    </template>
-
-    <template name="comments">
-      <dataSources>
-        <dataSource name="comments" type="comments" filter="PostID=$parent.Key"/>
-      </dataSources>
-    </template>
-
-    <template name="photos">
-      <dataSources>
-        <dataSource name="photos" type="photo"/>
-      </dataSources>
-    </template>
-
-    <template name="files">
-      <dataSources>
-        <dataSource name="files" type="file" filter="path:~/App_Data/Files/"/>
-      </dataSources>
-    </template>
-
-    <template name="snippets">
-      <dataSources>
-        <dataSource name="snippets" type="snippet"/>
-      </dataSources>
-    </template>
-    
-    <template name="doc">
-      <dataSources>
-        <dataSource name="documents" type="document"/>
-      </dataSources>
-    </template>
-
-    <template name="bios">
-      <dataSources>
-        <dataSource name="bios" type="bio"/>
-      </dataSources>
-    </template>
-
-    <template name="tags">
-      <dataSources>
-        <dataSource name="tags" type="tag"/>
-      </dataSources>
-    </template>
-    <template name="search"/>
-  </templates>
-
   <pages>
-    <page name="home" template="home" layout="twoColumn" default="true"/>
-    <page name="news" template="news" layout="oneColumn"/>
-    <page name="blogs" template="blogs" layout="oneColumn">
-      <page name="posts" template="posts">
-        <page name="comments" template="comments"/>
-      </page>
+    <page name="home" default="true">
+      <data name="home.news" type="news" select="all" order="date desc" top="10"/>
+      <data name="home.photos" type="photo" select="random" order="date" top="10"/>
     </page>
-    <page name="photos" template="photos" layout="oneColumn"/>
-    <page name="files" template="files" layout="oneColumn"/>
+
+    <page name="news" layout="oneColumn">
+      <data name="news" type="news" select="all" order="date desc" paged="true"/>
+    </page>
+
+    <page name="blogs" layout="oneColumn">
+      <data name="all.blogs" type="blog" select="all"/>
+
+      <page name="posts">
+        <data name="blog.posts" type="post" select="parent" order="date desc" paged="true"/>
+        <page name="post">
+          <data name="blog.post" type="post" select="key" />
+          <data name="blog.post.comments" type="comment" select="parent" order="date asc" paged="true"/>
+          <page name="comments"/>
+        </page>
+      </page>
+
+    </page>
+
+    <page name="photos" layout="oneColumn">
+      <data name="photos" type="photo" select="all" order="date" paged="true"/>
+    </page>
+
+    <page name="files" layout="oneColumn">
+      <data name="files" type="file" select="all" order="name" />
+    </page>
+
     <page name="code">
-      <page name="wiki" template="wiki" layout="oneColumn"/>
+      <page name="wiki" layout="oneColumn"/>
       <page name="projects" template="projects"/>
-      <page name="snippets" template="snippets" layout="oneColumn"/>
+      <page name="snippets" layout="oneColumn"/>
     </page>
 
     <!--<page name="cookng" link="http://cookng.laanfamily.com"/>-->
 
-    <page name="recipes" template="recipes" layout="oneColumn">
-      <page name="search" template="search"/>
-      <page name="tags" template="tags"/>
-      <page name="addRecipe" template="newRecipe"/>
-      <page name="recipe" template="viewRecipe"/>
-      <page name="about" template="documents" layout="oneColumn"/>
+    <page name="recipes" layout="oneColumn">
+      <page name="search"/>
+      <page name="tags" />
+      <page name="addRecipe" />
+      <page name="recipe"/>
+      <page name="about"/>
     </page>
 
-    <page name="bios" template="bios" layout="oneColumn"/>
-    <page name="about" template="documents" layout="oneColumn"/>
+    <page name="bios" layout="oneColumn"/>
+    <page name="about" layout="oneColumn"/>
   </pages>
 
 </pageConfiguration>
