@@ -1,0 +1,138 @@
+Content Matters
+
+Workflow - 
+
+  Page_Load - Link
+  
+    e.g.   server.com/a/path/to/the/Laan-Family-Blog
+    
+    Extract these items:
+    
+      Path  : a/path/to/the
+      Item  : Blog
+      ID    : 2222
+      Name  : Laan Family BLog
+      
+    e.g.   server.com/a/path/to/the/blog/post/2432342/A-Cool-Idea-For-A-Program
+    
+    Extract these items:
+    
+      Path  : a/path/to/the
+      Item  : Blog.Post
+      ID    : 2432342
+      Name  : A Cool Idea For A Program
+
+    e.g.   server.com/a/path/to/some/files
+    
+    Extract these items:
+    
+      Path  : /a/path/to/some/files
+      Item  : 
+      ID    : 
+      Name  : 
+
+    e.g.   server.com/a/path/to/some/files/file.doc
+    
+    Extract these items:
+    
+      Path  : /a/path/to/some/files
+      Item  : File 
+      ID    : file.doc
+      Name  : file.doc
+
+How?
+
+Route always directs to
+
+  "/{*path}/{*extension}"
+  "/{*path}/{id}/{name}"
+  "/{*path}/{id}"
+  "/{*path}"
+
+using id if present, or the path itself, lookup the page, and load the following:
+
+Item
+  ID
+  Name
+
+Page : Item
+  * Master Page File
+  * Layout Page File
+  * Zones
+      * Zone Data Lists (and apply any parent filters)
+      
+      
+  NB - need to work out how to get the parent from an item - is this stored on the page?
+       possibly, each page stores its parent, which can be overriden by child pages using 
+       parameters in the routes
+       
+       e.g. example of 'default' parent - obtained from parent item 
+       
+       some/folder/with/a/file.doc
+       
+         parent - folder:[some/folder/with/a]
+         item   - file:[file.doc]
+         
+       e.g. example of 'override' parent - obtained from route information
+
+      some/blogs/laan-family
+      
+        parent - page:[some/blogs]
+        item   - blog:[laan-family]
+        
+      some/blogs/laan-family/post/a-funny-thing
+      
+        parent - blog:[laan-family]
+        item   - post:[a-funny-thing]
+        
+Zone : Item
+         - {ParentID} (optional), to filter a set (e.g. a heirarchy, posts for a blog)
+         - {ID} (optional), to show only an item (e.g. a post within a blog)
+  
+Blogs Layout
+  
+<zones>
+  <zone name="blogs" div="content" paged="false">
+    <type>blog</type>
+    <template>list</template>   
+    <parentId>$parent.id</parentId>  
+    <id>$item.id</id>  
+  </zone>
+</zones>
+
+Posts Layout
+
+<zones>
+  <zone name="posts" div="content" paged="false">
+    <itemType>post</itemType>  
+    <template>list</template>
+    <parentId>$parent.id</parentId>  
+    <id>$item.id</id>  
+  </zone>
+</zones>
+
+Files / Folders Layout
+
+<zones>
+  <zone name="folders" div="folder_tree" paged="false">
+    <itemType>post</itemType>  
+    <template>tree</template>   
+    <parentId>$parent.id</parentId>  
+    <id>$item.id</id>  
+  </zone>
+  <zone name="files" div="file_listing" paged="true">
+    <itemType>file</itemType>  
+    <template>details</template>   
+    <parentId>$parent.id</parentId>  
+    <id>$item.id</id>  
+  </zone>
+</zones>
+
+
+As the above examples show, most of these properties can be generalized into a default
+'base' datareader zone item - the main change will be the type, and possibly the template
+
+
+
+
+
