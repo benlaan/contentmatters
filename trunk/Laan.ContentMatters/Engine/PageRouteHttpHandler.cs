@@ -51,13 +51,13 @@ namespace Laan.ContentMatters.Engine
             Trace.WriteLine( "Path: " + path );
             Trace.WriteLine( "RouteData: " + RequestContext.RouteData );
 
-            PageLoader pageLoader = new PageLoader();
+            PageLoader pageLoader = new PageLoader( new ServerMapper() );
             Page page = pageLoader.GetPageFromPath( path );
 
             // RouteData Values
             string action = page.Action;
             string name = page.Name;
-            string controllerName = page.Data.First().Type;
+            string controllerName = page.DataSources.First().Type;
 
             RequestContext.RouteData.Values.Add( "page", page );
             RequestContext.RouteData.Values.Add( "action", action );

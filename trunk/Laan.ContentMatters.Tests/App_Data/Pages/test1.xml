@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<page name="home">
+
+  <layout page="test1">
+    <view zone="main" page="mainarea" />
+    <view zone="sidebar" page="site\sidebar"/>
+  </layout>
+
+</page>

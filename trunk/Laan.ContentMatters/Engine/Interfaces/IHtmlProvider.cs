@@ -3,9 +3,9 @@ using System.Xml;
 
 namespace Laan.ContentMatters.Interfaces
 {
-    public interface IHtmlProvider
+    public interface IXmlProvider
     {
+        XmlReader GetReaderForElement( XmlReader reader );
         string ElementName { get; }
-        string Render( XmlNode node );
     }
 }

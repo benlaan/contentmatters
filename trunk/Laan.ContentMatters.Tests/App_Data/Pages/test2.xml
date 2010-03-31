@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<page name="home">
+
+  <layout page="test2">
+    <view zone="nested" page="nested2">
+      <layout page="master">
+        <view zone="main" page="mainarea" />
+      </layout>
+    </view>
+  </layout>
+
+</page>

@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace Laan.ContentMatters.Configuration
 {
     [Serializable]
-    public class Data
+    public class DataSource
     {
         [XmlAttribute( "name" )]
         public string Name { get; set; }

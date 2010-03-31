@@ -134,9 +134,9 @@
     <Compile Include="AutoMappingTest.cs" />
     <Compile Include="BaseTestFixture.cs" />
     <Compile Include="Externsions.cs" />
+    <Compile Include="PageTest.cs" />
     <Compile Include="SitePageTest.cs" />
-    <Compile Include="PageLoaderTest.cs" />
-    <Compile Include="PageRoutesTest.cs" />
+    <Compile Include="PagePathTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ItemDefinitionTest.cs" />
     <Compile Include="SessionFactoryTest.cs" />
@@ -178,13 +178,10 @@
     <Content Include="..\References\sqlite3.dll">
       <Link>sqlite3.dll</Link>
     </Content>
-    <Content Include="App_Data\Pages\Blogs\posts.xml" />
-    <Content Include="App_Data\Pages\Blogs\comments.xml" />
-    <Content Include="App_Data\Pages\photos.xml" />
-    <Content Include="App_Data\Pages\about.xml" />
-    <Content Include="App_Data\Pages\code.xml" />
-    <Content Include="App_Data\Pages\files.xml" />
-    <Content Include="App_Data\Pages\news.xml" />
+    <Content Include="App_Data\Layouts\test3.xml" />
+    <Content Include="App_Data\Layouts\test2.xml" />
+    <Content Include="App_Data\Pages\test3.xml" />
+    <Content Include="App_Data\Pages\test2.xml" />
     <Content Include="App_Data\Types\Blogs\Comment\Detail.xml" />
     <Content Include="App_Data\Types\Blogs\Comment\Preview.xml" />
     <Content Include="App_Data\Types\Blogs\Post\Detail.xml" />
@@ -197,8 +194,11 @@
     <Content Include="App_Data\Types\CookNg\Recipe\Preview.xml" />
     <Content Include="App_Data\Types\CookNg\Section\Detail.xml" />
     <Content Include="App_Data\Types\CookNg\Section\Preview.xml" />
-    <Content Include="App_Data\Views\Home\popular_posts.xml" />
     <Content Include="App_Data\Layouts\vert-split.xml" />
+    <Content Include="App_Data\Views\nested3.xml" />
+    <Content Include="App_Data\Views\nested2.xml" />
+    <Content Include="App_Data\Views\mainarea.xml" />
+    <Content Include="App_Data\Views\Site\simple.xml" />
     <Content Include="App_Data\Views\Site\footer.xml" />
     <Content Include="App_Data\Views\Site\sidebar.xml" />
     <Content Include="App_Data\Pages\site.xml">
@@ -213,12 +213,10 @@
     <Content Include="App_Data\Types\System\time.xml" />
     <Content Include="App_Data\Types\System\date.xml" />
     <Content Include="App_Data\Types\System\datetime.xml" />
-    <Content Include="App_Data\Views\Site\master.xml" />
+    <Content Include="App_Data\Layouts\test1.xml" />
     <Content Include="App_Data\Views\Home\welcome.xml" />
-    <Content Include="App_Data\Views\Home\recent_posts.xml" />
     <Content Include="App_Data\Layouts\horz-split.xml" />
-    <Content Include="App_Data\Pages\Blogs\blogs.xml" />
-    <Content Include="App_Data\Pages\home.xml" />
+    <Content Include="App_Data\Pages\test1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

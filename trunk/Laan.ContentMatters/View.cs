@@ -8,6 +8,6 @@ namespace Laan.ContentMatters
         {
         }
 
-        public string Body { get; set; }
+        public string Html { get; set; }
     }
 }

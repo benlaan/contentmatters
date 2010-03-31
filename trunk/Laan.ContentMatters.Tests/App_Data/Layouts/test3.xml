@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html>
+  <head><title>Test 2</title></head>
+  <body>
+    <div>
+      <h1>Test</h1>
+      <zone id="nested"/>
+      <br/>
+      <zone id="main"/>
+    </div>
+  </body>
+</html>

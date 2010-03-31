@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<view id="welcome">
+    <h1>Welcome to CuMulouS</h1>
+    <p>by B. Laan</p>
+    <br />
+    <div style="display:inline;float:left;width:70%">
+        <p>Content Management made easy..</p>
+    </div>
+    <div style="width:30%">
+        <img src="welcome.jpg" />
+    </div>
+</view>

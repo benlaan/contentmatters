@@ -137,6 +137,8 @@
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Engine\Configuration\PageLayout.cs" />
+    <Compile Include="Engine\Configuration\PageView.cs" />
     <Compile Include="Engine\Configuration\DataSource.cs" />
     <Compile Include="Engine\Configuration\HtmlFile.cs" />
     <Compile Include="Engine\Interfaces\IHtmlProvider.cs" />
@@ -148,13 +150,13 @@
     <Compile Include="Engine\DebuggableRouteHandler.cs" />
     <Compile Include="Engine\Services\DefinitionService.cs" />
     <Compile Include="Engine\Interfaces\IDefinitionService.cs" />
-    <Compile Include="Engine\Components\Page.cs" />
+    <Compile Include="Engine\Configuration\Page.cs" />
     <Compile Include="Engine\Configuration\PageConfiguration.cs" />
     <Compile Include="Engine\PageRouteHandler.cs" />
     <Compile Include="Engine\PageRouteHttpHandler.cs" />
     <Compile Include="Engine\ServerMapper.cs" />
-    <Compile Include="Engine\Components\Site.cs" />
-    <Compile Include="Engine\Components\SitePage.cs" />
+    <Compile Include="Engine\Configuration\Site.cs" />
+    <Compile Include="Engine\Configuration\SitePage.cs" />
     <Compile Include="Engine\Loaders\TemplateLoader.cs" />
     <Compile Include="Engine\CustomControllerFactory.cs" />
     <Compile Include="Default.aspx.cs">
@@ -196,10 +198,49 @@
     <Content Include="App_Data\Copy of Pages.xml" />
     <Content Include="App_Data\data.xml" />
     <Content Include="App_Data\Definitions\definition.xml" />
-    <None Include="App_Data\Layouts\twoColumn.vm" />
-    <None Include="App_Data\Layouts\oneColumn.vm" />
+    <Content Include="App_Data\Layouts\horz-split.xml" />
+    <Content Include="App_Data\Layouts\vert-split.xml" />
     <Content Include="App_Data\Models\Laan.ContentMatters.Models.Custom.dll" />
     <Content Include="App_Data\Pages.xml" />
+    <Content Include="App_Data\Pages\about.xml" />
+    <Content Include="App_Data\Pages\Blogs\blogs.xml" />
+    <Content Include="App_Data\Pages\Blogs\comments.xml" />
+    <Content Include="App_Data\Pages\Blogs\posts.xml" />
+    <Content Include="App_Data\Pages\code.xml" />
+    <Content Include="App_Data\Pages\files.xml" />
+    <Content Include="App_Data\Pages\home.xml" />
+    <Content Include="App_Data\Pages\news.xml" />
+    <Content Include="App_Data\Pages\photos.xml" />
+    <Content Include="App_Data\Pages\site.xml" />
+    <Content Include="App_Data\Types\Blogs\Blog\Detail.xml" />
+    <Content Include="App_Data\Types\Blogs\Blog\Preview.xml" />
+    <Content Include="App_Data\Types\Blogs\Comment\Detail.xml" />
+    <Content Include="App_Data\Types\Blogs\Comment\Preview.xml" />
+    <Content Include="App_Data\Types\Blogs\Post\Detail.xml" />
+    <Content Include="App_Data\Types\Blogs\Post\Preview.xml" />
+    <Content Include="App_Data\Types\CookNg\Ingredient\Detail.xml" />
+    <Content Include="App_Data\Types\CookNg\Ingredient\Preview.xml" />
+    <Content Include="App_Data\Types\CookNg\Method\Detail.xml" />
+    <Content Include="App_Data\Types\CookNg\Method\Preview.xml" />
+    <Content Include="App_Data\Types\CookNg\Recipe\Detail.xml" />
+    <Content Include="App_Data\Types\CookNg\Recipe\Preview.xml" />
+    <Content Include="App_Data\Types\CookNg\Section\Detail.xml" />
+    <Content Include="App_Data\Types\CookNg\Section\Preview.xml" />
+    <Content Include="App_Data\Types\Default\Detail.xml" />
+    <Content Include="App_Data\Types\Default\Preview.xml" />
+    <Content Include="App_Data\Types\System\date.xml" />
+    <Content Include="App_Data\Types\System\datetime.xml" />
+    <Content Include="App_Data\Types\System\float.xml" />
+    <Content Include="App_Data\Types\System\integer.xml" />
+    <Content Include="App_Data\Types\System\time.xml" />
+    <Content Include="App_Data\Views\Home\popular_posts.xml" />
+    <Content Include="App_Data\Views\Home\recent_posts.xml" />
+    <Content Include="App_Data\Views\Home\welcome.xml" />
+    <Content Include="App_Data\Views\Recipe\master.xml" />
+    <Content Include="App_Data\Views\Recipe\sidebar.xml" />
+    <Content Include="App_Data\Views\Site\footer.xml" />
+    <Content Include="App_Data\Views\Site\master.xml" />
+    <Content Include="App_Data\Views\Site\sidebar.xml" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="castle.config">
@@ -247,6 +288,9 @@
       <Project>{F8863A9A-34E2-41D5-878B-68B95386704C}</Project>
       <Name>Laan.Persistence</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engine\Components\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

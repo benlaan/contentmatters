@@ -5,6 +5,9 @@ using Laan.ContentMatters.Configuration;
 using System.Text;
 using Laan.ContentMatters.Tests;
 using Laan.ContentMatters.Loaders;
+using Laan.Utilities.Xml;
+using Laan.ContentMatters.Provider;
+using Laan.ContentMatters.Interfaces;
 
 namespace Laan.ContentMatters.Tests
 {
@@ -16,38 +19,93 @@ namespace Laan.ContentMatters.Tests
         [SetUp]
         public void Setup()
         {
-            _viewLoader = new ViewLoader( null );
+            IXmlProvider[] providers = null;
+            _viewLoader = new ViewLoader( providers, 2 );
         }
 
         [Test]
-        public void Can_Create_ViewLoader()
+        public void Can_Output_Master_With_Two_Zones()
         {
-            
-        }
-
-        [Test]
-        public void Can_Output_View_Without_Zones()
-        {
-            View view = _viewLoader.Load( @"Home\welcome" );
+            Page page = XmlPersistence<Page>.LoadFromFile( @"..\..\App_Data\Pages\test1.xml" );
+            View view = _viewLoader.Load( page.Layout );
             Assert.IsNotNull( view );
 
-            var expected = new[] 
+            new[] 
             {
-                "<view id=\"welcome\">",
-                "    <h1>Welcome to CuMulouS</h1>",
-                "    <p>by B. Laan</p>",
-                "    <br/>",
-                "    <div style=\"display:inline;float:left;width:70%\">",
-                "        <p>Content Management made easy..</p>",
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+                "<html>",
+                "  <head>",
+                "    <title>Welcome</title>",
+                "  </head>",
+                "  <body>",
+                "    <div>",
+                "      <h1>Test</h1>",
+                "      <div>main area!</div>",
+                "      <br />",
                 "    </div>",
-                "    <div style=\"width:30%\">",
-                "        <img src=\"welcome.jpg\"/>",
+                "    <div>",
+                "      <div>sidebar!</div>",
                 "    </div>",
-                "</view>",
-                ""
-            };
-
-            expected.Compare( view.Body );
+                "  </body>",
+                "</html>"
+            }
+            .Compare( view.Html );
         }
+
+        [Test]
+        public void Can_Output_Master_Zone_With_Nested_Zone()
+        {
+            Page page = XmlPersistence<Page>.LoadFromFile( @"..\..\App_Data\Pages\test2.xml" );
+            View view = _viewLoader.Load( page.Layout );
+            Assert.IsNotNull( view );
+
+            new[] 
+            {
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+                "<html>",
+                "  <head>",
+                "    <title>Test 2</title>",
+                "  </head>",
+                "  <body>",
+                "    <div>",
+                "      <h1>Test</h1>",
+                "      <div>nested!</div>",
+                "      <div>main area!</div>",
+                "      <br />",
+                "    </div>",
+                "  </body>",
+                "</html>"
+            }
+            .Compare( view.Html );
+        }
+
+        [Test]
+        public void Can_Output_Master_Zone_With_Multiple_Nested_Zones()
+        {
+            Page page = XmlPersistence<Page>.LoadFromFile( @"..\..\App_Data\Pages\test3.xml" );
+            View view = _viewLoader.Load( page.Layout );
+            Assert.IsNotNull( view );
+
+            new[] 
+            {
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+                "<html>",
+                "  <head>",
+                "    <title>Test 2</title>",
+                "  </head>",
+                "  <body>",
+                "    <div>",
+                "      <h1>Test</h1>",
+                "      <div>nested!</div>",
+                "      <div>main area!</div>",
+                "      <br />",
+                "      <div>main area!</div>",
+                "    </div>",
+                "  </body>",
+                "</html>"
+            }
+            .Compare( view.Html );
+        }
+
     }
 }

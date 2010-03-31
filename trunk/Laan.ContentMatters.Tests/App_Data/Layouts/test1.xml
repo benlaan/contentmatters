@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html>
+  <head><title>Welcome</title></head>
+  <body>
+    <div>
+      <h1>Test</h1>
+      <zone id="main"/>
+      <br/>
+    </div>
+    <div>
+      <zone id="sidebar"/>
+    </div>
+  </body>
+</html>
