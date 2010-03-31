@@ -8,101 +8,132 @@ using System.Collections.Generic;
 using Laan.Utilities.Xml;
 using Laan.Library.IO;
 using Laan.ContentMatters.Interfaces;
+using System.IO;
+using System.Diagnostics;
+using Laan.ContentMatters.Configuration;
 
 namespace Laan.ContentMatters.Loaders
 {
-    public interface IViewLoader
-    {
-        void ProcessNode( XmlNodeList childNodes, StringBuilder html, int level );
-    }
-
-    public class ViewLoader : IViewLoader
+    public class ViewLoader
     {
         private string _appData;
-        private Dictionary<string, IHtmlProvider> _providers;
+        private int _indentationSize;
+        private Dictionary<string, IXmlProvider> _providers;
 
-        public ViewLoader( IHtmlProvider[] providers )
+        public ViewLoader( IXmlProvider[] providers, int indentationSize )
         {
-            _providers = new Dictionary<string, IHtmlProvider>();
+            _indentationSize = indentationSize;
+            _providers = new Dictionary<string, IXmlProvider>();
             _appData = @"E:\Development\GoogleCode\Laan.ContentMatters\Laan.ContentMatters.Tests\App_Data";
 
             if ( providers == null )
                 return;
 
-            foreach ( IHtmlProvider provider in providers )
+            foreach ( IXmlProvider provider in providers )
                 _providers[provider.ElementName] = provider;
         }
 
-        public void ProcessNode( XmlNodeList childNodes, StringBuilder html, int level )
+        public View Load( PageLayout layout )
         {
-            foreach ( XmlNode node in childNodes )
-            {
-                switch ( node.NodeType )
-                {
-                    case XmlNodeType.Element:
-                        ProcessElement( html, level, node );
-                        break;
+            string fullPath = Laan.Library.IO.Path.Combine( _appData, "Layouts", layout.Page + ".xml" );
 
-                    case XmlNodeType.CDATA:
-                        html.Append( node.Value );
-                        break;
-
-                    case XmlNodeType.Comment:
-                        html.Append( node.OuterXml );
-                        break;
-                }
-            }
+            View view = new View();
+            view.Html = GenerateHtml( fullPath, layout );
+            //view.Data = BuildData();
+            return view;
         }
 
-        public void ProcessElement( StringBuilder html, int level, XmlNode node )
+        private string GenerateHtml( string fileName, PageLayout layout )
         {
-            if ( _providers.ContainsKey( node.Name ) )
-                html.Append( _providers[node.Name].Render( node ) );
-            else
+            XmlReaderSettings settings = new XmlReaderSettings();
+            using ( XmlReader reader = XmlNodeReader.Create( fileName, settings ) )
             {
-                string indent = new string( ' ', level * 4 );
-                html.Append( indent );
-                RenderElement( node, html );
-
-                if ( node.HasChildNodes )
+                using ( MemoryStream ms = new MemoryStream() )
                 {
-                    if ( node.FirstChild.NodeType == XmlNodeType.Text )
-                        html.AppendFormat( "{0}</{1}>\n", node.FirstChild.Value, node.Name );
-                    else
+                    using ( XmlTextWriter writer = new XmlTextWriter( ms, Encoding.UTF8 ) )
                     {
-                        html.AppendLine();
-                        ProcessNode( node.ChildNodes, html, level + 1 );
-                        html.AppendFormat( "{0}</{1}>\n", indent, node.Name );
+                        writer.Formatting = Formatting.Indented;
+                        writer.Indentation = _indentationSize;
+                        writer.WriteStartDocument();
+                        ProcessNodes( reader, writer, layout );
+                        writer.Flush();
+
+                        using ( StreamReader sr = new StreamReader( ms, Encoding.ASCII ) )
+                        {
+                            ms.Position = 0;
+                            return sr.ReadToEnd().Replace( "\r", "" );
+                        }
                     }
                 }
             }
         }
 
-        private void RenderElement( XmlNode element, StringBuilder html )
+        private void ProcessNodes( XmlReader reader, XmlWriter writer, PageLayout layout )
         {
-            html.AppendFormat( "<{0}", element.Name );
-            foreach ( XmlAttribute attr in element.Attributes )
+            while ( !reader.EOF )
             {
-                html.AppendFormat( " {0}=\"{1}\"", attr.Name, attr.Value );
+                reader.Read();
+                switch ( reader.NodeType )
+                {
+                    case XmlNodeType.Element:
+                        WriteElement( reader, writer, layout );
+
+                        break;
+
+                    case XmlNodeType.EndElement:
+                        if ( reader.Name != "view" )
+                            writer.WriteEndElement();
+                        break;
+
+                    case XmlNodeType.Text:
+                        writer.WriteRaw( reader.Value );
+                        break;
+                }
             }
-            html.Append( element.HasChildNodes ? ">" : "/>\n" );
         }
 
-        public View Load( string path )
+        private void WriteElement( XmlReader reader, XmlWriter writer, PageLayout layout )
         {
-            View result = new View();
-            string fullPath = Path.Combine( _appData, "Views", path + ".xml" );
-            XmlDocument doc = new XmlDocument();
-            doc.Load( fullPath );
-            XmlNodeList view = doc.GetElementsByTagName( "view" );
-            if ( view == null )
-                throw new Exception( String.Format( "can't find '{0}' within views folder", path ) );
+            switch ( reader.Name )
+            {
+                case "zone":
+                    var zoneName = reader.GetAttribute( "id" );
+                    var pageView = layout.Views.FirstOrDefault( pg => pg.Zone == zoneName );
 
-            StringBuilder html = new StringBuilder();
+                    if ( pageView == null )
+                        throw new Exception( String.Format( "Zone {0} not found", zoneName ) );
 
-            ProcessNode( doc.ChildNodes, html, 0 );
-            result.Body = html.ToString();
-            return result;
+                    layout = pageView.Layout;
+                    string fileName = Laan.Library.IO.Path.Combine( _appData, "Views", pageView.Page + ".xml" );
+                    XmlReaderSettings settings = new XmlReaderSettings();
+
+                    using ( XmlReader zoneReader = XmlNodeReader.Create( fileName, settings ) )
+                    {
+                        ProcessNodes( zoneReader, writer, layout );
+                    }
+                    break;
+
+                case "view":
+                    reader.Read(); // consume the root element 'view'
+                    break;
+
+                default:
+                    IXmlProvider provider;
+                    if ( _providers.TryGetValue( reader.Name, out provider ) )
+                    {
+                        var render = provider.GetReaderForElement( reader );
+                        ProcessNodes( render, writer, layout );
+                    }
+                    else
+                    {
+                        writer.WriteStartElement( reader.Name );
+                        writer.WriteAttributes( reader, false );
+
+                        if ( reader.IsEmptyElement )
+                            writer.WriteEndElement();
+                    }
+                    break;
+            }
         }
     }
 }

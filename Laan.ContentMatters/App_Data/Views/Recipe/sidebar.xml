@@ -1,0 +1,45 @@
+﻿= \
+
+
+
+
+
+
+
+
+
+<?xml vrsion="1.0" encoding="utf-8" ?>
+<content>
+  <h2>User Info</h2>
+  <br />
+  <table style="width:150px">
+    <tr>
+      <td>Name</td>
+      <td class="rightaligned">$home.UserName</td>
+    </tr>
+    <tr>
+      <td>Recipes Viewed</td>
+      <td class="rightaligned">$home.RecipesVisited</td>
+    </tr>
+    <tr>
+      <td>Recipes Added</td>
+      <td class="rightaligned">$home.RecipesCreated</td>
+    </tr>
+    <tr>
+      <td>Comments Added</td>
+      <td class="rightaligned">$home.CommentsAdded</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align:right">
+        <link page="account/manage">manage</link>
+      </td>
+    </tr>
+  </table>
+  <br />
+  <h2>Popular Tags</h2>
+  <br />
+
+  <list data="tagSummary"/>
+  <br />
+  <div style="text-align:right"><link page="recipe/all">Show All Recipes</link></div>
+</content>

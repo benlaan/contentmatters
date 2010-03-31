@@ -6,6 +6,7 @@ using Laan.ContentMatters.Engine;
 using Laan.Utilities.Xml;
 using Laan.Library.IO;
 using Laan.ContentMatters.Configuration;
+using Laan.Persistence.Interfaces;
 
 namespace Laan.ContentMatters.Loaders
 {
@@ -13,12 +14,12 @@ namespace Laan.ContentMatters.Loaders
     {
         private string _appData;
 
-        public PageLoader()
+        public PageLoader( IMapper mapper )
         {
-            _appData = @"E:\Development\GoogleCode\Laan.ContentMatters\Laan.ContentMatters.Tests\App_Data";
+            _appData = mapper.MapPath( "~/App_Data" );
         }
 
-        public PageLoader( Site site ) : this()
+        public PageLoader( IMapper mapper, Site site ) : this(mapper)
         {
             Site = site;
         }

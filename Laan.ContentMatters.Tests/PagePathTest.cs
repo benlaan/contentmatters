@@ -4,22 +4,26 @@ using MbUnit.Framework;
 using Laan.Utilities.Xml;
 using Laan.ContentMatters.Engine;
 using Laan.ContentMatters.Loaders;
+using Laan.Persistence.Interfaces;
+using Rhino.Mocks;
 
 namespace Laan.ContentMatters.Tests
 {
+
     [ TestFixture ]
-    public class PageLoaderTest
+    public class PagePathTest : BaseTestFixture
     {
         private PageLoader _pageLoader;
 
-        public PageLoaderTest()
-        {
-        }
-
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
-            _pageLoader = new PageLoader();
+            base.Setup();
+            IMapper mapper = _mock.DynamicMock<IMapper>();
+            Expect.Call( mapper.MapPath( "" ) ).IgnoreArguments(  ).Return( @"..\..\App_Data\" ).Repeat.Any();
+
+            _mock.ReplayAll();
+            _pageLoader = new PageLoader( mapper );
         }
 
         [Test]
@@ -27,7 +31,6 @@ namespace Laan.ContentMatters.Tests
         [Row( "/" )]
         public void Blank_Page_Loads_Default( string path )
         {
-            _pageLoader = new PageLoader();
             Page page = _pageLoader.GetPageFromPath( path );
             Assert.AreEqual(page.Name, "home");
         }
@@ -35,7 +38,6 @@ namespace Laan.ContentMatters.Tests
         [Test]
         public void Blog_Page_With_Name_Selected()
         {
-            // Setup
             string path = "/Blogs/My-Blog";
 
             // Exercise
