@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view>
+  <div>if</div>
+  <if test="($1 == 1)">
+    <h1>Hello</h1>
+  </if>
+</view>

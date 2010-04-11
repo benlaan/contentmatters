@@ -1,23 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <page name="home" default="true">
 
-  <data name="home.news" type="news" select="all" order="date desc" top="10"/>
-  <data name="home.photos" type="photo" select="random" order="date" top="10"/>
+  <data name="home.news" type="news" select="all" order="description"/>
+  <!--order="Created desc"-->
+  <!--<data name="home.photos" type="photo" select="random" order="Created desc, Modified desc" top="10"/>-->
 
-  <layout page="master">
-    <view zone="header" page="site\header" />
+  <layout page="site\master">
+    <!--<view zone="header" page="site\header" />-->
+    <view zone="sidebar" page="sidebar" />
     <view zone="body">
-      <layout page="vert-split">
+      <layout page="horz-split">
         <view zone="top" page="home\welcome" />
         <view zone="bottom">
-          <layout page="horz-split">
-            <view zone="left" page="recent_posts"/>
-            <view zone="right" page="popular_posts"/>
+          <layout page="vert-split">
+            <view zone="left" page="home\recent_posts"/>
+            <view zone="right" page="home\popular_posts"/>
           </layout>
         </view>
       </layout>
     </view>
-    <view zone="footer" page="site\footer"/>
+    <view zone="footer" page="footer"/>
   </layout>
 
 </page>

@@ -47,6 +47,11 @@ namespace Laan.ContentMatters.Tests
             return index < lines.Length ? lines[index] : "";
         }
 
+        //public static void Compare( this string expected, string actual )
+        //{
+        //    Compare( expected, actual );
+        //}
+            
         public static void Compare( this string[] expected, string actual )
         {
             var actualAsList = actual.Replace( "\r", "" ).Split( new string[] { "\n" }, StringSplitOptions.None );

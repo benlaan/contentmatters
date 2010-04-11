@@ -101,9 +101,9 @@ namespace Laan.ContentMatters.Loaders
             {
                 SitePage defaultPage = FindDefaultPage( path );
                 if ( defaultPage != null )  
-                    return LoadPage( defaultPage);
-
-                return null;
+                    page = LoadPage( defaultPage );
+                else
+                    throw new PageNotFoundException( "No Default Page Found" );
             }
 
             page.Action = page.Action ?? "index";

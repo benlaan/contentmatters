@@ -15,7 +15,6 @@ namespace Laan.ContentMatters.Engine
         public PageRouteHandler( IKernel kernel )
         {
             _kernel = kernel;
-
         }
 
         #region IRouteHandler Members

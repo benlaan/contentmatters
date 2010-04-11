@@ -133,7 +133,9 @@
   <ItemGroup>
     <Compile Include="AutoMappingTest.cs" />
     <Compile Include="BaseTestFixture.cs" />
+    <Compile Include="DataProviderTest.cs" />
     <Compile Include="Externsions.cs" />
+    <Compile Include="ListProviderTest.cs" />
     <Compile Include="PageTest.cs" />
     <Compile Include="SitePageTest.cs" />
     <Compile Include="PagePathTest.cs" />
@@ -178,8 +180,11 @@
     <Content Include="..\References\sqlite3.dll">
       <Link>sqlite3.dll</Link>
     </Content>
+    <Content Include="App_Data\Layouts\test4.xml" />
     <Content Include="App_Data\Layouts\test3.xml" />
     <Content Include="App_Data\Layouts\test2.xml" />
+    <Content Include="App_Data\Macros\macro.xml" />
+    <Content Include="App_Data\Pages\test4.xml" />
     <Content Include="App_Data\Pages\test3.xml" />
     <Content Include="App_Data\Pages\test2.xml" />
     <Content Include="App_Data\Types\Blogs\Comment\Detail.xml" />
@@ -194,7 +199,9 @@
     <Content Include="App_Data\Types\CookNg\Recipe\Preview.xml" />
     <Content Include="App_Data\Types\CookNg\Section\Detail.xml" />
     <Content Include="App_Data\Types\CookNg\Section\Preview.xml" />
-    <Content Include="App_Data\Layouts\vert-split.xml" />
+    <Content Include="App_Data\Layouts\master.xml" />
+    <Content Include="App_Data\Views\ifelse.xml" />
+    <Content Include="App_Data\Views\if.xml" />
     <Content Include="App_Data\Views\nested3.xml" />
     <Content Include="App_Data\Views\nested2.xml" />
     <Content Include="App_Data\Views\mainarea.xml" />
@@ -215,7 +222,6 @@
     <Content Include="App_Data\Types\System\datetime.xml" />
     <Content Include="App_Data\Layouts\test1.xml" />
     <Content Include="App_Data\Views\Home\welcome.xml" />
-    <Content Include="App_Data\Layouts\horz-split.xml" />
     <Content Include="App_Data\Pages\test1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

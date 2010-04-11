@@ -1,31 +1,24 @@
 using System;
-
-using log4net.Core;
-
-using Laan.Persistence.Interfaces;
-using Laan.ContentMatters.Models;
 using System.Web.Mvc;
+
+using Castle.Core.Logging;
 
 namespace Laan.ContentMatters.Controllers
 {
-    public class PageController<T> : BaseController //, IController<Item>
+    public class PageController : Controller, IPageController
     {
         protected ILogger _log;
-        protected IRepository<T> _repository;
 
-        public PageController()
-        {
-        }
-
-        public PageController( IRepository<T> repository, ILogger log )
+        public PageController( ILogger log )
         {
             _log = log;
-            _repository = repository;
         }
 
-        internal ActionResult Index( string page )
+        public ActionResult Index( string key )
         {
+            _log.Debug( String.Format( "Index({0})", key ) );
             return View();
         }
+
     }
 }

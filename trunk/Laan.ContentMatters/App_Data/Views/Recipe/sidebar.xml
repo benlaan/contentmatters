@@ -1,15 +1,5 @@
-﻿= \
-
-
-
-
-
-
-
-
-
-<?xml vrsion="1.0" encoding="utf-8" ?>
-<content>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view>
   <h2>User Info</h2>
   <br />
   <table style="width:150px">
@@ -39,7 +29,7 @@
   <h2>Popular Tags</h2>
   <br />
 
-  <list data="tagSummary"/>
+  <!--<list data="tagSummary"/>-->
   <br />
   <div style="text-align:right"><link page="recipe/all">Show All Recipes</link></div>
-</content>
+</view>

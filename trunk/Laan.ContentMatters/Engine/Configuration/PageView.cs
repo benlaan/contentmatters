@@ -1,6 +1,6 @@
 using System;
 using System.Xml.Serialization;
-using Laan.ContentMatters.Interfaces;
+using Laan.ContentMatters.Engine.Interfaces;
 
 namespace Laan.ContentMatters.Configuration
 {

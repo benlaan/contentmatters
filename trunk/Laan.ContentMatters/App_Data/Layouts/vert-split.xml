@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<layout id="vert-split">
+<view>
   <div class="left_split"><zone id="left"/></div>
   <div class="right_split"><zone id="right"/></div>
-</layout>
+</view>

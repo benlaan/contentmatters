@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -95,6 +96,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate.Linq, Version=1.0.0.4000, Culture=neutral, PublicKeyToken=444cf6a87fdab271, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\NHibernate.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\NVelocity.dll</HintPath>
@@ -134,36 +139,43 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IController.cs" />
+    <Compile Include="Engine\HtmlProviders\ListProvider.cs" />
+    <Compile Include="Engine\Core\XmlProvider.cs" />
+    <Compile Include="Engine\Interfaces\IController.cs" />
+    <Compile Include="Controllers\IPageController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Engine\Configuration\PageLayout.cs" />
     <Compile Include="Engine\Configuration\PageView.cs" />
     <Compile Include="Engine\Configuration\DataSource.cs" />
     <Compile Include="Engine\Configuration\HtmlFile.cs" />
+    <Compile Include="Engine\Core\CumulousViewEngine.cs" />
     <Compile Include="Engine\Interfaces\IHtmlProvider.cs" />
     <Compile Include="Engine\Configuration\Layout.cs" />
+    <Compile Include="Engine\Data\DataProvider.cs" />
+    <Compile Include="Engine\Interfaces\IDataProvider.cs" />
+    <Compile Include="Engine\Data\DataProviderRepository.cs" />
+    <Compile Include="Engine\Interfaces\IViewLoader.cs" />
     <Compile Include="Engine\Loaders\PageLoader.cs" />
     <Compile Include="Engine\Configuration\SelectionMode.cs" />
     <Compile Include="View.cs" />
-    <Compile Include="Engine\HtmlProviders\ZoneExpander.cs" />
-    <Compile Include="Engine\DebuggableRouteHandler.cs" />
+    <Compile Include="Engine\Core\DebuggableRouteHandler.cs" />
     <Compile Include="Engine\Services\DefinitionService.cs" />
     <Compile Include="Engine\Interfaces\IDefinitionService.cs" />
     <Compile Include="Engine\Configuration\Page.cs" />
     <Compile Include="Engine\Configuration\PageConfiguration.cs" />
-    <Compile Include="Engine\PageRouteHandler.cs" />
-    <Compile Include="Engine\PageRouteHttpHandler.cs" />
-    <Compile Include="Engine\ServerMapper.cs" />
+    <Compile Include="Engine\Core\PageRouteHandler.cs" />
+    <Compile Include="Engine\Core\PageRouteHttpHandler.cs" />
+    <Compile Include="Engine\Core\ServerMapper.cs" />
     <Compile Include="Engine\Configuration\Site.cs" />
     <Compile Include="Engine\Configuration\SitePage.cs" />
     <Compile Include="Engine\Loaders\TemplateLoader.cs" />
-    <Compile Include="Engine\CustomControllerFactory.cs" />
+    <Compile Include="Engine\Core\CustomControllerFactory.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Engine\TypeConstructor.cs" />
+    <Compile Include="Engine\Core\TypeConstructor.cs" />
     <Compile Include="Engine\Loaders\ViewLoader.cs" />
     <Compile Include="Extensions\Path.cs" />
     <Compile Include="Global.asax.cs">
@@ -188,20 +200,18 @@
     <Compile Include="Models\ItemList.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Engine\TemplatingViewEngine.cs" />
+    <Compile Include="Engine\Core\TemplatingViewEngine.cs" />
     <Compile Include="Models\Services\File.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\References\sqlite3.dll">
       <Link>sqlite3.dll</Link>
     </Content>
-    <Content Include="App_Data\Copy of Pages.xml" />
     <Content Include="App_Data\data.xml" />
     <Content Include="App_Data\Definitions\definition.xml" />
     <Content Include="App_Data\Layouts\horz-split.xml" />
     <Content Include="App_Data\Layouts\vert-split.xml" />
     <Content Include="App_Data\Models\Laan.ContentMatters.Models.Custom.dll" />
-    <Content Include="App_Data\Pages.xml" />
     <Content Include="App_Data\Pages\about.xml" />
     <Content Include="App_Data\Pages\Blogs\blogs.xml" />
     <Content Include="App_Data\Pages\Blogs\comments.xml" />
@@ -238,9 +248,9 @@
     <Content Include="App_Data\Views\Home\welcome.xml" />
     <Content Include="App_Data\Views\Recipe\master.xml" />
     <Content Include="App_Data\Views\Recipe\sidebar.xml" />
-    <Content Include="App_Data\Views\Site\footer.xml" />
-    <Content Include="App_Data\Views\Site\master.xml" />
-    <Content Include="App_Data\Views\Site\sidebar.xml" />
+    <Content Include="App_Data\Views\footer.xml" />
+    <Content Include="App_Data\Layouts\Site\master.xml" />
+    <Content Include="App_Data\Views\sidebar.xml" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="castle.config">
@@ -287,6 +297,10 @@
     <ProjectReference Include="..\..\Laan.Persistence\Laan.Persistence.csproj">
       <Project>{F8863A9A-34E2-41D5-878B-68B95386704C}</Project>
       <Name>Laan.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SqlFormatter\Laan.NHibernate.Appender\Laan.NHibernate.Appender.csproj">
+      <Project>{1532F037-944F-4969-81BA-5A7C34E1D299}</Project>
+      <Name>Laan.NHibernate.Appender</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
