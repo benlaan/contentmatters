@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<view id="recent_posts">
-  <h2>Recent Posts</h2>
+<view>
+  <h2>Popular Posts</h2>
   <hr/>
   <div>
-    <list data="recentPosts">
+    <!--<list data="recentPosts">
       <item.template>
         <div style="border-bottom: 1px;">
           <div><h3><link page="$item">$item.Title</link></h3></div>
           <div>$item.Description.Preview</div>
         </div>
       </item.template>
-    </list>
+    </list>-->
   </div>
 </view>

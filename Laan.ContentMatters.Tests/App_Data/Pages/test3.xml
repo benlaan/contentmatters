@@ -2,7 +2,7 @@
 <page name="home">
 
   <layout page="test3">
-    <view zone="nested" page="nested3">
+    <view zone="nested">
       <layout page="master">
         <view zone="main" page="mainarea" />
       </layout>

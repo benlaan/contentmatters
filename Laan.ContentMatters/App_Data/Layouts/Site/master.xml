@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html>
+  <head>
+    <meta name="Description" content="$description" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="Distribution" content="Global" />
+    <meta name="Robots" content="index,follow" />
+    <title>$page.Title</title>
+    <link href="Content/site.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <!-- wrap starts here -->
+    <div id="wrap">
+      <div id="header">
+        <div id="header-content">
+          <h1 id="logo">
+            <a href="/" title="Laan Family Site">
+              Laan<span class="gray">Family</span>
+            </a>
+          </h1>
+          <h2 id="slogan">$page.Title</h2>
+          <!-- Menu Tabs -->
+          <list data="$page.Pages">
+            <list.template>
+              <item.template><link></link></item.template>  
+            </list.template>
+          </list>
+        </div>
+      </div>
+      <div class="headerphoto"/>
+
+      <!-- content-wrap starts here -->
+      <div id="content-wrap">
+        <div id="content">
+          <div id="main">
+            <zone id="body"/>
+          </div>
+          <div id="sidebar">
+            <zone id="sidebar"/>
+          </div>
+        </div>
+      </div>
+      <div id="footer">
+        <zone id="footer"/>
+      </div>
+    </div>
+  </body>
+</html>

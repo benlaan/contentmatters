@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<page name="home">
+
+  <layout page="test4">
+    <view zone="main" page="directive" />
+  </layout>
+
+</page>

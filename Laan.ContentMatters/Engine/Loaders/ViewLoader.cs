@@ -1,46 +1,33 @@
 using System;
-using System.Xml;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Collections;
-using System.Collections.Generic;
+using System.Xml;
 
-using Laan.Utilities.Xml;
-using Laan.Library.IO;
-using Laan.ContentMatters.Interfaces;
-using System.IO;
-using System.Diagnostics;
 using Laan.ContentMatters.Configuration;
+using Laan.ContentMatters.Engine.Interfaces;
+using Laan.Persistence.Interfaces;
 
 namespace Laan.ContentMatters.Loaders
 {
-    public class ViewLoader
+    public class ViewLoader : IViewLoader
     {
+        string[] ReservedWords = new string[] { "zone", "view", "if", "else" };
+
         private string _appData;
         private int _indentationSize;
+        private Dictionary<string, object> _data;
+        private IList<IXmlProvider> _xmlProviders;
         private Dictionary<string, IXmlProvider> _providers;
+        private IDataProvider _dataProvider;
 
-        public ViewLoader( IXmlProvider[] providers, int indentationSize )
+        public ViewLoader( IMapper mapper, IDataProvider dataProvider, int indentationSize )
         {
+            _dataProvider = dataProvider;
             _indentationSize = indentationSize;
             _providers = new Dictionary<string, IXmlProvider>();
-            _appData = @"E:\Development\GoogleCode\Laan.ContentMatters\Laan.ContentMatters.Tests\App_Data";
-
-            if ( providers == null )
-                return;
-
-            foreach ( IXmlProvider provider in providers )
-                _providers[provider.ElementName] = provider;
-        }
-
-        public View Load( PageLayout layout )
-        {
-            string fullPath = Laan.Library.IO.Path.Combine( _appData, "Layouts", layout.Page + ".xml" );
-
-            View view = new View();
-            view.Html = GenerateHtml( fullPath, layout );
-            //view.Data = BuildData();
-            return view;
+            _appData = mapper.MapPath( "~/App_Data" );
         }
 
         private string GenerateHtml( string fileName, PageLayout layout )
@@ -88,6 +75,10 @@ namespace Laan.ContentMatters.Loaders
                     case XmlNodeType.Text:
                         writer.WriteRaw( reader.Value );
                         break;
+
+                    case XmlNodeType.Comment:
+                        writer.WriteComment( reader.Value );
+                        break;
                 }
             }
         }
@@ -98,13 +89,25 @@ namespace Laan.ContentMatters.Loaders
             {
                 case "zone":
                     var zoneName = reader.GetAttribute( "id" );
+                    if ( String.IsNullOrEmpty( zoneName ) )
+                        throw new ArgumentNullException( String.Format( "Zone is missing 'id' in layout '{1}'", zoneName, layout.Page ) );
+
                     var pageView = layout.Views.FirstOrDefault( pg => pg.Zone == zoneName );
 
                     if ( pageView == null )
-                        throw new Exception( String.Format( "Zone {0} not found", zoneName ) );
+                        throw new ArgumentNullException( String.Format( "Zone '{0}' not found in layout '{1}'", zoneName, layout.Page ) );
+
+                    if (pageView.Page == null && pageView.Layout == null )
+                        throw new ArgumentNullException( String.Format("Zone {0} has neither page nor layout specified", zoneName ) );
 
                     layout = pageView.Layout;
-                    string fileName = Laan.Library.IO.Path.Combine( _appData, "Views", pageView.Page + ".xml" );
+                    
+                    string fileName;
+                    if ( pageView.Layout != null )
+                        fileName = Laan.Library.IO.Path.Combine( _appData, "Layouts", layout.Page + ".xml" );
+                    else
+                        fileName = Laan.Library.IO.Path.Combine( _appData, "Views", pageView.Page + ".xml" );
+    
                     XmlReaderSettings settings = new XmlReaderSettings();
 
                     using ( XmlReader zoneReader = XmlNodeReader.Create( fileName, settings ) )
@@ -121,18 +124,54 @@ namespace Laan.ContentMatters.Loaders
                     IXmlProvider provider;
                     if ( _providers.TryGetValue( reader.Name, out provider ) )
                     {
-                        var render = provider.GetReaderForElement( reader );
-                        ProcessNodes( render, writer, layout );
+                        using ( var render = provider.ReplaceElement( reader, _data ) )
+                        {
+                            ProcessNodes( render, writer, layout );
+                        }
                     }
                     else
                     {
                         writer.WriteStartElement( reader.Name );
                         writer.WriteAttributes( reader, false );
 
+                        // TODO: Need to implement a check for an 'empty' div, to ensure it isn't written out as a <div/>
+                        //       e.g. <div></div> should output as <div></div>
                         if ( reader.IsEmptyElement )
-                            writer.WriteEndElement();
+                        {
+                            if (reader.Name == "div")
+                                writer.WriteFullEndElement(); // workaround for HTML limitation due to supporting <div/>
+                            else
+                                writer.WriteEndElement();
+                        }
                     }
                     break;
+            }
+        }
+
+        public View Load( Page page )
+        {
+            _data = _dataProvider.Build( page );
+
+            string fullPath = Laan.Library.IO.Path.Combine( _appData, "Layouts", page.Layout.Page + ".xml" );
+
+            View view = new View();
+            view.Html = GenerateHtml( fullPath, page.Layout );
+            view.Data = _data;
+            return view;
+        }
+
+        public IList<IXmlProvider> Providers
+        {
+            get { return _xmlProviders; }
+            set
+            {
+                _xmlProviders = value;
+                if ( _xmlProviders == null )
+                    return;
+
+                _providers.Clear();
+                foreach ( IXmlProvider provider in _xmlProviders )
+                    _providers[provider.ElementName] = provider;
             }
         }
     }

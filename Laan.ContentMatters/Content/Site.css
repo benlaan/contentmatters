@@ -422,6 +422,15 @@ input.button
 	list-style-image: url(../Images/bullet.gif);
 }
 */
+
+.welcome
+{
+    margin: 0;
+    padding: 0;
+    background: #FFF url(../Images/gradientbg.jpg) repeat-x;
+    border: 1px solid #EFEDED;
+}
+
 .post
 {
     margin: 0;
@@ -549,4 +558,16 @@ div.comment div.author
 {
 	font-size:smaller;
 	text-align: right;
+}
+
+div.left_split
+{
+    width: 50%;
+    float: left;
+}
+
+div.right_split
+{
+    width: 50%;
+    float: left;
 }

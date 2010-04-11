@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<macro name="table">
+  <params>
+    <param name="items"/>
+    
+  </params>
+  <output>
+    <table>
+      <for each="item" in="items">
+        <tr>
+          <for each="col" in="$item.Properties">
+            <td>$col.Value</td>
+          </for>
+        </tr>  
+      </for>
+      
+    </table>
+  </output>
+</macro>

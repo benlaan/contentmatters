@@ -10,6 +10,7 @@ using log4net.Config;
 using Laan.ContentMatters.Engine;
 using Laan.ContentMatters.Engine.Interfaces;
 using Laan.ContentMatters.Engine.Services;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 
 //using RouteDebug;
 
@@ -53,6 +54,8 @@ namespace Laan.ContentMatters
 
             IoC.ConfigPath = Server.MapPath( ConfigurationManager.AppSettings[ "castle.config" ] );
             _container = IoC.Container;
+            _container.Kernel.Resolver.AddSubResolver(new ArrayResolver(_container.Kernel));
+
         }
 
         protected void Application_Start()
@@ -65,9 +68,9 @@ namespace Laan.ContentMatters
             InitialiseWindsor();
 
             //Build.TestData();            
-            ViewEngines.Engines.Add( new TemplatingViewEngine() );
+            ViewEngines.Engines.Add( _container.Resolve<ICumulousViewEngine>() );
 
-            ControllerBuilder.Current.SetControllerFactory( new CustomControllerFactory( _container.Kernel ) );
+//            ControllerBuilder.Current.SetControllerFactory( new CustomControllerFactory( _container.Kernel ) );
             RegisterRoutes( RouteTable.Routes );
             //RouteDebugger.RewriteRoutesForTesting( RouteTable.Routes );
         }
