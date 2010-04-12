@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{33809869-2AF7-4D15-A783-15B09EAD9DC1}</ProjectGuid>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Laan.ContentMatters.Tests</RootNamespace>
@@ -42,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -191,9 +192,15 @@
     <Content Include="..\References\sqlite3.dll">
       <Link>sqlite3.dll</Link>
     </Content>
-    <Content Include="App_Data\Layouts\test4.xml" />
-    <Content Include="App_Data\Layouts\test3.xml" />
-    <Content Include="App_Data\Layouts\test2.xml" />
+    <Content Include="App_Data\Layouts\test4.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Layouts\test3.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Layouts\test2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\Macros\macro.xml" />
     <Content Include="App_Data\Pages\test4.xml" />
     <Content Include="App_Data\Pages\test3.xml" />
@@ -210,15 +217,33 @@
     <Content Include="App_Data\Types\CookNg\Recipe\Preview.xml" />
     <Content Include="App_Data\Types\CookNg\Section\Detail.xml" />
     <Content Include="App_Data\Types\CookNg\Section\Preview.xml" />
-    <Content Include="App_Data\Layouts\master.xml" />
-    <Content Include="App_Data\Views\ifelse.xml" />
-    <Content Include="App_Data\Views\if.xml" />
-    <Content Include="App_Data\Views\nested3.xml" />
-    <Content Include="App_Data\Views\nested2.xml" />
-    <Content Include="App_Data\Views\mainarea.xml" />
-    <Content Include="App_Data\Views\Site\simple.xml" />
-    <Content Include="App_Data\Views\Site\footer.xml" />
-    <Content Include="App_Data\Views\Site\sidebar.xml" />
+    <Content Include="App_Data\Layouts\master.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\ifelse.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\if.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\nested3.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\nested2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\mainarea.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\Site\simple.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\Site\footer.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\Site\sidebar.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\Pages\site.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -231,8 +256,12 @@
     <Content Include="App_Data\Types\System\time.xml" />
     <Content Include="App_Data\Types\System\date.xml" />
     <Content Include="App_Data\Types\System\datetime.xml" />
-    <Content Include="App_Data\Layouts\test1.xml" />
-    <Content Include="App_Data\Views\Home\welcome.xml" />
+    <Content Include="App_Data\Layouts\test1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Views\Home\welcome.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\Pages\test1.xml" />
   </ItemGroup>
   <ItemGroup>

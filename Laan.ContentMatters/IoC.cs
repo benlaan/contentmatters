@@ -9,7 +9,7 @@ namespace Laan.ContentMatters
         private static IWindsorContainer _container;
         private static string _configPath = "castle.config";
 
-        internal static string ConfigPath
+        public static string ConfigPath
         {
             get { return _configPath; }
             set
@@ -21,25 +21,25 @@ namespace Laan.ContentMatters
             }
         }
 
-        internal static IWindsorContainer Load()
+        public static IWindsorContainer Load()
         {
             _container = new WindsorContainer( ConfigPath );
             return _container;
         }
 
-        internal static IWindsorContainer Rebuild()
+        public static IWindsorContainer Rebuild()
         {
             Container.Dispose();
             Load();
             return _container;
         }
 
-        internal static T Resolve<T>()
+        public static T Resolve<T>()
         {
             return _container.Resolve<T>();
         }
 
-        internal static IWindsorContainer Container
+        public static IWindsorContainer Container
         {
             get
             {

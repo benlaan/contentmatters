@@ -25,10 +25,13 @@ namespace Laan.ContentMatters.Tests
 
             using ( StringReader sr = new StringReader( inputXml ) )
             using ( XmlReader reader = new XmlTextReader( sr ) )
-            using ( XmlReader result = listProvider.ReplaceElement( reader, data ) )
             {
-                result.Read();
-                return result.ReadOuterXml();
+                reader.Read();
+                using ( XmlReader result = listProvider.ReplaceElement( reader, data ) )
+                {
+                    result.Read();
+                    return result.ReadOuterXml();
+                }
             }
         }
 

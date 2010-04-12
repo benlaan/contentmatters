@@ -20,11 +20,7 @@
           </h1>
           <h2 id="slogan">$page.Title</h2>
           <!-- Menu Tabs -->
-          <list data="$page.Pages">
-            <list.template>
-              <item.template><link></link></item.template>  
-            </list.template>
-          </list>
+          <list data="$page.Pages"/>
         </div>
       </div>
       <div class="headerphoto"/>

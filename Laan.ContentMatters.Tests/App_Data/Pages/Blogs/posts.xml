@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<page name="posts" detailPage="post">
+  <data name="blog.posts" type="post" select="parent" order="date desc" paged="true"/>
+</page>

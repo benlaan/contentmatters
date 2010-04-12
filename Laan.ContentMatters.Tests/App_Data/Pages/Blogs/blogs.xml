@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<page name="blogs" >
+  <data name="all.blogs" type="blog" select="all"/>
+  <view id="master">
+    <view id="" zone="main"/>
+    <view id="" zone="sidebar"/>
+  </view>
+</page>

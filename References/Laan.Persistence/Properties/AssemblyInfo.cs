@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "XmlTest" )]
+[assembly: AssemblyTitle( "Laan.Persistence" )]
 [assembly: AssemblyDescription( "" )]
 [assembly: AssemblyConfiguration( "" )]
-[assembly: AssemblyCompany( "" )]
-[assembly: AssemblyProduct( "XmlTest" )]
-[assembly: AssemblyCopyright( "Copyright ©  2010" )]
+[assembly: AssemblyCompany( "Laan Software" )]
+[assembly: AssemblyProduct( "Laan.Persistence" )]
+[assembly: AssemblyCopyright( "Copyright © Laan Software 2009" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible( false )]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid( "5b8b8704-5368-42e8-8863-ea238e949cda" )]
+[assembly: Guid( "4D1AE7B4-409F-44ad-B021-70D3E65E5737" )]
 
 // Version information for an assembly consists of the following four values:
 //

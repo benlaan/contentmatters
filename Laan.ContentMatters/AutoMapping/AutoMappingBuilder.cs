@@ -24,7 +24,7 @@ namespace Laan.ContentMatters.Utilities
     {
         private IConfiguration _facility;
 
-        public Configuration GetConfiguration(IConfiguration facility)
+        public NHibernate.Cfg.Configuration GetConfiguration(IConfiguration facility)
         {
             _facility = facility;
 
@@ -60,7 +60,7 @@ namespace Laan.ContentMatters.Utilities
                 string baseTypeText = ReadOption( "baseType" );
                 Type baseType = Type.GetType( baseTypeText, true );
                 auto
-                    .AddEntityAssembly( assembly )
+                    .AddEntityAssemblies( new[] { assembly } )
                     .Where(
                         type =>
                             !type.IsAbstract &&
@@ -125,7 +125,7 @@ namespace Laan.ContentMatters.Utilities
             return settings.Children.Select( c => action( c.Value ) ).ToList();
         }
 
-        private void RebuildDatabase( string path, Configuration configuration )
+        private void RebuildDatabase(string path, NHibernate.Cfg.Configuration configuration)
         {
             string rebuild = ReadOption( "rebuild" );
             if ( String.IsNullOrEmpty( rebuild ) )

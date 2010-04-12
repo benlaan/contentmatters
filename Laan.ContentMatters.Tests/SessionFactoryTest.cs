@@ -9,6 +9,7 @@ using NHibernate;
 
 namespace Laan.ContentMatters.Tests
 {
+    [Ignore]
     [TestFixture]
     public class SessionFactoryTest
     {
