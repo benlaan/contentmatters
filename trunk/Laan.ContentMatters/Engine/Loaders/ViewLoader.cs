@@ -18,7 +18,7 @@ namespace Laan.ContentMatters.Loaders
         private string _appData;
         private int _indentationSize;
         private Dictionary<string, object> _data;
-        private IList<IXmlProvider> _xmlProviders;
+        private IXmlProvider[] _xmlProviders;
         private Dictionary<string, IXmlProvider> _providers;
         private IDataProvider _dataProvider;
 
@@ -122,11 +122,23 @@ namespace Laan.ContentMatters.Loaders
 
                 default:
                     IXmlProvider provider;
-                    if ( _providers.TryGetValue( reader.Name, out provider ) )
+                    string name = reader.Name;
+                    if ( _providers.TryGetValue( name, out provider ) )
                     {
                         using ( var render = provider.ReplaceElement( reader, _data ) )
                         {
                             ProcessNodes( render, writer, layout );
+                            if (!reader.IsEmptyElement)
+                            {
+                                while ( reader.NodeType != XmlNodeType.EndElement )
+                                    reader.Read();
+
+                                if ( reader.Name != name )
+                                    throw new Exception( "Xml Reader mismatch" );
+                                    
+                                reader.ReadEndElement();
+                            }
+                            
                         }
                     }
                     else
@@ -160,7 +172,7 @@ namespace Laan.ContentMatters.Loaders
             return view;
         }
 
-        public IList<IXmlProvider> Providers
+        public IXmlProvider[] Providers
         {
             get { return _xmlProviders; }
             set

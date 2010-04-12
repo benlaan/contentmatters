@@ -14,8 +14,6 @@ namespace Laan.ContentMatters.Engine
 
         public XmlReader ReplaceElement( XmlReader element, Dictionary<string, object> data )
         {
-            element.Read();
-
             MemoryStream ms = new MemoryStream();
             WriteXml( element, ms, data );
             ms.Position = 0;

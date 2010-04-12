@@ -8,6 +8,7 @@ using Laan.ContentMatters.Models;
 
 namespace Laan.ContentMatters.Tests
 {
+    [Ignore]
     [TestFixture]
     public class AutoMappingTest
     {

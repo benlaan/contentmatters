@@ -1,13 +1,6 @@
 using System;
-using MbUnit.Framework;
-using System.Web.Routing;
-using System.Linq.Expressions;
-//using MvcContrib.TestHelper;
-using Laan.ContentMatters.Models.Custom;
-using Laan.ContentMatters.Models;
-using Laan.ContentMatters.Controllers;
-using System.Web.Mvc;
 using Laan.ContentMatters.Engine;
+using MbUnit.Framework;
 
 namespace Laan.ContentMatters.Tests
 {
@@ -16,8 +9,8 @@ namespace Laan.ContentMatters.Tests
     {
         public override void Setup()
         {
-            base.Setup();
-            ControllerBuilder.Current.SetControllerFactory( new CustomControllerFactory( null ) );
+            //base.Setup();
+            //ControllerBuilder.Current.SetControllerFactory( new CustomControllerFactory( null ) );
             //MvcApplication.RegisterRoutes( RouteTable.Routes );
         }
 

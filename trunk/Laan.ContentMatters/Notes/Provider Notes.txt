@@ -1,0 +1,114 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- HTML extension elements
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+zone
+
+	- referenced within a view, these are place holders for inner views
+
+view
+
+	- an abstract html rendering component
+
+	content
+	
+		- a type-specific rendering
+
+	layout
+	
+		- provides structural composition
+
+list
+
+	- defines a repeating data component, with optional item template
+	
+	<list data="todo">
+		<before><li class="todo"></before>
+		<item.template>
+			<li><div class="todo-item">$item.Name</div></li>
+		</item.template>
+		<after></li></after>
+	</list>
+
+grid
+
+	as per list, but with columns. with optional column include/exclude *or* row template
+	
+	<grid data="address">
+		<columns mode="include">
+			<column name="Line1/>
+			<column name="Line2/>
+			<column name="State/>
+		</columns>
+	</grid>
+
+link (need to think of new name, or possibly provide all items with a namespace)
+
+	provides a way to provide a link for a page by referencing the page instance and the text to display
+	
+	<link page="$page.parent">View All</link>
+
+if
+
+    conditional logic construct, 
+
+    <if test="$data > $min">
+        <then>
+            
+        </then>
+        <else>
+            <if test="$data < $max">
+                <then>
+                    
+                </then>
+                <else>
+                    
+                </else>
+            </if>
+        </else>
+    </if>
+    
+wiki tag (wikipedia)
+
+    <wiki href="Dog_Fooding">dog fooding</wiki>
+    
+    or
+
+    <wiki>dog fooding</wiki>
+    
+    which would auto determine the href by sustituting spaces for underscores
+
+
+code
+
+    to provide clientside formatting using javascript
+
+    <code type="sql">
+        SELECT * FROM dbo.Table
+    <code>
+
+edit
+
+    to provide server side substitutions of edit controls mapped to types
+    
+    <edit field="$person.Name"/>
+    
+    optional attributes:
+        minLength (can be derived from type definition if omitted)
+        maxLength
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Variables
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	$site
+		Name
+		Copyright
+		CompanyName
+		
+	$page
+		Title
+		Tags
+		Description
+		
+			

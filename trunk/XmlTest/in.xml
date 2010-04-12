@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
-<layout id="horz-split">
-  <h1>Hello</h1>
-  <br/>
-  <div class="bottom_split">
-    <zone id="bottom"/>
-  </div>
-</layout>

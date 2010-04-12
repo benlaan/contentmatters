@@ -20,7 +20,7 @@ namespace Laan.ContentMatters.Tests
         {
             base.Setup();
             IMapper mapper = _mock.DynamicMock<IMapper>();
-            Expect.Call( mapper.MapPath( "" ) ).IgnoreArguments(  ).Return( @"..\..\App_Data\" ).Repeat.Any();
+            Expect.Call( mapper.MapPath( "" ) ).IgnoreArguments(  ).Return( @".\App_Data\" ).Repeat.Any();
 
             _mock.ReplayAll();
             _pageLoader = new PageLoader( mapper );

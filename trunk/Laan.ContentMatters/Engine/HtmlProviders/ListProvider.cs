@@ -27,11 +27,17 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
             if (!String.IsNullOrEmpty(classDeclaration))
                 writer.WriteAttributeString( "class", classDeclaration );
 
-            foreach ( object datum in ( IEnumerable )data[dataName] )
+            object item;
+            if ( data.TryGetValue(dataName, out item) )
             {
-                writer.WriteStartElement( "li" );
-                writer.WriteValue( datum );
-                writer.WriteEndElement();
+                var listdata = item as IEnumerable;
+                if ( listdata != null )
+                    foreach ( object datum in ( IEnumerable )data[ dataName ] )
+                    {
+                        writer.WriteStartElement( "li" );
+                        writer.WriteValue( datum );
+                        writer.WriteEndElement();
+                    }
             }
 
             writer.WriteFullEndElement();
