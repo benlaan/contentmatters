@@ -46,5 +46,10 @@ namespace Laan.ContentMatters.Configuration
             get { return Laan.Library.IO.Path.Combine( FullPath, Name ); }
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
     }
 }

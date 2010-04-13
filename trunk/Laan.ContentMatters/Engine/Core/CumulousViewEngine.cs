@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
+using System.Collections.Generic;
 
 namespace Laan.ContentMatters.Engine
 {
@@ -26,10 +27,11 @@ namespace Laan.ContentMatters.Engine
 
         public ViewEngineResult FindView( ControllerContext controllerContext, string viewName, string masterName, bool useCache )
         {
-            Page page = (Page) controllerContext.RouteData.Values[ "page" ];
+            Page page = ( Page )controllerContext.RouteData.Values["page"];
             if ( page == null )
                 throw new PageNotFoundException( controllerContext.RequestContext.HttpContext.Request.Path );
 
+            _viewLoader.GenerateData( page, controllerContext.RouteData.Values );
             View view = _viewLoader.Load( page );
             return new ViewEngineResult( view, this );
         }

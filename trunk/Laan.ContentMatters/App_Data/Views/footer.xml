@@ -11,7 +11,7 @@
     </div>
     <div class="col2 float-right">
       <p>
-        $site.Copyright <strong>$site.Company.Name</strong><br />
+        site.Copyright <strong>site.Company.Name</strong><br />
         Design by: <a href="index.html">
           <strong>styleshout</strong>
         </a> Valid

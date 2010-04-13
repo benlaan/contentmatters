@@ -11,6 +11,7 @@ namespace Laan.ContentMatters.Configuration
         public Page()
         {
             DataSources = new List<DataSource>();
+            Layout = new PageLayout();
         }
 
         public string Action { get; set; }

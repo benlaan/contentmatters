@@ -9,7 +9,7 @@ using Castle.Core.Logging;
 
 namespace Laan.ContentMatters.Controllers
 {
-    public class ItemController<T> : BaseController, IController<T> where T : class, IItem, new()
+    public class ItemController<T> : Controller, IController<T> where T : class, IItem, new()
     {
         protected ILogger _log;
         protected IRepository<T> _repository;

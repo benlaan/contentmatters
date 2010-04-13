@@ -48,14 +48,15 @@ namespace Laan.ContentMatters.Engine
             // RouteData Values
             string action = page.Action;
             //string name = page.Name;
-            string controllerName = "Page";
+            string controllerName = page.GetType().Name;
 
             RouteValueDictionary routeValues = RequestContext.RouteData.Values;
-            routeValues.Add( "page", page );
+            routeValues.Add( "controller", controllerName );
             routeValues.Add( "action", action );
             routeValues.Add( "key", page.Key );
-            //routeValues.Add( "name", name );
-            routeValues.Add( "controller", controllerName );
+
+            routeValues.Add( "page", page );
+            routeValues.Add( "site", loader.Site );
 
             var controller = _kernel.Resolve<IPageController>();
             controller.Execute( RequestContext );

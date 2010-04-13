@@ -8,23 +8,21 @@ using System.Xml;
 using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
 using Laan.Persistence.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace Laan.ContentMatters.Loaders
 {
     public class ViewLoader : IViewLoader
     {
-        string[] ReservedWords = new string[] { "zone", "view", "if", "else" };
-
         private string _appData;
         private int _indentationSize;
-        private IDataDictionary _data;
         private IXmlProvider[] _xmlProviders;
         private Dictionary<string, IXmlProvider> _providers;
         private IDataProvider _dataProvider;
 
         public ViewLoader( IMapper mapper, IDataProvider dataProvider, IDataDictionary data, int indentationSize )
         {
-            _data = data;
+            Data = data;
             _dataProvider = dataProvider;
             _indentationSize = indentationSize;
             _providers = new Dictionary<string, IXmlProvider>();
@@ -56,6 +54,29 @@ namespace Laan.ContentMatters.Loaders
             }
         }
 
+        private string ReplaceData( string text)
+        {
+            StringBuilder result = new StringBuilder();
+
+            Regex regex = new Regex( @"\$?[_A-Za-z][A-Za-z0-9\.]*|[\s\,]", RegexOptions.Compiled );
+
+            foreach ( Match match in regex.Matches( text ) )
+            {
+                if (!match.Success)
+                    continue;
+
+                if (!match.Value.StartsWith( "$" ))
+                    result.Append( match.Value );
+                else
+                {
+                    object instance;
+                    if ( Data.TryGetValue( match.Value.TrimStart( '$' ), out instance ) )
+                        result.Append( instance.ToString() );
+                }
+            }
+            return result.ToString();
+        }
+
         private void ProcessNodes( XmlReader reader, XmlWriter writer, PageLayout layout )
         {
             while ( !reader.EOF )
@@ -74,7 +95,7 @@ namespace Laan.ContentMatters.Loaders
                         break;
 
                     case XmlNodeType.Text:
-                        writer.WriteRaw( reader.Value );
+                        writer.WriteRaw( ReplaceData( reader.Value ) );
                         break;
 
                     case XmlNodeType.Comment:
@@ -120,7 +141,7 @@ namespace Laan.ContentMatters.Loaders
             string name = reader.Name;
             if ( _providers.TryGetValue( name, out provider ) )
             {
-                using ( var render = provider.ReplaceElement( reader, _data ) )
+                using ( var render = provider.ReplaceElement( reader, Data ) )
                 {
                     ProcessNodes( render, writer, layout );
                     if ( !reader.IsEmptyElement )
@@ -172,13 +193,11 @@ namespace Laan.ContentMatters.Loaders
 
         public View Load( Page page )
         {
-            _data = _dataProvider.Build( page );
-
             string fullPath = Laan.Library.IO.Path.Combine( _appData, "Layouts", page.Layout.Page + ".xml" );
 
             View view = new View();
             view.Html = GenerateHtml( fullPath, page.Layout );
-            view.Data = _data;
+            view.Data = Data;
             return view;
         }
 
@@ -196,5 +215,21 @@ namespace Laan.ContentMatters.Loaders
                     _providers[provider.ElementName] = provider;
             }
         }
+
+        #region IViewLoader Members
+
+        public void GenerateData( Page page, IDictionary<string, object> contextData )
+        {
+            Data = _dataProvider.Build( page );
+            if (contextData == null)
+                return;
+
+            foreach ( string key in contextData.Keys )
+                Data[key] = contextData[key];
+        }
+
+        public IDataDictionary Data { get; set; }
+
+        #endregion
     }
 }
