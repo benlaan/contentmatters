@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="Distribution" content="Global" />
     <meta name="Robots" content="index,follow" />
-    <title>$page.Title</title>
+    <title>$page.Name</title>
     <link href="Content/site.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -18,9 +18,10 @@
               Laan<span class="gray">Family</span>
             </a>
           </h1>
-          <h2 id="slogan">$page.Title</h2>
+          <h2 id="slogan">$page.Name</h2>
           <!-- Menu Tabs -->
-          <list data="$page.Pages"/>
+          <list data="site.Pages">
+          </list>
         </div>
       </div>
       <div class="headerphoto"/>

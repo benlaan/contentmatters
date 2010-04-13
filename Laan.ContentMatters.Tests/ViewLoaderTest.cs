@@ -11,6 +11,7 @@ using Laan.Persistence.Interfaces;
 using MbUnit.Framework;
 
 using Rhino.Mocks;
+using System.Collections.Generic;
 
 namespace Laan.ContentMatters.Tests
 {
@@ -18,8 +19,10 @@ namespace Laan.ContentMatters.Tests
     [TestFixture]
     public class ViewLoaderTest
     {
-        private View GetView( string pageName)
+        private View GetView( string pageName )
         {
+            IDictionary<string, object> contextData = new Dictionary<string, object>();
+
             MockRepository mock = new MockRepository();
 
             IDataDictionary data = new DataDictionary();
@@ -29,14 +32,16 @@ namespace Laan.ContentMatters.Tests
             using ( mock.Record() )
             {
                 Expect.Call( mapper.MapPath( "~/App_Data" ) ).Return( @"..\..\App_Data" ).Repeat.Any();
-                Expect.Call( dataProvider.Build( null ) ).IgnoreArguments().Return( null ).Repeat.Any();
+                Expect.Call( dataProvider.Build( null ) ).IgnoreArguments().Return( data ).Repeat.Any();
             }
 
             View view;
             using ( mock.Playback() )
             {
                 ViewLoader viewLoader = new ViewLoader( mapper, dataProvider, data, 2 );
-                Page page = XmlPersistence<Page>.LoadFromFile( String.Format( @"..\..\App_Data\Pages\{0}", pageName) );
+                Page page = XmlPersistence<Page>.LoadFromFile( String.Format( @"..\..\App_Data\Pages\{0}", pageName ) );
+                contextData[ "page" ] = page;
+                viewLoader.GenerateData( page, contextData );
                 view = viewLoader.Load( page );
             }
             Assert.IsNotNull( view );
@@ -130,5 +135,28 @@ namespace Laan.ContentMatters.Tests
             .Compare( view.Html );
         }
 
+
+        [Test]
+        public void Can_Output_View_With_Simple_Variable_Replacement_From_Data_Dictionary()
+        {
+            View view = GetView( @"test4.xml" );
+
+            new[] 
+            {
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+                "<html>",
+                "  <head>",
+                "    <title>home</title>",
+                "  </head>",
+                "  <body>",
+                "    <div>",
+                "      <h1>home</h1>",
+                "      <br />",
+                "    </div>",
+                "  </body>",
+                "</html>"
+            }
+            .Compare( view.Html );
+        }
     }
 }

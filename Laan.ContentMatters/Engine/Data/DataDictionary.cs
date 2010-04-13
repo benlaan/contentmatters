@@ -31,6 +31,8 @@ namespace Laan.ContentMatters.Engine.Data
             {
                 Type t = instance.GetType();
                 var prop = t.GetProperty( parts[ index ] );
+                if (prop == null)
+                    throw new ArgumentException( String.Format("Property {0} not found on type {1}", parts[index], t.Name) );
 
                 instance = prop.GetValue( instance, null );
                 index++;
@@ -90,6 +92,24 @@ namespace Laan.ContentMatters.Engine.Data
         //{
         //    throw new NotImplementedException();
         //}
+
+        #endregion
+
+        #region IEnumerable<object> Members
+
+        public IEnumerator<object> GetEnumerator()
+        {
+            return _data.Values.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return _data.GetEnumerator();
+        }
 
         #endregion
     }

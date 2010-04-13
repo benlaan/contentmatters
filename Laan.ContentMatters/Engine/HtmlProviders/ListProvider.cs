@@ -37,7 +37,7 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
                 foreach ( var item in items )
                 {
                     writer.WriteStartElement( "li" );
-                    writer.WriteValue( item );
+                    writer.WriteValue( item.ToString() );
                     writer.WriteEndElement();
                 }
             }

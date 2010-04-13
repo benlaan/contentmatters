@@ -6,12 +6,12 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{33809869-2AF7-4D15-A783-15B09EAD9DC1}</ProjectGuid>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Laan.ContentMatters.Tests</RootNamespace>
     <AssemblyName>Laan.ContentMatters.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -142,7 +142,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMappingTest.cs" />
     <Compile Include="BaseTestFixture.cs" />
     <Compile Include="DataProviderTest.cs" />
     <Compile Include="Externsions.cs" />
@@ -152,7 +151,6 @@
     <Compile Include="PagePathTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ItemDefinitionTest.cs" />
-    <Compile Include="SessionFactoryTest.cs" />
     <Compile Include="ViewLoaderTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +193,16 @@
     <Content Include="App_Data\Layouts\test3.xml" />
     <Content Include="App_Data\Layouts\test2.xml" />
     <Content Include="App_Data\Macros\macro.xml" />
+    <Content Include="App_Data\Pages\Blogs\blogs.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Pages\Blogs\comments.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Pages\Blogs\posts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Pages\home.xml" />
     <Content Include="App_Data\Pages\test4.xml" />
     <Content Include="App_Data\Pages\test3.xml" />
     <Content Include="App_Data\Pages\test2.xml" />
@@ -236,9 +244,9 @@
     <Content Include="App_Data\Pages\test1.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Laan.ContentMatters\Laan.ContentMatters.2010.csproj">
-      <Project>{97D229CE-0C5A-4354-81F0-586889862A6D}</Project>
-      <Name>Laan.ContentMatters.2010</Name>
+    <ProjectReference Include="..\Laan.ContentMatters\Laan.ContentMatters.csproj">
+      <Project>{96E9B1FF-FB6F-40CC-9456-3F3483DE6510}</Project>
+      <Name>Laan.ContentMatters</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
