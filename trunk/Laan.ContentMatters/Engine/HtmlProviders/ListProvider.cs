@@ -16,28 +16,30 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
 
         }
 
-        protected override void WriteXml( XmlReader element, Stream stream, Dictionary<string, object> data )
+        protected override void WriteXml( XmlReader element, Stream stream, IDataDictionary data )
         {
             string dataName = GetRequiredAttribute( element, "data" );
             string classDeclaration = element.GetAttribute( "class" );
-            
+
             XmlTextWriter writer = new XmlTextWriter( stream, Encoding.UTF8 );
             writer.Formatting = Formatting.Indented;
             writer.WriteStartElement( "ul" );
-            if (!String.IsNullOrEmpty(classDeclaration))
+            if ( !String.IsNullOrEmpty( classDeclaration ) )
                 writer.WriteAttributeString( "class", classDeclaration );
 
-            object item;
-            if ( data.TryGetValue(dataName, out item) )
+            object value;
+            if ( data.TryGetValue( dataName, out value ) )
             {
-                var listdata = item as IEnumerable;
-                if ( listdata != null )
-                    foreach ( object datum in ( IEnumerable )data[ dataName ] )
-                    {
-                        writer.WriteStartElement( "li" );
-                        writer.WriteValue( datum );
-                        writer.WriteEndElement();
-                    }
+                var items = value as IEnumerable;
+                if ( items == null )
+                    throw new ArgumentException( "the list data attribute must refernece an IEnuerable object" );
+
+                foreach ( var item in items )
+                {
+                    writer.WriteStartElement( "li" );
+                    writer.WriteValue( item );
+                    writer.WriteEndElement();
+                }
             }
 
             writer.WriteFullEndElement();

@@ -12,7 +12,7 @@ namespace Laan.ContentMatters.Controllers
 {
 
     [HandleError]
-    public class AccountController : BaseController
+    public class AccountController : Controller
     {
 
         // This constructor is used by the MVC framework to instantiate the controller using

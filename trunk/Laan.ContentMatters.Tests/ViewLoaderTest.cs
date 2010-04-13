@@ -2,6 +2,7 @@ using System;
 
 using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
+using Laan.ContentMatters.Engine.Data;
 using Laan.ContentMatters.Loaders;
 using Laan.ContentMatters.Tests;
 using Laan.Utilities.Xml;
@@ -13,6 +14,7 @@ using Rhino.Mocks;
 
 namespace Laan.ContentMatters.Tests
 {
+
     [TestFixture]
     public class ViewLoaderTest
     {
@@ -20,6 +22,7 @@ namespace Laan.ContentMatters.Tests
         {
             MockRepository mock = new MockRepository();
 
+            IDataDictionary data = new DataDictionary();
             IMapper mapper = mock.DynamicMock<IMapper>();
             IDataProvider dataProvider = mock.Stub<IDataProvider>();
 
@@ -32,7 +35,7 @@ namespace Laan.ContentMatters.Tests
             View view;
             using ( mock.Playback() )
             {
-                ViewLoader viewLoader = new ViewLoader( mapper, dataProvider, 2 );
+                ViewLoader viewLoader = new ViewLoader( mapper, dataProvider, data, 2 );
                 Page page = XmlPersistence<Page>.LoadFromFile( String.Format( @"..\..\App_Data\Pages\{0}", pageName) );
                 view = viewLoader.Load( page );
             }

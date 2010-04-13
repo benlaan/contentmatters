@@ -7,7 +7,7 @@ using MvcContrib.Filters;
 
 namespace Laan.ContentMatters.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         public ActionResult Index()
         {

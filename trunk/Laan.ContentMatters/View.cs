@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.IO;
+using Laan.ContentMatters.Engine.Interfaces;
 
 namespace Laan.ContentMatters
 {
@@ -11,7 +12,7 @@ namespace Laan.ContentMatters
         {
         }
 
-        public Dictionary<string, object> Data { get; set; }
+        public IDataDictionary Data { get; set; }
         public string Html { get; set; }
 
         #region IView Members
