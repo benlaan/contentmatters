@@ -12,7 +12,7 @@ namespace Laan.ContentMatters.Engine
     {
         #region IXmlProvider Members
 
-        public XmlReader ReplaceElement( XmlReader element, Dictionary<string, object> data )
+        public XmlReader ReplaceElement( XmlReader element, IDataDictionary data )
         {
             MemoryStream ms = new MemoryStream();
             WriteXml( element, ms, data );
@@ -28,7 +28,7 @@ namespace Laan.ContentMatters.Engine
             return dataName;
         }
 
-        protected abstract void WriteXml( XmlReader element, Stream stream, Dictionary<string, object> data );
+        protected abstract void WriteXml( XmlReader element, Stream stream, IDataDictionary data );
         
         public abstract string ElementName { get; }
 

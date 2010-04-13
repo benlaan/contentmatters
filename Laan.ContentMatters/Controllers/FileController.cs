@@ -8,7 +8,7 @@ using Laan.ContentMatters.Models.Files;
 
 namespace Laan.ContentMatters.Controllers
 {
-    public class FileController : BaseController, IDisposable
+    public class FileController : Controller, IDisposable
     {
         private FileService _fileService;
 

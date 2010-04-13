@@ -95,7 +95,7 @@ edit
     
     optional attributes:
         minLength (can be derived from type definition if omitted)
-        maxLength
+        maxLength (as above)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Variables

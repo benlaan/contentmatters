@@ -116,14 +116,13 @@
   <ItemGroup>
     <Compile Include="Build.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FileController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Engine\Data\DataDictionary.cs" />
+    <Compile Include="Engine\Interfaces\IDataDictionary.cs" />
     <Compile Include="Engine\HtmlProviders\ListProvider.cs" />
     <Compile Include="Engine\Core\XmlProvider.cs" />
     <Compile Include="Engine\Interfaces\IController.cs" />
     <Compile Include="Controllers\IPageController.cs" />
-    <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Engine\Configuration\PageLayout.cs" />
     <Compile Include="Engine\Configuration\PageView.cs" />
@@ -149,7 +148,6 @@
     <Compile Include="Engine\Core\ServerMapper.cs" />
     <Compile Include="Engine\Configuration\Site.cs" />
     <Compile Include="Engine\Configuration\SitePage.cs" />
-    <Compile Include="Engine\Loaders\TemplateLoader.cs" />
     <Compile Include="Engine\Core\CustomControllerFactory.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -180,7 +178,6 @@
     <Compile Include="Models\ItemList.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Engine\Core\TemplatingViewEngine.cs" />
     <Compile Include="Models\Services\File.cs" />
   </ItemGroup>
   <ItemGroup>

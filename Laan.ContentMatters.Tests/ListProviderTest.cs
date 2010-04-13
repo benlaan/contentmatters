@@ -13,13 +13,14 @@ using System.Xml;
 using System.IO;
 using System.Collections.Generic;
 using Laan.ContentMatters.Engine.HtmlProviders;
+using Laan.ContentMatters.Engine.Data;
 
 namespace Laan.ContentMatters.Tests
 {
     [TestFixture]
     public class ListProviderTest
     {
-        private String GetXml( string inputXml, Dictionary<string, object> data )
+        private String GetXml( string inputXml, IDataDictionary data )
         {
             var listProvider = new ListProvider();
 
@@ -47,7 +48,7 @@ namespace Laan.ContentMatters.Tests
         {
             // Setup
             var days = new string[0];
-            var data = new Dictionary<string, object> { { "days", days } };
+            var data = new DataDictionary() { { "days", days } };
                         
             string input = "<list data=\"days\"/>";
             String output = GetXml( input, data );
@@ -65,7 +66,7 @@ namespace Laan.ContentMatters.Tests
         {
             // Setup
             var items = new string[0];
-            var data = new Dictionary<string, object> { { "items", items } };
+            var data = new DataDictionary { { "items", items } };
                         
             string input = "<list data=\"items\" class=\"menu\"/>";
             String output = GetXml( input, data );
@@ -83,7 +84,7 @@ namespace Laan.ContentMatters.Tests
         {
             // Setup
             var days = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
-            var data = new Dictionary<string, object> { { "days", days } };
+            var data = new DataDictionary { { "days", days } };
                         
             string input = "<list data=\"days\"/>";
             String output = GetXml( input, data );

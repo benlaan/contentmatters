@@ -38,9 +38,9 @@ namespace Laan.ContentMatters.Engine.Data
             return method.Invoke( repository, new object[] { page, dataSource } );
         }
 
-        public Dictionary<string, object> Build( Page page )
+        public IDataDictionary Build( Page page )
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
+            IDataDictionary result = new DataDictionary();
 
             foreach ( DataSource dataSource in page.DataSources )
             {

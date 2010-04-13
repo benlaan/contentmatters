@@ -17,13 +17,14 @@ namespace Laan.ContentMatters.Loaders
 
         private string _appData;
         private int _indentationSize;
-        private Dictionary<string, object> _data;
+        private IDataDictionary _data;
         private IXmlProvider[] _xmlProviders;
         private Dictionary<string, IXmlProvider> _providers;
         private IDataProvider _dataProvider;
 
-        public ViewLoader( IMapper mapper, IDataProvider dataProvider, int indentationSize )
+        public ViewLoader( IMapper mapper, IDataProvider dataProvider, IDataDictionary data, int indentationSize )
         {
+            _data = data;
             _dataProvider = dataProvider;
             _indentationSize = indentationSize;
             _providers = new Dictionary<string, IXmlProvider>();
@@ -83,37 +84,80 @@ namespace Laan.ContentMatters.Loaders
             }
         }
 
+        private void WriteZone( XmlReader reader, XmlWriter writer, ref PageLayout layout )
+        {
+            var zoneName = reader.GetAttribute( "id" );
+            if ( String.IsNullOrEmpty( zoneName ) )
+                throw new ArgumentNullException( String.Format( "Zone is missing 'id' in layout '{1}'", zoneName, layout.Page ) );
+
+            var pageView = layout.Views.FirstOrDefault( pg => pg.Zone == zoneName );
+
+            if ( pageView == null )
+                throw new ArgumentNullException( String.Format( "Zone '{0}' not found in layout '{1}'", zoneName, layout.Page ) );
+
+            if ( pageView.Page == null && pageView.Layout == null )
+                throw new ArgumentNullException( String.Format( "Zone {0} has neither page nor layout specified", zoneName ) );
+
+            layout = pageView.Layout;
+
+            string fileName;
+            if ( pageView.Layout != null )
+                fileName = Laan.Library.IO.Path.Combine( _appData, "Layouts", layout.Page + ".xml" );
+            else
+                fileName = Laan.Library.IO.Path.Combine( _appData, "Views", pageView.Page + ".xml" );
+
+            XmlReaderSettings settings = new XmlReaderSettings();
+
+            using ( XmlReader zoneReader = XmlNodeReader.Create( fileName, settings ) )
+            {
+                ProcessNodes( zoneReader, writer, layout );
+            }
+        }
+
+        private void WriteNodes( XmlReader reader, XmlWriter writer, PageLayout layout )
+        {
+            IXmlProvider provider;
+            string name = reader.Name;
+            if ( _providers.TryGetValue( name, out provider ) )
+            {
+                using ( var render = provider.ReplaceElement( reader, _data ) )
+                {
+                    ProcessNodes( render, writer, layout );
+                    if ( !reader.IsEmptyElement )
+                    {
+                        while ( reader.NodeType != XmlNodeType.EndElement )
+                            reader.Read();
+
+                        if ( reader.Name != name )
+                            throw new Exception( "Xml Reader mismatch" );
+
+                        reader.ReadEndElement();
+                    }
+                }
+            }
+            else
+            {
+                writer.WriteStartElement( reader.Name );
+                writer.WriteAttributes( reader, false );
+
+                // TODO: Need to implement a check for an 'empty' div, to ensure it isn't written out as a <div/>
+                //       e.g. <div></div> should output as <div></div>
+                if ( reader.IsEmptyElement )
+                {
+                    if ( reader.Name == "div" )
+                        writer.WriteFullEndElement(); // workaround for HTML limitation due to supporting <div/>
+                    else
+                        writer.WriteEndElement();
+                }
+            }
+        }
+
         private void WriteElement( XmlReader reader, XmlWriter writer, PageLayout layout )
         {
             switch ( reader.Name )
             {
                 case "zone":
-                    var zoneName = reader.GetAttribute( "id" );
-                    if ( String.IsNullOrEmpty( zoneName ) )
-                        throw new ArgumentNullException( String.Format( "Zone is missing 'id' in layout '{1}'", zoneName, layout.Page ) );
-
-                    var pageView = layout.Views.FirstOrDefault( pg => pg.Zone == zoneName );
-
-                    if ( pageView == null )
-                        throw new ArgumentNullException( String.Format( "Zone '{0}' not found in layout '{1}'", zoneName, layout.Page ) );
-
-                    if (pageView.Page == null && pageView.Layout == null )
-                        throw new ArgumentNullException( String.Format("Zone {0} has neither page nor layout specified", zoneName ) );
-
-                    layout = pageView.Layout;
-                    
-                    string fileName;
-                    if ( pageView.Layout != null )
-                        fileName = Laan.Library.IO.Path.Combine( _appData, "Layouts", layout.Page + ".xml" );
-                    else
-                        fileName = Laan.Library.IO.Path.Combine( _appData, "Views", pageView.Page + ".xml" );
-    
-                    XmlReaderSettings settings = new XmlReaderSettings();
-
-                    using ( XmlReader zoneReader = XmlNodeReader.Create( fileName, settings ) )
-                    {
-                        ProcessNodes( zoneReader, writer, layout );
-                    }
+                    WriteZone(reader, writer, ref layout);
                     break;
 
                 case "view":
@@ -121,41 +165,7 @@ namespace Laan.ContentMatters.Loaders
                     break;
 
                 default:
-                    IXmlProvider provider;
-                    string name = reader.Name;
-                    if ( _providers.TryGetValue( name, out provider ) )
-                    {
-                        using ( var render = provider.ReplaceElement( reader, _data ) )
-                        {
-                            ProcessNodes( render, writer, layout );
-                            if (!reader.IsEmptyElement)
-                            {
-                                while ( reader.NodeType != XmlNodeType.EndElement )
-                                    reader.Read();
-
-                                if ( reader.Name != name )
-                                    throw new Exception( "Xml Reader mismatch" );
-                                    
-                                reader.ReadEndElement();
-                            }
-                            
-                        }
-                    }
-                    else
-                    {
-                        writer.WriteStartElement( reader.Name );
-                        writer.WriteAttributes( reader, false );
-
-                        // TODO: Need to implement a check for an 'empty' div, to ensure it isn't written out as a <div/>
-                        //       e.g. <div></div> should output as <div></div>
-                        if ( reader.IsEmptyElement )
-                        {
-                            if (reader.Name == "div")
-                                writer.WriteFullEndElement(); // workaround for HTML limitation due to supporting <div/>
-                            else
-                                writer.WriteEndElement();
-                        }
-                    }
+                    WriteNodes( reader, writer, layout );
                     break;
             }
         }
