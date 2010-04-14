@@ -21,6 +21,9 @@ namespace Laan.ContentMatters.Configuration
         [XmlAttribute( "name" )]
         public string Name { get; set; }
 
+        [XmlAttribute( "description" )]
+        public string Description { get; set; }
+
         [XmlAttribute( "link" )]
         public string Link { get; set; }
 

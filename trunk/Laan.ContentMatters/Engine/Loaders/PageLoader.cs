@@ -85,9 +85,8 @@ namespace Laan.ContentMatters.Loaders
                 }
                 else
                 {
-
                     if ( page == null )
-                        return new ErrorPage( 404, path );
+                        throw new PageNotFoundException( "Error: 404 - File Not Found" );
 
                     // assume that if the page can't be found, the 'folder' is actually either
                     // an action or a key. If it can be found then assign it a parent page

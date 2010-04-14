@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<page name="home" default="true">
+<page name="home" default="true" description="Home Page">
 
   <data name="home.news" type="news" select="all"/>
   <!--order="Created desc"-->

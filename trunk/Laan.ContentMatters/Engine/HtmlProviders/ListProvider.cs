@@ -6,10 +6,11 @@ using System.Text;
 using System.Collections;
 
 using Laan.ContentMatters.Engine.Interfaces;
+using Laan.ContentMatters.Engine;
 
 namespace Laan.ContentMatters.Engine.HtmlProviders
 {
-    public class ListProvider : XmlProvider, IXmlProvider
+    public class ListProvider : XmlProvider
     {
         public ListProvider()
         {
@@ -20,6 +21,23 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
         {
             string dataName = GetRequiredAttribute( element, "data" );
             string classDeclaration = element.GetAttribute( "class" );
+            string itemName = element.GetAttribute( "each" ) ?? "$item";
+
+            string pattern = itemName;
+            if ( !element.IsEmptyElement)
+            {
+                element.Read();
+                while ( element.NodeType == XmlNodeType.Whitespace )
+                {
+                    element.Read();
+                }
+
+                if ( element.Name != "detail" )
+                    throw new ArgumentException( "A list provider must be a simple element or must have a child element" );
+
+                pattern = element.ReadInnerXml();
+                element.Read();
+            }
 
             XmlTextWriter writer = new XmlTextWriter( stream, Encoding.UTF8 );
             writer.Formatting = Formatting.Indented;
@@ -27,7 +45,7 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
             if ( !String.IsNullOrEmpty( classDeclaration ) )
                 writer.WriteAttributeString( "class", classDeclaration );
 
-            object value;
+            object value;             
             if ( data.TryGetValue( dataName, out value ) )
             {
                 var items = value as IEnumerable;
@@ -37,7 +55,12 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
                 foreach ( var item in items )
                 {
                     writer.WriteStartElement( "li" );
-                    writer.WriteValue( item.ToString() );
+
+                    string itemKey = itemName.TrimStart( '$' );
+                    data.Add( itemKey, (Object)item );
+                    writer.WriteRaw( data.UnwrapVariables( pattern ) );
+                    data.Remove( itemKey );
+                    
                     writer.WriteEndElement();
                 }
             }

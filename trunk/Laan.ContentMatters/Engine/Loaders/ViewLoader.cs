@@ -54,29 +54,6 @@ namespace Laan.ContentMatters.Loaders
             }
         }
 
-        private string ReplaceData( string text)
-        {
-            StringBuilder result = new StringBuilder();
-
-            Regex regex = new Regex( @"\$?[_A-Za-z][A-Za-z0-9\.]*|[\s\,]", RegexOptions.Compiled );
-
-            foreach ( Match match in regex.Matches( text ) )
-            {
-                if (!match.Success)
-                    continue;
-
-                if (!match.Value.StartsWith( "$" ))
-                    result.Append( match.Value );
-                else
-                {
-                    object instance;
-                    if ( Data.TryGetValue( match.Value.TrimStart( '$' ), out instance ) )
-                        result.Append( instance.ToString() );
-                }
-            }
-            return result.ToString();
-        }
-
         private void ProcessNodes( XmlReader reader, XmlWriter writer, PageLayout layout )
         {
             while ( !reader.EOF )
@@ -91,17 +68,36 @@ namespace Laan.ContentMatters.Loaders
 
                     case XmlNodeType.EndElement:
                         if ( reader.Name != "view" )
-                            writer.WriteEndElement();
+                            writer.WriteFullEndElement();
                         break;
 
                     case XmlNodeType.Text:
-                        writer.WriteRaw( ReplaceData( reader.Value ) );
+                        writer.WriteRaw( Data.UnwrapVariables( reader.Value ) );
                         break;
 
                     case XmlNodeType.Comment:
                         writer.WriteComment( reader.Value );
                         break;
                 }
+            }
+        }
+
+
+        private void WriteElement( XmlReader reader, XmlWriter writer, PageLayout layout )
+        {
+            switch ( reader.Name )
+            {
+                case "zone":
+                    WriteZone( reader, writer, ref layout );
+                    break;
+
+                case "view":
+                    reader.Read(); // consume the root element 'view'
+                    break;
+
+                default:
+                    WriteNodes( reader, writer, layout );
+                    break;
             }
         }
 
@@ -158,12 +154,18 @@ namespace Laan.ContentMatters.Loaders
             }
             else
             {
-                writer.WriteStartElement( reader.Name );
-                writer.WriteAttributes( reader, false );
+                bool isEmpty = reader.IsEmptyElement;
 
-                // TODO: Need to implement a check for an 'empty' div, to ensure it isn't written out as a <div/>
-                //       e.g. <div></div> should output as <div></div>
-                if ( reader.IsEmptyElement )
+                writer.WriteStartElement( reader.Name );
+                for ( int index = 0; index < reader.AttributeCount; index++ )
+                {
+                    reader.MoveToAttribute( index );
+                    writer.WriteStartAttribute( reader.Name );
+                    writer.WriteString( Data.UnwrapVariables( reader.Value ) );
+                    writer.WriteEndAttribute();
+                }
+
+                if ( isEmpty )
                 {
                     if ( reader.Name == "div" )
                         writer.WriteFullEndElement(); // workaround for HTML limitation due to supporting <div/>
@@ -173,34 +175,9 @@ namespace Laan.ContentMatters.Loaders
             }
         }
 
-        private void WriteElement( XmlReader reader, XmlWriter writer, PageLayout layout )
-        {
-            switch ( reader.Name )
-            {
-                case "zone":
-                    WriteZone(reader, writer, ref layout);
-                    break;
-
-                case "view":
-                    reader.Read(); // consume the root element 'view'
-                    break;
-
-                default:
-                    WriteNodes( reader, writer, layout );
-                    break;
-            }
-        }
-
-        public View Load( Page page )
-        {
-            string fullPath = Laan.Library.IO.Path.Combine( _appData, "Layouts", page.Layout.Page + ".xml" );
-
-            View view = new View();
-            view.Html = GenerateHtml( fullPath, page.Layout );
-            view.Data = Data;
-            return view;
-        }
-
+        /// <summary>
+        /// Providers is supplied via property injection using Castle
+        /// </summary>
         public IXmlProvider[] Providers
         {
             get { return _xmlProviders; }
@@ -217,6 +194,16 @@ namespace Laan.ContentMatters.Loaders
         }
 
         #region IViewLoader Members
+
+        public View Load( Page page )
+        {
+            string fullPath = Laan.Library.IO.Path.Combine( _appData, "Layouts", page.Layout.Page + ".xml" );
+
+            View view = new View();
+            view.Html = GenerateHtml( fullPath, page.Layout );
+            view.Data = Data;
+            return view;
+        }
 
         public void GenerateData( Page page, IDictionary<string, object> contextData )
         {

@@ -2,27 +2,15 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
 
 using Castle.MicroKernel;
 
-using Laan.Persistence.Interfaces;
-using Laan.Utilities.Xml;
-using Laan.ContentMatters.Configuration;
-using Laan.ContentMatters.Loaders;
-using Laan.ContentMatters.Engine.Interfaces;
 using Laan.ContentMatters.Controllers;
+using Laan.ContentMatters.Loaders;
+using Laan.Persistence.Interfaces;
 
 namespace Laan.ContentMatters.Engine
 {
-    public class PageNotFoundException : Exception
-    {
-        public PageNotFoundException( string path ) : base( String.Format( "No Page found with name '{0}'", path ) ) { }
-    }
-
     public class PageRouteHttpHandler : MvcHandler
     {
         private IKernel _kernel;
@@ -47,7 +35,6 @@ namespace Laan.ContentMatters.Engine
 
             // RouteData Values
             string action = page.Action;
-            //string name = page.Name;
             string controllerName = page.GetType().Name;
 
             RouteValueDictionary routeValues = RequestContext.RouteData.Values;

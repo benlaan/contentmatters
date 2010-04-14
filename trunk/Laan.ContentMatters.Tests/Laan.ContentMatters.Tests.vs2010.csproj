@@ -144,6 +144,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTestFixture.cs" />
+    <Compile Include="BaseXmlProviderTest.cs" />
+    <Compile Include="WikipediaProviderTest.cs" />
     <Compile Include="DataDictionaryTest.cs" />
     <Compile Include="DataProviderTest.cs" />
     <Compile Include="Externsions.cs" />
@@ -201,6 +203,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\Macros\macro.xml" />
+    <Content Include="App_Data\Pages\Blogs\blogs.xml" />
+    <Content Include="App_Data\Pages\Blogs\comments.xml" />
+    <Content Include="App_Data\Pages\Blogs\posts.xml" />
     <Content Include="App_Data\Pages\test4.xml" />
     <Content Include="App_Data\Pages\test3.xml" />
     <Content Include="App_Data\Pages\test2.xml" />

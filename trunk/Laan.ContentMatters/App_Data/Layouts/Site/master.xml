@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <html>
   <head>
-    <meta name="Description" content="$description" />
+    <meta name="Description" content="$page.Description" />
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="Distribution" content="Global" />
     <meta name="Robots" content="index,follow" />
-    <title>$page.Name</title>
+    <title>LaanFamily - $page.Name</title>
     <link href="Content/site.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -14,17 +14,17 @@
       <div id="header">
         <div id="header-content">
           <h1 id="logo">
-            <a href="/" title="Laan Family Site">
-              Laan<span class="gray">Family</span>
-            </a>
+            <a href="/" title="Laan Family Site">Laan<span class="gray">Family</span></a>
           </h1>
-          <h2 id="slogan">$page.Name</h2>
+          <h2 id="slogan"><wiki>$page.Description</wiki>
+          </h2>
           <!-- Menu Tabs -->
           <list data="site.Pages">
+              <detail><a href="$item.Link">$item.Name</a></detail>
           </list>
         </div>
       </div>
-      <div class="headerphoto"/>
+      <div class="headerphoto"></div>
 
       <!-- content-wrap starts here -->
       <div id="content-wrap">
