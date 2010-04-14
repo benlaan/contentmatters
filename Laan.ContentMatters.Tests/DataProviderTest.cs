@@ -67,7 +67,7 @@ namespace Laan.ContentMatters.Tests
             IDataDictionary data;
             using ( _mock.Playback() )
             {
-                _dataProvider = new DataProvider( NullLogger.Instance, _sessionFactory );
+                _dataProvider = new DataProvider( NullLogger.Instance, _sessionFactory, new DataDictionary( true ) );
                 data = _dataProvider.Build( page );
             }
             Assert.IsNotNull( data );

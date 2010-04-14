@@ -117,7 +117,9 @@
     <Compile Include="Build.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Engine\Core\PageNotFoundException.cs" />
     <Compile Include="Engine\Data\DataDictionary.cs" />
+    <Compile Include="Engine\HtmlProviders\WikipediaProvider.cs" />
     <Compile Include="Engine\Interfaces\IDataDictionary.cs" />
     <Compile Include="Engine\HtmlProviders\ListProvider.cs" />
     <Compile Include="Engine\Core\XmlProvider.cs" />
@@ -254,6 +256,9 @@
     <Content Include="Images\page.gif" />
     <Content Include="Notes.txt" />
     <Content Include="Notes\Content Matters.txt" />
+    <Content Include="Notes\Notes.txt" />
+    <Content Include="Notes\Provider Notes.txt" />
+    <Content Include="Notes\Routes.txt" />
     <Content Include="Views\Home\home.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -287,7 +292,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>43502</DevelopmentServerPort>
+          <DevelopmentServerPort>7026</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

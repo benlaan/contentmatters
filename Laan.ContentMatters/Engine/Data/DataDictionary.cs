@@ -2,46 +2,89 @@ using System;
 using System.Collections.Generic;
 
 using Laan.ContentMatters.Engine.Interfaces;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Laan.ContentMatters.Engine.Data
 {
     public class DataDictionary : IDataDictionary, IEnumerable<object>
     {
+        private bool _hardFail;
+        private Regex _regex;
+
         Dictionary<string, object> _data;
 
-        public DataDictionary()
+        /// <summary>
+        /// Initializes a new instance of the DataDictionary class.
+        /// </summary>
+        public DataDictionary() : this( false )
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the DataDictionary class.
+        /// </summary>
+        /// <param name="hardFail"></param>
+        public DataDictionary( bool hardFail )
+        {
+            _hardFail = hardFail;
+            
+            // compile the regex to find words and variables
+            _regex = new Regex( @"\$?[_A-Za-z][\w\.]*(\(\))?|[\s\]|[\w\\\/\:\-\=\+\*;,.!\<\>\'\""]", RegexOptions.Compiled );
+
             _data = new Dictionary<string, object>();
         }
 
         private object GetData( string key )
         {
+            string trimmedKey = key.TrimStart( '$' );
+
             object instance;
-            if ( _data.TryGetValue( key, out instance ) )
+            if ( _data.TryGetValue( trimmedKey, out instance ) )
                 return instance;
 
-            string[] parts = key.Split( new[] { '.' } );
+            string[] parts = trimmedKey.Split( new[] { '.' } );
 
             int index = 0;
             if ( !_data.TryGetValue( parts[ index ], out instance ) )
-                throw new ArgumentException( String.Format(" Data not found for key: {0}", key ) );
+            {
+                if ( _hardFail )
+                    throw new ArgumentException( String.Format( " Data not found for key: {0}", key ) );
+                else
+                    return key;
+            }
 
             index++;
             while ( index < parts.Length )
             {
                 Type t = instance.GetType();
                 var prop = t.GetProperty( parts[ index ] );
-                if (prop == null)
-                    throw new ArgumentException( String.Format("Property {0} not found on type {1}", parts[index], t.Name) );
-
-                instance = prop.GetValue( instance, null );
+                if ( prop == null )
+                {
+                    var method = t.GetMethod( parts[ index ].Trim( '(', ')' ) );
+                    if ( method == null )
+                    {
+                        if ( _hardFail )
+                            throw new ArgumentException( String.Format( "Property '{0}' not found on type '{1}' for key '{2}'", parts[ index ], t.Name, key ) );
+                        else
+                            return key;
+                    }
+                    else
+                        instance = method.Invoke( instance, null );
+                }
+                else
+                    instance = prop.GetValue( instance, null );
+                
                 index++;
             }
 
             return instance;
         }
 
-        #region IDictionary<string,object> Members
+        public void Clear()
+        {
+            _data.Clear();
+        }
 
         public void Add( string key, object value )
         {
@@ -75,25 +118,26 @@ namespace Laan.ContentMatters.Engine.Data
             return ( value != null );
         }
 
-        #endregion
+        public string UnwrapVariables( string text )
+        {
+            StringBuilder result = new StringBuilder();
 
-        #region IEnumerable<object> Members
+            foreach ( Match match in _regex.Matches( text ) )
+            {
+                if ( !match.Success )
+                    continue;
 
-        //public IEnumerator<object> GetEnumerator()
-        //{
-        //    return _data.GetEnumerator();
-        //}
-
-        #endregion
-
-        #region IEnumerable Members
-
-        //System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        #endregion
+                if ( !match.Value.StartsWith( "$" ) )
+                    result.Append( match.Value );
+                else
+                {
+                    object instance;
+                    if ( TryGetValue( match.Value, out instance ) )
+                        result.Append( instance.ToString() );
+                }
+            }
+            return result.ToString();
+        }
 
         #region IEnumerable<object> Members
 

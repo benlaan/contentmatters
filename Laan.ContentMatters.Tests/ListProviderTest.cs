@@ -18,29 +18,14 @@ using Laan.ContentMatters.Engine.Data;
 namespace Laan.ContentMatters.Tests
 {
     [TestFixture]
-    public class ListProviderTest
+    public class ListProviderTest : BaseXmlProviderTest<ListProvider>
     {
-        private String GetXml( string inputXml, IDataDictionary data )
+        /// <summary>
+        /// Initializes a new instance of the ListProviderTest class.
+        /// </summary>
+        public ListProviderTest() : base( "list" )
         {
-            var listProvider = new ListProvider();
-
-            using ( StringReader sr = new StringReader( inputXml ) )
-            using ( XmlReader reader = new XmlTextReader( sr ) )
-            {
-                reader.Read();
-                using ( XmlReader result = listProvider.ReplaceElement( reader, data ) )
-                {
-                    result.Read();
-                    return result.ReadOuterXml();
-                }
-            }
-        }
-
-        [Test]
-        public void Ensure_Correct_ElementName_Is_Provided()
-        {
-            var listProvider = new ListProvider();
-            Assert.AreEqual( "list", listProvider.ElementName );
+             
         }
 
         [Test]
@@ -48,7 +33,7 @@ namespace Laan.ContentMatters.Tests
         {
             // Setup
             var days = new string[0];
-            var data = new DataDictionary() { { "days", days } };
+            var data = new DataDictionary( true ) { { "days", days } };
                         
             string input = "<list data=\"days\"/>";
             String output = GetXml( input, data );
@@ -66,7 +51,7 @@ namespace Laan.ContentMatters.Tests
         {
             // Setup
             var items = new string[0];
-            var data = new DataDictionary { { "items", items } };
+            var data = new DataDictionary( true ) { { "items", items } };
                         
             string input = "<list data=\"items\" class=\"menu\"/>";
             String output = GetXml( input, data );
@@ -84,7 +69,7 @@ namespace Laan.ContentMatters.Tests
         {
             // Setup
             var days = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
-            var data = new DataDictionary { { "days", days } };
+            var data = new DataDictionary( true ) { { "days", days } };
                         
             string input = "<list data=\"days\"/>";
             String output = GetXml( input, data );
@@ -97,6 +82,38 @@ namespace Laan.ContentMatters.Tests
                 "  <li>Wednesday</li>", 
                 "  <li>Thursday</li>", 
                 "  <li>Friday</li>", 
+                "</ul>" 
+            
+            }.Compare( output );
+        }
+
+        [Test]
+        public void Can_Render_List_Of_Items_With_Template()
+        {
+            // Setup
+            var links = new[] 
+            { 
+                new { Text = "Home", Link = "/" },
+                new { Text = "Blog", Link = "/Blogs/Ben" },
+                new { Text = "Code", Link = "/Code/List" },
+                new { Text = "About", Link = "/About/Ben" },
+            };
+
+            var data = new DataDictionary( true ) { { "links", links } };
+
+            string input =
+                @"<list data='links'>
+                    <detail><a href='$item.Link'>$item.Text</a></detail>
+                  </list>";
+            String output = GetXml( input, data );
+
+            new[] 
+            { 
+                "<ul>", 
+                "  <li><a href=\"/\">Home</a></li>",
+                "  <li><a href=\"/Blogs/Ben\">Blog</a></li>",
+                "  <li><a href=\"/Code/List\">Code</a></li>",
+                "  <li><a href=\"/About/Ben\">About</a></li>",
                 "</ul>" 
             
             }.Compare( output );

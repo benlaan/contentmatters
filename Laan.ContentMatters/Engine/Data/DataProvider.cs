@@ -15,9 +15,11 @@ namespace Laan.ContentMatters.Engine.Data
     {
         private ISessionFactory _factory;
         private ILogger _logger;
+        private IDataDictionary _data;
 
-        public DataProvider(  ILogger logger, ISessionFactory factory )
+        public DataProvider(  ILogger logger, ISessionFactory factory, IDataDictionary data )
         {
+            _data = data;
             _logger = logger;
             _factory = factory;
         }
@@ -40,8 +42,7 @@ namespace Laan.ContentMatters.Engine.Data
 
         public IDataDictionary Build( Page page )
         {
-            IDataDictionary result = new DataDictionary();
-
+            _data.Clear();
             foreach ( DataSource dataSource in page.DataSources )
             {
                 string type = dataSource.Type;
@@ -51,9 +52,9 @@ namespace Laan.ContentMatters.Engine.Data
                 object repository = CreateRepository( type );                
                 object data = ExecuteSelectionMethod( page, dataSource, repository );
 
-                result.Add( dataSource.Name, data );
+                _data.Add( dataSource.Name, data );
             }
-            return result;
+            return _data;
         }
     }
 }

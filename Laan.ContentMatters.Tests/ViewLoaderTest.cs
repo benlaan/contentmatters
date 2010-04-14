@@ -25,7 +25,7 @@ namespace Laan.ContentMatters.Tests
 
             MockRepository mock = new MockRepository();
 
-            IDataDictionary data = new DataDictionary();
+            IDataDictionary data = new DataDictionary( true );
             IMapper mapper = mock.DynamicMock<IMapper>();
             IDataProvider dataProvider = mock.Stub<IDataProvider>();
 
@@ -59,17 +59,20 @@ namespace Laan.ContentMatters.Tests
                 "<html>",
                 "  <head>",
                 "    <title>Welcome</title>",
+                "    <meta name=\"Description\" content=\"good\" />",
                 "  </head>",
                 "  <body>",
                 "    <div>",
                 "      <h1>Test</h1>",
                 "      <div>main area!</div>",
                 "      <div id=\"another\">",
-                "        <div id=\"inside\" />",
+                "        <div id=\"inside\">",
+                "        </div>",
                 "      </div>",
                 "      <br />",
                 "      <div id=\"another\">",
-                "        <div id=\"inside\" />",
+                "        <div id=\"inside\">",
+                "        </div>",
                 "      </div>",
                 "    </div>",
                 "    <div>",
@@ -126,7 +129,8 @@ namespace Laan.ContentMatters.Tests
                 "      <br />",
                 "      <div>main area!</div>",
                 "      <div id=\"another\">",
-                "        <div id=\"inside\" />",
+                "        <div id=\"inside\">",
+                "        </div>",
                 "      </div>",
                 "    </div>",
                 "  </body>",
