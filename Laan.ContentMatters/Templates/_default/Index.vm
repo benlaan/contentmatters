@@ -1,6 +1,0 @@
-﻿<h2>$item.Title</h2>
-<ul class="list">
-#foreach ($item in $List ) 
-    <li> #parse( "../Templates/_default/Item.vm" )</li>
-#end
-</ul>

@@ -1,2 +1,0 @@
-﻿$item.Link()
-<blockquote>$item.Description</blockquote>
