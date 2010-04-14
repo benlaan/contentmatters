@@ -1,8 +1,0 @@
-﻿<h2>$item.Title</h2>
-<p>$item.Description</p>
-
-<ul class="list">
-#foreach ($post in $item.Posts ) 
-    <li> $do.output( $post ) </li>
-#end
-</ul>
