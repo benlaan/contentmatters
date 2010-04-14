@@ -9,6 +9,7 @@ namespace Laan.ContentMatters.Configuration
     [DebuggerDisplay( "{Name}: {FullPath}" )]
     public class SitePage
     {
+        private string _link;
 
         public SitePage()
         {
@@ -19,7 +20,18 @@ namespace Laan.ContentMatters.Configuration
         public string Name { get; set; }
 
         [XmlAttribute( "link" )]
-        public string Link { get; set; }
+        public string Link 
+        { 
+            get
+            {
+                if (_link != null)
+                    return _link;
+
+                string parentLink = Parent != null ? Parent.Link : "";
+                return Laan.Library.IO.Path.Combine( parentLink, Name );
+            }
+            set { _link = value; }
+        }
 
         [XmlAttribute( "folder" )]
         public string Folder { get; set; }
@@ -49,6 +61,11 @@ namespace Laan.ContentMatters.Configuration
         public override string ToString()
         {
             return Name;
+        }
+
+        private void CopyFromPage(Page page)
+        {
+            
         }
 
     }

@@ -21,17 +21,14 @@ namespace Laan.ContentMatters.Configuration
         [XmlAttribute( "name" )]
         public string Name { get; set; }
 
-        [XmlAttribute( "description" )]
-        public string Description { get; set; }
+        //[XmlAttribute( "description" )]
+        //public string Description { get; set; }
 
-        [XmlAttribute( "link" )]
-        public string Link { get; set; }
+        //[XmlAttribute( "folder" )]
+        //public string Folder { get; set; }
 
-        [XmlAttribute( "folder" )]
-        public string Folder { get; set; }
-
-        [XmlAttribute( "detailPage" )]
-        public string DetailPage { get; set; }
+        //[XmlAttribute( "detailPage" )]
+        //public string DetailPage { get; set; }
 
         [XmlElement( "layout" )]
         public PageLayout Layout { get; set; }

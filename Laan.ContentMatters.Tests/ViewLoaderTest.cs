@@ -3,7 +3,6 @@ using System;
 using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
 using Laan.ContentMatters.Engine.Data;
-using Laan.ContentMatters.Loaders;
 using Laan.ContentMatters.Tests;
 using Laan.Utilities.Xml;
 using Laan.Persistence.Interfaces;
@@ -12,6 +11,7 @@ using MbUnit.Framework;
 
 using Rhino.Mocks;
 using System.Collections.Generic;
+using Laan.ContentMatters.Loaders;
 
 namespace Laan.ContentMatters.Tests
 {

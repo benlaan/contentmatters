@@ -147,8 +147,6 @@ namespace Laan.ContentMatters.Loaders
 
                         if ( reader.Name != name )
                             throw new Exception( "Xml Reader mismatch" );
-
-                        reader.ReadEndElement();
                     }
                 }
             }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
-using Laan.ContentMatters.Loaders;
 using Laan.Utilities.Xml;
 using Laan.Persistence.Interfaces;
 
@@ -17,8 +16,6 @@ namespace Laan.ContentMatters.Tests
     [TestFixture]
     public class DataDictionaryTest
     {
-        private MockRepository mock = new MockRepository();
-
         [Test]
         public void Can_Access_Simple_Object()
         {

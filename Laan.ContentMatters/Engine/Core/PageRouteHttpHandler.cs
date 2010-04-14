@@ -6,8 +6,10 @@ using System.Web.Routing;
 using Castle.MicroKernel;
 
 using Laan.ContentMatters.Controllers;
-using Laan.ContentMatters.Loaders;
 using Laan.Persistence.Interfaces;
+using Laan.ContentMatters.Configuration;
+using System.Collections.Generic;
+using Laan.ContentMatters.Loaders;
 
 namespace Laan.ContentMatters.Engine
 {
@@ -30,8 +32,9 @@ namespace Laan.ContentMatters.Engine
         {
             IMapper mapper = _kernel.Resolve<IMapper>();
 
-            PageLoader loader = new PageLoader( mapper );
-            var page = loader.GetPageFromPath( context.Request.Path );
+            var siteProperties = new SiteProperties(new Dictionary<string, object>());
+            PageLoader loader = new PageLoader( mapper, siteProperties );
+            Page page = loader.GetPageFromPath( context.Request.Path );
 
             // RouteData Values
             string action = page.Action;

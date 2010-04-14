@@ -2,7 +2,6 @@ using System;
 
 using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
-using Laan.ContentMatters.Loaders;
 using Laan.Utilities.Xml;
 using Laan.Persistence.Interfaces;
 
