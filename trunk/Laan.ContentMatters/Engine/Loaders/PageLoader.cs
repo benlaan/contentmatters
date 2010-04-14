@@ -10,18 +10,15 @@ using Laan.Persistence.Interfaces;
 
 namespace Laan.ContentMatters.Loaders
 {
-    public class PageLoader 
+    public class PageLoader
     {
         private string _appData;
+        private Laan.ContentMatters.Engine.Interfaces.ISiteProperties _siteProperties;
 
-        public PageLoader( IMapper mapper )
+        public PageLoader( IMapper mapper, Laan.ContentMatters.Engine.Interfaces.ISiteProperties siteProperties )
         {
+            _siteProperties = siteProperties;
             _appData = mapper.MapPath( "~/App_Data" );
-        }
-
-        public PageLoader( IMapper mapper, Site site ) : this(mapper)
-        {
-            Site = site;
         }
 
         private SitePage FindDefaultPage( string path )
@@ -41,6 +38,7 @@ namespace Laan.ContentMatters.Loaders
             string sitePath = Path.Combine( _appData, "Pages", "site.xml" );
             Site = XmlPersistence<Site>.LoadFromFile( sitePath );
             Site.AssignParentsToChildPages();
+            Site.LoadProperties( _siteProperties );
         }
 
         private Page LoadPage( SitePage page )
@@ -74,7 +72,7 @@ namespace Laan.ContentMatters.Loaders
             foreach ( string folder in folders )
             {
                 parentPage = page;
-                SitePage childPage = childPages.FirstOrDefault( pg => pg.Name == folder );
+                SitePage childPage = childPages.FirstOrDefault( pg => String.Compare( pg.Name, folder, true ) == 0 );
 
                 if ( childPage != null )
                 {
@@ -90,7 +88,7 @@ namespace Laan.ContentMatters.Loaders
 
                     // assume that if the page can't be found, the 'folder' is actually either
                     // an action or a key. If it can be found then assign it a parent page
-                    if ( actionList.Any( action => action == folder ) )
+                    if ( actionList.Any( action => String.Compare( action, folder, true ) == 0 ) )
                         page.Action = folder;
                     else
                         page.Key = folder.Replace( '-', ' ' );
@@ -103,7 +101,7 @@ namespace Laan.ContentMatters.Loaders
             if ( page == null )
             {
                 SitePage defaultPage = FindDefaultPage( path );
-                if ( defaultPage != null )  
+                if ( defaultPage != null )
                     page = LoadPage( defaultPage );
                 else
                     throw new PageNotFoundException( "No Default Page Found" );

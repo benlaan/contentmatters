@@ -2,7 +2,6 @@ using System;
 
 using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
-using Laan.ContentMatters.Loaders;
 using Laan.Utilities.Xml;
 using Laan.Persistence.Interfaces;
 
@@ -43,8 +42,7 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_With_Search_Term()
         {
             // Setup
-            var items = new string[0];
-            var data = new DataDictionary( true ) { { "items", items } };
+            var data = new DataDictionary( true );
 
             string input = "<wiki>Words</wiki>";
             String output = GetXml( input, data );
@@ -60,8 +58,7 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_With_Search_Term_With_Spaces()
         {
             // Setup
-            var items = new string[ 0 ];
-            var data = new DataDictionary( true ) { { "items", items } };
+            var data = new DataDictionary( true );
 
             string input = "<wiki>Many Words</wiki>";
             String output = GetXml( input, data );
@@ -77,8 +74,7 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_With_Specified_Lookup_Href()
         {
             // Setup
-            var items = new string[ 0 ];
-            var data = new DataDictionary( true ) { { "items", items } };
+            var data = new DataDictionary( true );
 
             string input = "<wiki href=\"Intelligibility_(philosophy)\">Many Words</wiki>";
             String output = GetXml( input, data );
@@ -89,5 +85,6 @@ namespace Laan.ContentMatters.Tests
             }
             .Compare( output );
         }
+
     }
 }

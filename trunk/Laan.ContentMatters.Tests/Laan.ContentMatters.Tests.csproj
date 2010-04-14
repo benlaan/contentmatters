@@ -143,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTestFixture.cs" />
+    <Compile Include="BaseXmlProviderTest.cs" />
+    <Compile Include="DataDictionaryTest.cs" />
     <Compile Include="DataProviderTest.cs" />
     <Compile Include="Externsions.cs" />
     <Compile Include="ListProviderTest.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ItemDefinitionTest.cs" />
     <Compile Include="ViewLoaderTest.cs" />
+    <Compile Include="WikipediaProviderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -202,7 +205,9 @@
     <Content Include="App_Data\Pages\Blogs\posts.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\Pages\home.xml" />
+    <Content Include="App_Data\Pages\home.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\Pages\test4.xml" />
     <Content Include="App_Data\Pages\test3.xml" />
     <Content Include="App_Data\Pages\test2.xml" />

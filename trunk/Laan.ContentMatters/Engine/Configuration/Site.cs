@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Linq;
+using Laan.ContentMatters.Engine.Interfaces;
 
 namespace Laan.ContentMatters.Configuration
 {
@@ -57,5 +58,14 @@ namespace Laan.ContentMatters.Configuration
 
             return Pages.FirstOrDefault( pg => pg.Default );
         }
+
+        public virtual void LoadProperties( ISiteProperties properties )
+        {
+            Owner = new Owner { Name = ( string )properties.Values["ownerName"] };
+            Copyright = ( string )properties.Values["copyright"];
+        }
+
+        public string Copyright { get; set; }
+        public Owner Owner { get; set; }
     }
 }

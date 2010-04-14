@@ -2,14 +2,15 @@
 <view id="welcome">
   <div class="welcome">
     <h1>Welcome to the Laan Family web site</h1>
-    <p>by B. Laan</p>
+    <p>by Ben Laan</p>
     <p>
-        This web site is built using my custom CMS called Laan.ContentMatters. It is still an early work in progress, 
-        but already allows end user design, layout and content of web pages. The current implementation has no UI, and thus
-        requires a good working knowledge of both XML, HTML, and CSS.
+        This web site is built using a custom <wiki>CMS</wiki> called Laan.ContentMatters. It is still an early work in progress, 
+        but already allows end user design, layout and content generation of web pages using dynamic data and template expansions. 
+        However, the current implementation has no UI, and thus requires a good working knowledge of both <wiki>XML</wiki>, 
+        <wiki>HTML</wiki>, and <wiki>CSS</wiki>.
         
-        It works by merging templated XML segments into a final XML document, which is output as XHTML. It provides a full templating,
-        data-aware content system that is entirely configurable via files.
+        It works by merging templated XML segments into a final XML document, which is output as  <wiki>XHTML</wiki>. It 
+        provides a full templating, data-aware content system that is entirely configurable via the file system.
     </p>
   </div>
 </view>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view>
+  <div class="welcome">
+    <h1>Recent News</h1>
+    <list data="$news"/>
+  </div>
+</view>

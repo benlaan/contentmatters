@@ -3,9 +3,11 @@ using Laan.ContentMatters.Configuration;
 using MbUnit.Framework;
 using Laan.Utilities.Xml;
 using Laan.ContentMatters.Engine;
-using Laan.ContentMatters.Loaders;
 using Laan.Persistence.Interfaces;
 using Rhino.Mocks;
+using System.Collections.Generic;
+using Laan.ContentMatters.Engine.Interfaces;
+using Laan.ContentMatters.Loaders;
 
 namespace Laan.ContentMatters.Tests
 {
@@ -20,10 +22,11 @@ namespace Laan.ContentMatters.Tests
         {
             base.Setup();
             IMapper mapper = _mock.DynamicMock<IMapper>();
-            Expect.Call( mapper.MapPath( "" ) ).IgnoreArguments(  ).Return( @".\App_Data\" ).Repeat.Any();
+            Expect.Call( mapper.MapPath( "" ) ).IgnoreArguments().Return( @".\App_Data\" ).Repeat.Any();
 
             _mock.ReplayAll();
-            _pageLoader = new PageLoader( mapper );
+            ISiteProperties siteProperties = new SiteProperties(new Dictionary<string, object>());
+            _pageLoader = new PageLoader( mapper, siteProperties );
         }
 
         [Test]
