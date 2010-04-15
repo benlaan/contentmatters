@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<page name="news" default="true">
-  
+<page 
+    name="News"
+    description="all the news that's fit to print" 
+    title="News"
+>
   <data name="news" type="news" select="all" top="10"/>
   
   <layout page="site\master">

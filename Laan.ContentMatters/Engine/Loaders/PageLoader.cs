@@ -43,17 +43,33 @@ namespace Laan.ContentMatters.Loaders
 
         private Page LoadPage( SitePage page )
         {
-            return XmlPersistence<Page>.LoadFromFile( Path.Combine( _appData, "Pages", page.FileName + ".xml" ) );
+            string fileName = Path.Combine( _appData, "Pages", page.FileName + ".xml" );
+            if (System.IO.File.Exists( fileName ))
+                return XmlPersistence<Page>.LoadFromFile( fileName );
+            else
+                return null;;
         }
 
-        internal Page LoadPageFromFile( string path )
-        {
-            LoadSite();
-            SitePage sitePage = Site.FindSitePageByPath( path );
-            if ( sitePage == null )
-                throw new Exception( String.Format( "Page Not Found", path ) );
+        //internal Page LoadPageFromFile( string path )
+        //{
+        //    LoadSite();
+        //    SitePage sitePage = Site.FindSitePageByPath( path );
+        //    if ( sitePage == null )
+        //        throw new Exception( String.Format( "Page Not Found", path ) );
 
-            return LoadPage( sitePage );
+        //    return LoadPage( sitePage );
+        //}
+
+        private void LoadChildPages( IList<SitePage> childPages )
+        {
+            foreach ( SitePage childSitePage in childPages )
+            {
+                Page child = LoadPage( childSitePage );
+                if ( child == null )
+                    continue;
+
+                childSitePage.Page = child;
+            }
         }
 
         public SitePage GetPageFromPath( string path )
@@ -69,6 +85,8 @@ namespace Laan.ContentMatters.Loaders
             IList<SitePage> childPages = Site.Pages;
             Page page = null;
 
+            LoadChildPages( childPages );
+
             foreach ( string folder in folders )
             {
                 parentPage = page;
@@ -80,7 +98,6 @@ namespace Laan.ContentMatters.Loaders
                     page = LoadPage( sitePage );
 
                     sitePage.Parent = parentSitePage;
-                    sitePage.CopyFromPage( page );
                 }
                 else
                 {
@@ -96,20 +113,20 @@ namespace Laan.ContentMatters.Loaders
                 }
 
                 childPages = sitePage.Pages;
+                LoadChildPages( childPages );
                 parentSitePage = sitePage;
-                parentSitePage.CopyFromPage( page );
+                //parentSitePage.Page = page;
             }
 
             if ( page == null )
             {
                 sitePage = FindDefaultPage( path );
                 if ( sitePage != null )
-                {
                     page = LoadPage( sitePage );
-                    sitePage.CopyFromPage( page );
-                }
-                else
-                    throw new PageNotFoundException( "No Default Page Found" );
+
+                if (page == null)
+                    throw new PageNotFoundException( path );
+                
             }
 
             return sitePage;

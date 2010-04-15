@@ -137,7 +137,6 @@
     <Compile Include="Build.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Engine\Configuration\Owner.cs" />
     <Compile Include="Engine\Core\PageNotFoundException.cs" />
     <Compile Include="Engine\Data\DataDictionary.cs" />
@@ -247,6 +246,8 @@
     <Content Include="App_Data\Types\System\float.xml" />
     <Content Include="App_Data\Types\System\integer.xml" />
     <Content Include="App_Data\Types\System\time.xml" />
+    <Content Include="App_Data\Views\Blogs\list.xml" />
+    <Content Include="App_Data\Views\Code\list.xml" />
     <Content Include="App_Data\Views\Home\popular_posts.xml" />
     <Content Include="App_Data\Views\Home\recent_posts.xml" />
     <Content Include="App_Data\Views\Home\welcome.xml" />
@@ -270,7 +271,7 @@
     <Content Include="Images\headerphoto.jpg" />
     <Content Include="Images\page.gif" />
     <Content Include="Notes.txt" />
-    <Content Include="Notes\Content Matters.txt" />
+    <Content Include="Notes\Core Classes.txt" />
     <Content Include="Notes\Notes.txt" />
     <Content Include="Notes\Provider Notes.txt" />
     <Content Include="Notes\Routes.txt" />

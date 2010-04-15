@@ -242,7 +242,7 @@ input.button
 
 #header-content, #content, #footer-content
 {
-    width: 760px;
+    width: 960px;
 }
 
 /* header */
@@ -289,11 +289,13 @@ input.button
 #header-content ul
 {
     position: absolute;
-    right: -5px;
-    top: 60px;
+    right: 0px;
+    top: 20px;
+    width: 650px;
     font: bolder 1.3em 'Trebuchet MS' , sans-serif;
     color: #FFF;
     list-style: none;
+    text-align:right;
     margin: 0;
     padding: 0;
 }
@@ -301,12 +303,15 @@ input.button
 {
     display: inline;
 }
+
 #header-content li a
 {
     float: left;
     display: block;
     padding: 3px 12px;
+    width: 60px;
     color: #FFF;
+    text-align:center;
     background-color: #333;
     text-decoration: none;
     border-right: 1px solid #272727;
@@ -326,7 +331,7 @@ input.button
 .headerphoto
 {
     margin: 0 auto;
-    width: 770px;
+    width: 970px;
     height: 200px;
     padding: 15px 10px 10px 10px;
     background: #FFF url(../Images/headerphoto.jpg) no-repeat center;
@@ -446,13 +451,13 @@ input.button
     margin-top: 20px;
     font-size: 95%;
 }
-.post .post-footer .date
+.date
 {
     background: url('../Images/clock.gif') no-repeat 0 center;
     padding-left: 20px;
     margin: 0 10px 0 5px;
 }
-.post .post-footer .comments
+ .comments
 {
     background: url('../Images/comment.gif') no-repeat 0 center;
     padding-left: 20px;
