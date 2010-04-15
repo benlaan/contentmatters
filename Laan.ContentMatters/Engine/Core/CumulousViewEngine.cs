@@ -27,9 +27,11 @@ namespace Laan.ContentMatters.Engine
 
         public ViewEngineResult FindView( ControllerContext controllerContext, string viewName, string masterName, bool useCache )
         {
-            Page page = ( Page )controllerContext.RouteData.Values["page"];
-            if ( page == null )
+            SitePage sitePage = ( SitePage )controllerContext.RouteData.Values[ "page" ];
+            if ( sitePage == null )
                 throw new PageNotFoundException( controllerContext.RequestContext.HttpContext.Request.Path );
+
+            Page page = sitePage.Page;
 
             _viewLoader.GenerateData( page, controllerContext.RouteData.Values );
             View view = _viewLoader.Load( page );

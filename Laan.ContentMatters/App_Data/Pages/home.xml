@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<page name="home" default="true" description="Home Page">
-
+<page 
+    name="Home"
+    description="our place on the web.." 
+    title="Home Page"
+>
   <data name="news" type="news" select="all"/>
   <!--order="Created desc"-->
-  <!--<data name="home.photos" type="photo" select="random" order="Created desc, Modified desc" top="10"/>-->
+  <!--<data name="home-photos" type="photo" select="random" order="Created desc, Modified desc" top="10"/>-->
 
   <layout page="site\master">
     <!--<view zone="header" page="site\header" />-->
@@ -21,5 +24,4 @@
     </view>
     <view zone="footer" page="footer"/>
   </layout>
-
 </page>

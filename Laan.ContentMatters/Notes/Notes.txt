@@ -1,6 +1,39 @@
 Content Matters
 
-Workflow - 
+============================================================================================================================================
+    Steps to displaying content:
+============================================================================================================================================
+    
+        Define Type
+            Add Fields
+            Define Templates (or use defaults)
+            
+        Define Page
+            Select Parent Page
+            Select Type
+            Select View
+            Choose Options
+                Can CRUD
+                Has ItemView
+
+        Save
+            Build Table with definition as described
+            Insert Item into Content Tree
+            
+============================================================================================================================================
+    Steps to adding/editing content
+============================================================================================================================================
+    
+        Go to Edit Context
+        Select Page in Content Tree (parent for new, or selected for edit)
+        Choose New/Edit
+        Enter Field Details
+        Save
+        View New content
+
+============================================================================================================================================
+    Logical Workflow
+============================================================================================================================================
 
   Page_Load - Link
   
@@ -131,8 +164,3 @@ Files / Folders Layout
 
 As the above examples show, most of these properties can be generalized into a default
 'base' datareader zone item - the main change will be the type, and possibly the template
-
-
-
-
-

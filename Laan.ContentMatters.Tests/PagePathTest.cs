@@ -34,7 +34,7 @@ namespace Laan.ContentMatters.Tests
         [Row( "/" )]
         public void Blank_Page_Loads_Default( string path )
         {
-            Page page = _pageLoader.GetPageFromPath( path );
+            SitePage page = _pageLoader.GetPageFromPath( path );
             Assert.AreEqual(page.Name, "home");
         }
 
@@ -44,7 +44,7 @@ namespace Laan.ContentMatters.Tests
             string path = "/Blogs/My-Blog";
 
             // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
+            SitePage page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "blogs", page.Name );
@@ -57,7 +57,7 @@ namespace Laan.ContentMatters.Tests
             string path = "/Blogs/My-Blog/Posts/A-Short-Thought/Edit";
 
             // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
+            SitePage page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "posts", page.Name );
@@ -69,7 +69,7 @@ namespace Laan.ContentMatters.Tests
             string path = "/Blogs/My-Blog/Posts/A-Short-Thought";
 
             // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
+            SitePage page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "posts", page.Name );
@@ -84,7 +84,7 @@ namespace Laan.ContentMatters.Tests
             string path = "/Blogs/My-Blog/Posts/A-Short-Thought/Comments/New";
 
             // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
+            SitePage page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "comments", page.Name );
@@ -97,7 +97,7 @@ namespace Laan.ContentMatters.Tests
             string path = "/Blogs/My-Blog";
 
             // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
+            SitePage page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "blogs", page.Name );
@@ -110,7 +110,7 @@ namespace Laan.ContentMatters.Tests
             string path = "/Blogs/My-Blog/Posts";
 
             // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
+            SitePage page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "posts", page.Name );
@@ -123,7 +123,7 @@ namespace Laan.ContentMatters.Tests
             string path = "/Blogs/My-Blog/Posts/An-Interesting-Story";
 
             // Exercise
-            Page page = _pageLoader.GetPageFromPath( path );
+            SitePage page = _pageLoader.GetPageFromPath( path );
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "blogs", page.Parent.Name );

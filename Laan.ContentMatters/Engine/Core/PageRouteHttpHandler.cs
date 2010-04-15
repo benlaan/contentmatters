@@ -34,7 +34,7 @@ namespace Laan.ContentMatters.Engine
 
             var siteProperties = new SiteProperties(new Dictionary<string, object>());
             PageLoader loader = new PageLoader( mapper, siteProperties );
-            Page page = loader.GetPageFromPath( context.Request.Path );
+            SitePage page = loader.GetPageFromPath( context.Request.Path );
 
             // RouteData Values
             string action = page.Action;

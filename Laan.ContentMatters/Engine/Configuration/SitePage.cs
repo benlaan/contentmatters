@@ -42,7 +42,23 @@ namespace Laan.ContentMatters.Configuration
         [XmlElement( "page" )]
         public List<SitePage> Pages { get; set; }
 
+        [XmlIgnore]
+        public Page Page { get; private set; }
+        
+        [XmlIgnore]
         public SitePage Parent { get; set; }
+        
+        [XmlIgnore]
+        public string Title { get; set; }
+        
+        [XmlIgnore]
+        public string Key { get; set; }
+        
+        [XmlIgnore]
+        public string Action { get; set; }
+        
+        [XmlIgnore]
+        public string Description { get; set; }
 
         public string FullPath
         {
@@ -63,8 +79,14 @@ namespace Laan.ContentMatters.Configuration
             return Name;
         }
 
-        private void CopyFromPage(Page page)
+        public void CopyFromPage(Page page)
         {
+            Page = page;
+            Description = page.Description;
+            Name = page.Name;
+            Title = page.Title;
+            Action = page.Action;
+            Key = page.Key;
             
         }
 

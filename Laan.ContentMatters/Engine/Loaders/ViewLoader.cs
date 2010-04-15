@@ -72,7 +72,7 @@ namespace Laan.ContentMatters.Loaders
                         break;
 
                     case XmlNodeType.Text:
-                        writer.WriteRaw( Data.UnwrapVariables( reader.Value ) );
+                        writer.WriteRaw( Data.ExpandVariables( reader.Value ) );
                         break;
 
                     case XmlNodeType.Comment:
@@ -159,7 +159,7 @@ namespace Laan.ContentMatters.Loaders
                 {
                     reader.MoveToAttribute( index );
                     writer.WriteStartAttribute( reader.Name );
-                    writer.WriteString( Data.UnwrapVariables( reader.Value ) );
+                    writer.WriteString( Data.ExpandVariables( reader.Value ) );
                     writer.WriteEndAttribute();
                 }
 

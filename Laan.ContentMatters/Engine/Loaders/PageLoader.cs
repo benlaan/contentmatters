@@ -56,7 +56,7 @@ namespace Laan.ContentMatters.Loaders
             return LoadPage( sitePage );
         }
 
-        public Page GetPageFromPath( string path )
+        public SitePage GetPageFromPath( string path )
         {
             LoadSite();
 
@@ -78,8 +78,9 @@ namespace Laan.ContentMatters.Loaders
                 {
                     sitePage = childPage;
                     page = LoadPage( sitePage );
-                    page.Parent = parentPage;
+
                     sitePage.Parent = parentSitePage;
+                    sitePage.CopyFromPage( page );
                 }
                 else
                 {
@@ -96,20 +97,22 @@ namespace Laan.ContentMatters.Loaders
 
                 childPages = sitePage.Pages;
                 parentSitePage = sitePage;
+                parentSitePage.CopyFromPage( page );
             }
 
             if ( page == null )
             {
-                SitePage defaultPage = FindDefaultPage( path );
-                if ( defaultPage != null )
-                    page = LoadPage( defaultPage );
+                sitePage = FindDefaultPage( path );
+                if ( sitePage != null )
+                {
+                    page = LoadPage( sitePage );
+                    sitePage.CopyFromPage( page );
+                }
                 else
                     throw new PageNotFoundException( "No Default Page Found" );
             }
 
-            page.Action = page.Action ?? "index";
-
-            return page;
+            return sitePage;
         }
 
         public Site Site { get; private set; }

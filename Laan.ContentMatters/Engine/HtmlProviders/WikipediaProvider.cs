@@ -10,7 +10,7 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
 {
     public class WikipediaProvider : XmlProvider
     {
-        protected override void WriteXml( XmlReader element, Stream stream, IDataDictionary data )
+        protected override void WriteXml( XmlReader element, Stream stream )
         {
             var href = element.GetAttribute( "href" );
             element.Read();
@@ -20,7 +20,7 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
                     throw new ArgumentException( "a Wiki node must have one text node within it" );
             }
 
-            string text = element.Value;
+            string text = Data.ExpandVariables( element.Value );
             href = href ?? text.Replace( ' ', '_' );
 
             XmlTextWriter writer = new XmlTextWriter( stream, Encoding.UTF8 );

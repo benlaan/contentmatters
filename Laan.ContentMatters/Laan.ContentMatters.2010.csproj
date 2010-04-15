@@ -114,9 +114,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Build.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Engine\Configuration\Owner.cs" />
+    <Compile Include="Engine\Configuration\SiteProperties.cs" />
     <Compile Include="Engine\Core\PageNotFoundException.cs" />
     <Compile Include="Engine\Data\DataDictionary.cs" />
     <Compile Include="Engine\HtmlProviders\WikipediaProvider.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Engine\Data\DataProvider.cs" />
     <Compile Include="Engine\Interfaces\IDataProvider.cs" />
     <Compile Include="Engine\Data\DataProviderRepository.cs" />
+    <Compile Include="Engine\Interfaces\ISiteProperties.cs" />
     <Compile Include="Engine\Interfaces\IViewLoader.cs" />
     <Compile Include="Engine\Loaders\PageLoader.cs" />
     <Compile Include="Engine\Configuration\SelectionMode.cs" />
@@ -255,7 +257,7 @@
     <Content Include="Images\headerphoto.jpg" />
     <Content Include="Images\page.gif" />
     <Content Include="Notes.txt" />
-    <Content Include="Notes\Content Matters.txt" />
+    <Content Include="Notes\Core Classes.txt" />
     <Content Include="Notes\Notes.txt" />
     <Content Include="Notes\Provider Notes.txt" />
     <Content Include="Notes\Routes.txt" />

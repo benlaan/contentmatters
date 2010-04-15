@@ -17,24 +17,16 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
 
         }
 
-        protected override void WriteXml( XmlReader element, Stream stream, IDataDictionary data )
+        protected override void WriteXml( XmlReader element, Stream stream )
         {
             string dataName = GetRequiredAttribute( element, "data" );
             string classDeclaration = element.GetAttribute( "class" );
             string itemName = element.GetAttribute( "each" ) ?? "$item";
 
             string pattern = itemName;
-            if ( !element.IsEmptyElement)
+            if ( !element.IsEmptyElement )
             {
-                element.Read();
-                while ( element.NodeType == XmlNodeType.Whitespace )
-                {
-                    element.Read();
-                }
-
-                if ( element.Name != "detail" )
-                    throw new ArgumentException( "A list provider must be a simple element or must have a child element" );
-
+                EnsureChildElementExists( element, "detail" );
                 pattern = element.ReadInnerXml();
                 element.Read();
             }
@@ -45,8 +37,8 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
             if ( !String.IsNullOrEmpty( classDeclaration ) )
                 writer.WriteAttributeString( "class", classDeclaration );
 
-            object value;             
-            if ( data.TryGetValue( dataName, out value ) )
+            object value;
+            if ( Data.TryGetValue( dataName, out value ) )
             {
                 var items = value as IEnumerable;
                 if ( items == null )
@@ -57,10 +49,10 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
                     writer.WriteStartElement( "li" );
 
                     string itemKey = itemName.TrimStart( '$' );
-                    data.Add( itemKey, (Object)item );
-                    writer.WriteRaw( data.UnwrapVariables( pattern ) );
-                    data.Remove( itemKey );
-                    
+                    Data.Add( itemKey, item );
+                    writer.WriteRaw( Data.ExpandVariables( pattern ) );
+                    Data.Remove( itemKey );
+
                     writer.WriteEndElement();
                 }
             }

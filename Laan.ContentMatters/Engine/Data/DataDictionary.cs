@@ -43,9 +43,10 @@ namespace Laan.ContentMatters.Engine.Data
             if ( _data.TryGetValue( trimmedKey, out instance ) )
                 return instance;
 
+            int index = 0;
             string[] parts = trimmedKey.Split( new[] { '.' } );
 
-            int index = 0;
+            // Find 'root' object in dictionary, using the first part of the key
             if ( !_data.TryGetValue( parts[ index ], out instance ) )
             {
                 if ( _hardFail )
@@ -54,9 +55,12 @@ namespace Laan.ContentMatters.Engine.Data
                     return key;
             }
 
-            index++;
-            while ( index < parts.Length )
+            // Traverse
+            while ( ++index < parts.Length )
             {
+                if (instance == null)
+                    break;
+
                 Type t = instance.GetType();
                 var prop = t.GetProperty( parts[ index ] );
                 if ( prop == null )
@@ -74,8 +78,6 @@ namespace Laan.ContentMatters.Engine.Data
                 }
                 else
                     instance = prop.GetValue( instance, null );
-                
-                index++;
             }
 
             return instance;
@@ -118,7 +120,7 @@ namespace Laan.ContentMatters.Engine.Data
             return ( value != null );
         }
 
-        public string UnwrapVariables( string text )
+        public string ExpandVariables( string text )
         {
             StringBuilder result = new StringBuilder();
 
