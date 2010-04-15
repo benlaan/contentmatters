@@ -26,7 +26,7 @@ namespace Laan.ContentMatters.Engine.Data
         {
             if ( data.Order != null )
             {
-                string[] orderParts = data.Order.ToLower().Split( ' ' );
+                string[] orderParts = data.Order.Split( ' ' );
 
                 for ( int index = 0; index < orderParts.Length; index++ )
                 {

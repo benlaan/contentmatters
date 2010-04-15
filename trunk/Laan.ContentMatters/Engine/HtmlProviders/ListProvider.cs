@@ -40,9 +40,12 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
             object value;
             if ( Data.TryGetValue( dataName, out value ) )
             {
+                if (value is string )
+                    writer.WriteString( ( string )value );
+
                 var items = value as IEnumerable;
                 if ( items == null )
-                    throw new ArgumentException( "the list data attribute must refernece an IEnuerable object" );
+                    throw new ArgumentException( "the list data attribute must refernece an IEnumerable object" );
 
                 foreach ( var item in items )
                 {

@@ -9,7 +9,6 @@
     <link href="Content/site.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <!-- wrap starts here -->
     <div id="wrap">
       <div id="header">
         <div id="header-content">
@@ -18,15 +17,13 @@
           </h1>
           <h2 id="slogan">$page.Description
           </h2>
-          <!-- Menu Tabs -->
           <list data="site.Pages">
-              <detail><a href="$item.Link">$item.Name</a></detail>
+              <detail><a href="$item.Link" title="$item.Title">$item.Name</a></detail>
           </list>
         </div>
       </div>
       <div class="headerphoto"></div>
 
-      <!-- content-wrap starts here -->
       <div id="content-wrap">
         <div id="content">
           <div id="main">

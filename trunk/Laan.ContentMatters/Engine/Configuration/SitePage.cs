@@ -28,7 +28,7 @@ namespace Laan.ContentMatters.Configuration
                     return _link;
 
                 string parentLink = Parent != null ? Parent.Link : "";
-                return Laan.Library.IO.Path.Combine( parentLink, Name );
+                return String.Format( "{0}/{1}", parentLink, Name );
             }
             set { _link = value; }
         }
@@ -42,8 +42,22 @@ namespace Laan.ContentMatters.Configuration
         [XmlElement( "page" )]
         public List<SitePage> Pages { get; set; }
 
+        private Page _page;
+        
         [XmlIgnore]
-        public Page Page { get; private set; }
+        public Page Page
+        {
+            get { return _page; }
+            internal set
+            {
+                _page = value;
+                Description = _page.Description;
+                Name = _page.Name;
+                Title = _page.Title;
+                Action = _page.Action;
+                Key = _page.Key;
+            }
+        }
         
         [XmlIgnore]
         public SitePage Parent { get; set; }
@@ -77,17 +91,6 @@ namespace Laan.ContentMatters.Configuration
         public override string ToString()
         {
             return Name;
-        }
-
-        public void CopyFromPage(Page page)
-        {
-            Page = page;
-            Description = page.Description;
-            Name = page.Name;
-            Title = page.Title;
-            Action = page.Action;
-            Key = page.Key;
-            
         }
 
     }

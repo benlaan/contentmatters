@@ -34,11 +34,6 @@ namespace Laan.ContentMatters
             return _container;
         }
 
-        public static T Resolve<T>()
-        {
-            return _container.Resolve<T>();
-        }
-
         public static IWindsorContainer Container
         {
             get

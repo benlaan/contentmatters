@@ -14,7 +14,7 @@
     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu posuere nunc justo tempus leo.</p>
   </div>
   <div class="sidebox">
-    <h1 class="clear">Sections $page</h1>
+    <h1 class="clear">$page Sections</h1>
       <list data="page.Pages">
           <detail><a href="$item.Link">$item.Name</a></detail>
       </list>

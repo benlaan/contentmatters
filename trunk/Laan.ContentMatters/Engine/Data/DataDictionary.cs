@@ -90,6 +90,9 @@ namespace Laan.ContentMatters.Engine.Data
 
         public void Add( string key, object value )
         {
+            if (_data.ContainsKey( key ))
+                throw new ArgumentException( String.Format("key '{0}' is already in the data store, with a value of: {1}", key, _data[ key ]) );
+
             _data.Add( key, value );
         }
 

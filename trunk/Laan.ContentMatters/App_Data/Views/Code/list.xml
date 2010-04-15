@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view>
+  <div class="welcome">
+    <h1>Projects</h1>
+    <list each="$p" data="$page.Pages">
+      <detail>
+        <h2><a href="/">$p.Name</a></h2>
+        <p>$p.Description</p>
+      </detail>
+    </list>
+  </div>
+</view>

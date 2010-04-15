@@ -33,18 +33,12 @@ namespace Laan.ContentMatters.Models
         public virtual User Author { get; set; }
         public virtual string Description { get; set; }
         public virtual string Title { get; set; }
-
-        public virtual string Link( string displayText )
-        {
-            return String.Format(
-                "<a href=\"/{0}/{1}/{2}\">{2}</a>",
-                GetType().Name, ID, displayText.HtmlEncoded()
-            );
-        }
         
-        public virtual string Link()
+        protected virtual string GetLink()
         {
-            return Link( Title );
+            return Title;
         }
+
+        public virtual string Link { get { return GetLink(); } }
     }
 }

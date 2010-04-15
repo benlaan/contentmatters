@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view>
+  <div class="welcome">
+    <h1>Blogs</h1>
+    <list each="$blog" data="$blogs">
+      <detail>
+        <h2><a href="/">$blog.Title</a></h2>
+        <p>$blog.Description</p>
+        <br/>
+        by $blog.Author.Name
+        <span class="date">$blog.Modified</span>
+        <!--<a class="comments" href="Blogs/$blog.Title/Comments">Comments</a>-->
+      </detail>
+    </list>
+  </div>
+</view>
