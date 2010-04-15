@@ -61,8 +61,8 @@ namespace Laan.ContentMatters.Configuration
 
         public virtual void LoadProperties( ISiteProperties properties )
         {
-            Owner = new Owner { Name = ( string )properties.Values["ownerName"] };
-            Copyright = ( string )properties.Values["copyright"];
+            //Owner = new Owner { Name = ( string )properties.Values["ownerName"] };
+            //Copyright = ( string )properties.Values["copyright"];
         }
 
         public string Copyright { get; set; }

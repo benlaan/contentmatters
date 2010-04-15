@@ -4,7 +4,7 @@
     <h1>Welcome to the Laan Family web site</h1>
     <p>by Ben Laan</p>
     <p>
-        This web site is built using a custom <wiki>CMS</wiki> called Laan.ContentMatters. It is still an early work in progress, 
+        This web site is built using a custom <wiki href="Content Management System">CMS</wiki> called Laan.ContentMatters. It is still an early work in progress, 
         but already allows end user design, layout and content generation of web pages using dynamic data and template expansions. 
         However, the current implementation has no UI, and thus requires a good working knowledge of both <wiki>XML</wiki>, 
         <wiki>HTML</wiki>, and <wiki>CSS</wiki>.
