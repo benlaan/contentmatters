@@ -96,6 +96,20 @@ edit
         minLength (can be derived from type definition if omitted)
         maxLength (as above)
 
+tabbed layout
+
+    <tabs>
+        <tab caption="Ideas">
+            <div class=""><p>Stuff...</p></div>
+        </tab>
+        <tab caption="Events">
+            <div class=""><p>More Stuff...</p></div>
+        </tab>
+        <tab caption="People">
+            <div class=""><p>Even More Stuff...</p></div>
+        </tab>
+    </tabs>
+
 ============================================================================================================================================
     Variables
 ============================================================================================================================================

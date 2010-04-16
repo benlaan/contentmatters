@@ -1,18 +1,15 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Configuration;
 
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 
-using log4net.Config;
-
 using Laan.ContentMatters.Engine;
-using Laan.ContentMatters.Engine.Interfaces;
 using Laan.ContentMatters.Engine.Services;
-using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 
-//using RouteDebug;
+using log4net.Config;
 
 namespace Laan.ContentMatters
 {
@@ -44,7 +41,7 @@ namespace Laan.ContentMatters
             //    new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
             //);
 
-            routes.Add( new Route( "{*path}", new Laan.ContentMatters.Engine.DebuggableRouteHandler( /* _container.Kernel */ ) ) );
+            routes.Add( new Route( "{*path}", new Laan.ContentMatters.Engine.DebuggableRouteHandler() ) );
         }
 
         private void InitialiseWindsor()
@@ -70,9 +67,7 @@ namespace Laan.ContentMatters
             //Build.TestData();            
             ViewEngines.Engines.Add( _container.Resolve<ICumulousViewEngine>() );
 
-//            ControllerBuilder.Current.SetControllerFactory( new CustomControllerFactory( _container.Kernel ) );
             RegisterRoutes( RouteTable.Routes );
-            //RouteDebugger.RewriteRoutesForTesting( RouteTable.Routes );
         }
     }
 }

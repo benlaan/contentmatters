@@ -102,9 +102,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -224,14 +224,21 @@
     <Content Include="App_Data\Types\System\float.xml" />
     <Content Include="App_Data\Types\System\integer.xml" />
     <Content Include="App_Data\Types\System\time.xml" />
+    <Content Include="App_Data\Views\Blogs\list.xml" />
+    <Content Include="App_Data\Views\Code\list.xml" />
     <Content Include="App_Data\Views\Home\popular_posts.xml" />
     <Content Include="App_Data\Views\Home\recent_posts.xml" />
     <Content Include="App_Data\Views\Home\welcome.xml" />
+    <Content Include="App_Data\Views\News\recent.xml" />
     <Content Include="App_Data\Views\Recipe\master.xml" />
     <Content Include="App_Data\Views\Recipe\sidebar.xml" />
-    <Content Include="App_Data\Views\footer.xml" />
+    <Content Include="App_Data\Views\footer.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\Layouts\Site\master.xml" />
-    <Content Include="App_Data\Views\sidebar.xml" />
+    <Content Include="App_Data\Views\sidebar.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="castle.config">
