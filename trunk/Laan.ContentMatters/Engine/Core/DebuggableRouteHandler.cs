@@ -15,8 +15,8 @@ namespace Laan.ContentMatters.Engine
             {
                 OutputRouteDiagnostics( requestContext.RouteData, requestContext.HttpContext );
             }
-            var handler = new PageRouteHttpHandler( requestContext, IoC.Container.Kernel );
-            return handler;
+
+            return new PageRouteHttpHandler( requestContext, IoC.Container.Kernel );
         }
 
         private bool HasQueryStringKey( string keyToTest, HttpRequestBase request )
