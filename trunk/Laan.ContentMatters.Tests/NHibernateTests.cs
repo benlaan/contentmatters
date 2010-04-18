@@ -43,7 +43,7 @@ namespace Laan.ContentMatters.Tests
         {
             using ( var session = _factory.OpenSession() )
             {
-                var repository = new DataProviderRepository<Blog>( NullLogger.Instance, _factory );
+                var repository = new DataProviderRepository<Blog>( NullLogger.Instance, _factory, null );
                 Assert.IsNotNull( repository );
 
                 DataSource data = new DataSource { Type = typeof( Blog ).FullName, Select = SelectionMode.All };
@@ -60,13 +60,15 @@ namespace Laan.ContentMatters.Tests
             using ( var session = _factory.OpenSession() )
             {
                 DataDictionary data = new DataDictionary();
-                var repository = new DataProvider( NullLogger.Instance, _factory, data );
+                var repository = new DataProvider( NullLogger.Instance, _factory, data, null );
                 Assert.IsNotNull( repository );
 
                 DataSource dataSource = new DataSource { Name = "blog", Type = "blog", Select = SelectionMode.All };
                 Page page = new Page();
+                SitePage sitePage = new SitePage();
+                sitePage.Page = page;
                 page.DataSources.Add( dataSource );
-                var blog = repository.Build( page );
+                var blog = repository.Build( sitePage );
                 Assert.IsNotNull( blog );
                 Assert.IsTrue( data.Keys.Contains( "blog" ) );
             }
@@ -78,13 +80,15 @@ namespace Laan.ContentMatters.Tests
             using ( var session = _factory.OpenSession() )
             {
                 DataDictionary data = new DataDictionary();
-                var repository = new DataProvider( NullLogger.Instance, _factory, data );
+                var repository = new DataProvider( NullLogger.Instance, _factory, data, null );
                 Assert.IsNotNull( repository );
 
                 DataSource dataSource = new DataSource { Name = "blog", Type = "blog", Select = SelectionMode.All, Order = "Created" };
                 Page page = new Page();
+                SitePage sitePage = new SitePage();
+                sitePage.Page = page;
                 page.DataSources.Add( dataSource );
-                var blog = repository.Build( page );
+                var blog = repository.Build( sitePage );
                 Assert.IsNotNull( blog );
                 Assert.IsTrue( data.Keys.Contains( "blog" ) );
             }

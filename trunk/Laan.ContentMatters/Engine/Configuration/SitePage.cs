@@ -41,38 +41,24 @@ namespace Laan.ContentMatters.Configuration
 
         [XmlElement( "page" )]
         public List<SitePage> Pages { get; set; }
-
-        private Page _page;
         
         [XmlIgnore]
-        public Page Page
-        {
-            get { return _page; }
-            internal set
-            {
-                _page = value;
-                Description = _page.Description;
-                Name = _page.Name;
-                Title = _page.Title;
-                Action = _page.Action;
-                Key = _page.Key;
-            }
-        }
+        public Page Page { get; internal set; }
         
         [XmlIgnore]
         public SitePage Parent { get; set; }
         
         [XmlIgnore]
-        public string Title { get; set; }
+        public string Title { get { return Page.Title; } }
         
         [XmlIgnore]
-        public string Key { get; set; }
+        public string Key { get { return Page.Key; } }
         
         [XmlIgnore]
-        public string Action { get; set; }
+        public string Action { get { return Page.Action; } }
         
         [XmlIgnore]
-        public string Description { get; set; }
+        public string Description { get { return Page.Description; } }
 
         public string FullPath
         {

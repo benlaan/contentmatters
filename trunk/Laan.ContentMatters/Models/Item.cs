@@ -24,8 +24,6 @@ namespace Laan.ContentMatters.Models
                 return type.Name;
         }
 
-        public virtual ItemDefinition ItemDefinition { get; set; }
-
         public virtual int ID { get; set; }
         public virtual string TypeName { get; set; }
         public virtual DateTime Created { get; set; }

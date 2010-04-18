@@ -63,12 +63,14 @@ namespace Laan.ContentMatters.Tests
                     Select = SelectionMode.All 
                 }
             );
+            SitePage sitePage = new SitePage();
+            sitePage.Page = page;
 
             IDataDictionary data;
             using ( _mock.Playback() )
             {
-                _dataProvider = new DataProvider( NullLogger.Instance, _sessionFactory, new DataDictionary( true ) );
-                data = _dataProvider.Build( page );
+                _dataProvider = new DataProvider( NullLogger.Instance, _sessionFactory, new DataDictionary( true ), null );
+                data = _dataProvider.Build( sitePage );
             }
             Assert.IsNotNull( data );
             //Assert.AreEqual( 1, data.Count );

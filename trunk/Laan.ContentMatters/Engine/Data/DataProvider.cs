@@ -16,9 +16,11 @@ namespace Laan.ContentMatters.Engine.Data
         private ISessionFactory _factory;
         private ILogger _logger;
         private IDataDictionary _data;
+        private IDefinitionService _definitionService;
 
-        public DataProvider(  ILogger logger, ISessionFactory factory, IDataDictionary data )
+        public DataProvider(  ILogger logger, ISessionFactory factory, IDataDictionary data, IDefinitionService definitionService )
         {
+            _definitionService = definitionService;
             _data = data;
             _logger = logger;
             _factory = factory;
@@ -29,10 +31,10 @@ namespace Laan.ContentMatters.Engine.Data
             var typeFromDataSource = Type.GetType( type, true, true );
             var genericType = typeof( DataProviderRepository<> ).MakeGenericType( typeFromDataSource );
             
-            return Activator.CreateInstance( genericType, _logger, _factory );
+            return Activator.CreateInstance( genericType, _logger, _factory, _definitionService );
         }
 
-        private object ExecuteSelectionMethod( Page page, DataSource dataSource, object repository )
+        private object ExecuteSelectionMethod( SitePage page, DataSource dataSource, object repository )
         {
             var methodName = String.Format( "Select{0}", dataSource.Select );
             var method = repository.GetType().GetMethod( methodName, BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod );
@@ -40,17 +42,17 @@ namespace Laan.ContentMatters.Engine.Data
             return method.Invoke( repository, new object[] { page, dataSource } );
         }
 
-        public IDataDictionary Build( Page page )
+        public IDataDictionary Build( SitePage sitePage )
         {
             _data.Clear();
-            foreach ( DataSource dataSource in page.DataSources )
+            foreach ( DataSource dataSource in sitePage.Page.DataSources )
             {
                 string type = dataSource.Type;
                 if ( type.Split( new[] { "." }, StringSplitOptions.None ).Count() == 1 )
                     type = String.Format( "Laan.ContentMatters.Models.Custom.{0}, Laan.ContentMatters.Models.Custom", dataSource.Type );
 
                 object repository = CreateRepository( type );                
-                object data = ExecuteSelectionMethod( page, dataSource, repository );
+                object data = ExecuteSelectionMethod( sitePage, dataSource, repository );
 
                 _data.Add( dataSource.Name, data );
             }

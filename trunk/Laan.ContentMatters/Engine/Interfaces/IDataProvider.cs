@@ -6,6 +6,6 @@ namespace Laan.ContentMatters.Engine.Interfaces
 {
     public interface IDataProvider
     {
-        IDataDictionary Build( Page page );
+        IDataDictionary Build( SitePage page );
     }
 }

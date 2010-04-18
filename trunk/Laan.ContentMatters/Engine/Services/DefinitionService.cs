@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
+using Laan.ContentMatters.Engine.Interfaces;
 using Laan.ContentMatters.Models;
 using Laan.Persistence.Interfaces;
 using Laan.Utilities.Xml;
-using Laan.ContentMatters.Engine.Interfaces;
 
 namespace Laan.ContentMatters.Engine.Services
 {
@@ -13,29 +14,55 @@ namespace Laan.ContentMatters.Engine.Services
     {
         private const string CustomNamespace = "Laan.ContentMatters.Models.Custom";
 
-        private IMapper _mapper;
+        private string _appData;
 
         public DefinitionService( IMapper mapper )
         {
-            _mapper = mapper;
+            _appData = mapper.MapPath( "~/App_Data" );
         }
 
-        /// <summary>
-        /// This method *will* eventually load from a repository, for now, it
-        /// is hardcoded!!!
-        /// </summary>
-        public void LoadItemDefinitions()
+        internal void EnsureDefinitionsHasParentProperty( List<ItemDefinition> definitions )
         {
-            string appData = _mapper.MapPath( "~/App_Data" );
+            foreach ( ItemDefinition definition in definitions )
+            {
+                if ( definition.Parent == null )
+                    continue;
 
-            var defs = XmlPersistence<List<ItemDefinition>>.LoadFromFile(
-                Laan.Library.IO.Path.Combine( appData, "Definitions", "definition.xml" )
+                // If there is already a field that is named as per the Parent property, continue
+                var def = definition.Fields.FirstOrDefault( fd => fd.Name == definition.Parent );
+                if ( def != null )
+                    continue;
+
+                // Add a reference of type 'Parent', called 'Parent'
+                // eg. public virtual Blog Blog { get; set; }
+                definition.Fields.Add(
+                    new FieldDefinition
+                    {
+                        Name = definition.Parent,
+                        ReferenceType = definition.Parent,
+                        FieldType = FieldType.Reference,
+                        IsParent = true
+                    }
+                );
+            }
+        }
+
+        public List<ItemDefinition> LoadDefinitions()
+        {
+            return XmlPersistence<List<ItemDefinition>>.LoadFromFile(
+                Laan.Library.IO.Path.Combine( _appData, "Definitions", "definition.xml" )
             );
+        }
 
-            var typeConstructor = new TypeConstructor( CustomNamespace, Path.Combine( appData, "Models" ) );
+        // TODO: This method *will* eventually load from a repository, for now, it
+        //       is hardcoded!!!
+        public void BuildTypesFromDefinitions()
+        {
+            List<ItemDefinition> defs = LoadDefinitions();
+            EnsureDefinitionsHasParentProperty( defs );
+
+            var typeConstructor = new TypeConstructor( CustomNamespace, Path.Combine( _appData, "Models" ) );
             typeConstructor.BuildAssemblyFromDefintions( typeof( Item ), defs );
-
-            //HttpRuntime.UnloadAppDomain();
         }
     }
 }

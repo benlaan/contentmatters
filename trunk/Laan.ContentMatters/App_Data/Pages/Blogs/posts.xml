@@ -1,4 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <page name="posts" detailPage="post">
-  <data name="blog.posts" type="post" select="parent" order="date desc" paged="true"/>
+  <data name="posts" type="post" select="parent" order="Created" paged="true"/>
+  
+  <layout page="site\master">
+    <view zone="sidebar" page="sidebar" />
+    <view zone="body" page="posts\list"/>
+    <view zone="footer" page="footer"/>
+  </layout>
 </page>

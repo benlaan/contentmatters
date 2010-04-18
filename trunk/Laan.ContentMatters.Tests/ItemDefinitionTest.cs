@@ -7,6 +7,8 @@ using Laan.ContentMatters.Engine;
 using Laan.ContentMatters.Models;
 
 using MbUnit.Framework;
+using Laan.ContentMatters.Engine.Services;
+using Laan.Persistence.Interfaces;
 
 namespace Laan.ContentMatters.Tests
 {

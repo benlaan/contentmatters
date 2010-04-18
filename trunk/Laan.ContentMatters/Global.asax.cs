@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -8,39 +9,19 @@ using Castle.Windsor;
 
 using Laan.ContentMatters.Engine;
 using Laan.ContentMatters.Engine.Services;
+using Laan.ContentMatters.Engine.Interfaces;
 
 using log4net.Config;
 
 namespace Laan.ContentMatters
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         private IWindsorContainer _container;
 
         public void RegisterRoutes( RouteCollection routes )
         {
             routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
-
-            //routes.MapRoute(
-            //    "ViewItem",                                             // Route name
-            //    "{controller}/{id}/{name}",                             // URL with parameters
-            //    new { controller = "Home", action = "View", id = "" }   // Parameter defaults
-            //);
-
-            //routes.MapRoute(
-            //    "NamedDefault",                                         // Route name
-            //    "{controller}/{action}/{id}/{name}",                    // URL with parameters
-            //    new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
-            //);
-
-            //routes.MapRoute(
-            //    "Default",                                              // Route name
-            //    "{controller}/{action}/{id}",                           // URL with parameters
-            //    new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
-            //);
-
             routes.Add( new Route( "{*path}", new Laan.ContentMatters.Engine.DebuggableRouteHandler() ) );
         }
 
@@ -60,7 +41,7 @@ namespace Laan.ContentMatters
             XmlConfigurator.Configure();
 
             var definitionService = new DefinitionService( new ServerMapper() );
-            definitionService.LoadItemDefinitions();
+            definitionService.BuildTypesFromDefinitions();
 
             InitialiseWindsor();
 
