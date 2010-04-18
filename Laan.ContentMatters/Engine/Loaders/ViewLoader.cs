@@ -203,9 +203,9 @@ namespace Laan.ContentMatters.Loaders
             return view;
         }
 
-        public void GenerateData( Page page, IDictionary<string, object> contextData )
+        public void GenerateData( SitePage sitePage, IDictionary<string, object> contextData )
         {
-            Data = _dataProvider.Build( page );
+            Data = _dataProvider.Build( sitePage );
             if (contextData == null)
                 return;
 

@@ -109,6 +109,20 @@ tabbed layout
             <div class=""><p>Even More Stuff...</p></div>
         </tab>
     </tabs>
+    
+menus
+
+	essentially the same as list, but generating DHTML (jQuery-based) overlays
+	
+	<menu data="$site" children="Pages" depth="2">
+		<detail>
+			<a href="$item.Link">$item.Text</a>
+		</detail>
+	</menu>
+	
+	optional attribute:
+		depth (how many levels deep the menu tree should render
+		children (used to define the recursing list property's name
 
 ============================================================================================================================================
     Variables

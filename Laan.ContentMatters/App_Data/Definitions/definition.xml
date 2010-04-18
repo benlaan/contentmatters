@@ -1,26 +1,32 @@
 <?xml version="1.0"?>
 <ArrayOfItemDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ItemDefinition masterPage="Site" name="Comment">
+
+  <ItemDefinition name="Blog">
     <fields>
-      <field name="Body" fieldType="Memo" />
+      <field name="Posts" fieldType="List" referenceType="Post" />
     </fields>
-  </ItemDefinition>
-  <ItemDefinition masterPage="Site" name="Post">
+  </ItemDefinition>  
+
+  <ItemDefinition name="Post" parent="Blog">
     <fields>
       <field name="Body" fieldType="Memo" />
       <field name="Comments" fieldType="List" referenceType="Comment" />
     </fields>
-  </ItemDefinition>
-  <ItemDefinition masterPage="Site" name="Blog">
+  </ItemDefinition>  
+  <ItemDefinition name="Comment" parent="Post">
     <fields>
-      <field name="Posts" fieldType="List" referenceType="Post" />
+      <field name="Body" fieldType="Memo" />
     </fields>
   </ItemDefinition>
-  <ItemDefinition masterPage="Site" name="News">
+
+
+  
+  <ItemDefinition name="News">
     <fields>
       <field name="Body" fieldType="Memo" />
       <field name="PublishFrom" fieldType="DateTime" />
       <field name="PublishTo" fieldType="DateTime" />
     </fields>
   </ItemDefinition>
+
 </ArrayOfItemDefinition>

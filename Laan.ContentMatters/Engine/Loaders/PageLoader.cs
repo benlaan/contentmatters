@@ -64,10 +64,7 @@ namespace Laan.ContentMatters.Loaders
         {
             foreach ( SitePage childSitePage in childPages )
             {
-                Page child = LoadPage( childSitePage );
-                if ( child == null )
-                    continue;
-
+                Page child = LoadPage( childSitePage ) ?? new Page();
                 childSitePage.Page = child;
             }
         }
@@ -95,7 +92,7 @@ namespace Laan.ContentMatters.Loaders
                 if ( childPage != null )
                 {
                     sitePage = childPage;
-                    page = LoadPage( sitePage );
+                    page = sitePage.Page;
 
                     sitePage.Parent = parentSitePage;
                 }
@@ -122,7 +119,7 @@ namespace Laan.ContentMatters.Loaders
             {
                 sitePage = FindDefaultPage( path );
                 if ( sitePage != null )
-                    page = LoadPage( sitePage );
+                    page = sitePage.Page;
 
                 if (page == null)
                     throw new PageNotFoundException( path );

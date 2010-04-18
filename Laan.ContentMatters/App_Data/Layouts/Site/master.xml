@@ -6,7 +6,7 @@
     <meta name="Distribution" content="Global" />
     <meta name="Robots" content="index,follow" />
     <title>LaanFamily - $page.Title</title>
-    <link href="Content/site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div id="wrap">

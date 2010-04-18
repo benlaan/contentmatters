@@ -40,8 +40,10 @@ namespace Laan.ContentMatters.Tests
             {
                 ViewLoader viewLoader = new ViewLoader( mapper, dataProvider, data, 2 );
                 Page page = XmlPersistence<Page>.LoadFromFile( String.Format( @"..\..\App_Data\Pages\{0}", pageName ) );
+                SitePage sitePage = new SitePage();
+                sitePage.Page = page;
                 contextData[ "page" ] = page;
-                viewLoader.GenerateData( page, contextData );
+                viewLoader.GenerateData( sitePage, contextData );
                 view = viewLoader.Load( page );
             }
             Assert.IsNotNull( view );

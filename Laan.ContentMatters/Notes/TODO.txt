@@ -1,0 +1,103 @@
+============================================================================================================================================
+	TODO List
+============================================================================================================================================
+
+* Implement ParentID property for all child types..
+
+	- post.BlogID mapped to ParentID property
+	- how to determine which property is parent? Perhaps new psuedo-property 'parent'
+	- change type constructor to map Parent property to BlogID
+
+* Expand Types
+	- when an item is shown as a value, get the output from either (in priority order)
+		1. type name lookup in types folder (using template 'helper' property if known, default to 'preview')
+		2. cast as IRenderable, using method ToHTML()
+		3. ToString(), using HtmlEncode
+		
+	- type folder will have a subfolder per type, and optionally files within each for each template. e.g.:
+	
+		Types
+			Blog
+				item.xml		- a brief one-liner, usually shown in a grid, or detail list
+				preview.xml		- a fragment, usually within a list with a few items
+				detail.xml   	- a full representation, usually when viewing only one item
+				
+	- Implement all common types as item.xml
+	
+		Types
+			Date
+			Time
+			DateTime
+			Integer
+			Float
+			
+* Page Layout inheritance
+	- allow child pages to reuse the layout defined above (if possible!)
+	- define abstract layouts which pages 'flesh out'
+			
+* More datasources
+	- Directory Listings
+	- OData urls
+	- How to define various data items - polymorphic XML?
+	
+	<dataSources>
+		<database name="blogs" type="blog"/>
+		<file name="snippets" path="Code/Snippets" filter="*.cs"/> 
+		<odata name="tweets" url="http://twitter.com/benlaan/latest.svc"/>
+	</dataSources>
+
+* jQuery integration within provider model
+
+	Ensure required script initialisations are aggreagated, and run at the 'end' of the html file
+	Ensure required 'using' scripts are referenced and added once-only to the head section (will 
+		require a second pass)
+			
+* More Providers
+
+	See Provider Notes.txt for more information
+
+* Database Definition Strategy
+
+	- detect changes to definitions (use version effective dates to determine *when* to migrate)
+	- automatically migrate schema
+	- automatically rebuild assembly, and reload web app
+	
+* Move Definitions, Pages, Types, Layouts, etc into DB
+
+	- definitions get normalised into tables
+	
+		ItemDefinition (header) 
+		FieldDefinition (detail)
+	
+	- document schema
+	
+		fileName : string <PK>
+		version	 : int
+		body     : memo (XML)
+
+	- implement versioning
+
+		new table for versions:
+		
+			version       : int <PK>
+			effectiveFrom : datetime
+			name          : text
+			comment       : text
+
+* Error Handling
+
+	- Need to generate a proper 404 error when pages are not found! (Response.ErrorStatus?)
+	- Need a set of error pages with diagnostic information
+	- Logging
+		ELMAH http://code.google.com/p/elmah/
+	
+* Security
+
+	- Users, Roles, etc..
+	- How to configure pages, data, files, etc per entity?
+	
+* UI 
+
+	- To provider a front-end to manage:
+		Site heirarchy (sitemap tree and selected page)
+		Page Layout, View selection

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-
-using Laan.ContentMatters.Engine.Interfaces;
 using System.Text;
 using System.Text.RegularExpressions;
+
+using Laan.ContentMatters.Engine.Interfaces;
 
 namespace Laan.ContentMatters.Engine.Data
 {

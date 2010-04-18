@@ -31,10 +31,8 @@ namespace Laan.ContentMatters.Engine
             if ( sitePage == null )
                 throw new PageNotFoundException( controllerContext.RequestContext.HttpContext.Request.Path );
 
-            Page page = sitePage.Page;
-
-            _viewLoader.GenerateData( page, controllerContext.RouteData.Values );
-            View view = _viewLoader.Load( page );
+            _viewLoader.GenerateData( sitePage, controllerContext.RouteData.Values );
+            View view = _viewLoader.Load( sitePage.Page );
             return new ViewEngineResult( view, this );
         }
 

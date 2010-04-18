@@ -9,7 +9,7 @@ namespace Laan.ContentMatters.Models
 {
     [ Serializable ]
     [ XmlRoot( "definitions" ) ]
-    public class ItemDefinition : IItem
+    public class ItemDefinition : IItem, IIdentifiable
     {
         public ItemDefinition()
         {
@@ -27,6 +27,13 @@ namespace Laan.ContentMatters.Models
 
         [XmlArray( "fields" ), XmlArrayItem( "field" )]
         public virtual List<FieldDefinition> Fields { get; set; }
+
+        #region IIdentifiable Members
+
+        [ XmlIgnore ]
+        public virtual int ID { get; set; }
+
+        #endregion
 
         [XmlAttribute( "name" )]
         public virtual string Name { get; set; }

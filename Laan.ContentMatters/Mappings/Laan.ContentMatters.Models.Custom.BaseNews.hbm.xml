@@ -1,0 +1,35 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-access="">
+  <class name="Laan.ContentMatters.Models.Custom.BaseNews, Laan.ContentMatters.Models.Custom, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" table="Custom_BaseNews" xmlns="urn:nhibernate-mapping-2.2">
+    <id name="ID" type="Int32" column="ID">
+      <generator class="native" />
+    </id>
+    <property name="TypeName" type="String">
+      <column name="TypeName" />
+    </property>
+    <property name="Created" type="DateTime">
+      <column name="Created" />
+    </property>
+    <property name="Modified" type="DateTime">
+      <column name="Modified" />
+    </property>
+    <property name="Description" type="String">
+      <column name="Description" />
+    </property>
+    <property name="Title" type="String">
+      <column name="Title" />
+    </property>
+    <many-to-one fetch="join" name="Author" column="AuthorID" />
+    <joined-subclass name="Laan.ContentMatters.Models.Custom.News, Laan.ContentMatters.Models.Custom, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <key column="BaseNews_id" />
+      <property name="Body" type="String">
+        <column name="Body" />
+      </property>
+      <property name="PublishFrom" type="DateTime">
+        <column name="PublishFrom" />
+      </property>
+      <property name="PublishTo" type="DateTime">
+        <column name="PublishTo" />
+      </property>
+    </joined-subclass>
+  </class>
+</hibernate-mapping>

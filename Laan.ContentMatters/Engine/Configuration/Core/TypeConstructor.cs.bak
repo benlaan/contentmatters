@@ -8,6 +8,8 @@ using System.Linq;
 using Laan.ContentMatters.Models;
 using Laan.ContentMatters.Models.Extensions;
 using Laan.Utilities.IO;
+using System.Drawing;
+using Castle.Core;
 
 namespace Laan.ContentMatters.Engine
 {
@@ -22,7 +24,7 @@ namespace Laan.ContentMatters.Engine
         private string _namespace;
 
         private MethodAttributes ConstructorAttr =
-            MethodAttributes.HideBySig | 
+            MethodAttributes.HideBySig |
             MethodAttributes.Public |
             MethodAttributes.SpecialName |
             MethodAttributes.RTSpecialName;
@@ -34,7 +36,8 @@ namespace Laan.ContentMatters.Engine
             MethodAttributes.NewSlot |
             MethodAttributes.SpecialName;
 
-        public TypeConstructor( string @namespace ) : this( @namespace, null )
+        public TypeConstructor( string @namespace )
+            : this( @namespace, null )
         {
         }
 
@@ -62,7 +65,7 @@ namespace Laan.ContentMatters.Engine
 
         private MethodBuilder CreateGetter( FieldBuilder accessField )
         {
-            var getter = _builder.DefineMethod( "get" + accessField.Name, MethodAttributes, accessField.FieldType, Type.EmptyTypes );
+            var getter = _builder.DefineMethod( "get_" + accessField.Name, MethodAttributes, accessField.FieldType, Type.EmptyTypes );
 
             var gen = getter.GetILGenerator();
             gen.Emit( OpCodes.Ldarg_0 );
@@ -74,7 +77,7 @@ namespace Laan.ContentMatters.Engine
 
         private MethodBuilder CreateSetter( FieldBuilder field )
         {
-            var setter = _builder.DefineMethod( "set" + field.Name, MethodAttributes, null, new[] { field.FieldType } );
+            var setter = _builder.DefineMethod( "set_" + field.Name, MethodAttributes, null, new[] { field.FieldType } );
 
             var gen = setter.GetILGenerator();
             gen.Emit( OpCodes.Ldarg_0 );
@@ -96,7 +99,7 @@ namespace Laan.ContentMatters.Engine
             // accessors
             var getter = CreateGetter( accessField );
             var setter = CreateSetter( accessField );
-            _setterMethods[ definition ] = setter;
+            _setterMethods[definition] = setter;
 
             // property, with linked accessors
             var property = _builder.DefineProperty( definition.Name, PropertyAttributes.None, fieldType, null );
@@ -106,27 +109,33 @@ namespace Laan.ContentMatters.Engine
 
         public Type AddType( Type baseType, ItemDefinition definition )
         {
+            return AddType( baseType, definition, false );
+        }
+        
+        public Type AddType( Type baseType, ItemDefinition definition, bool processParentOnly )
+        {
             var attr =
                 TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.AutoClass |
                 TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit | TypeAttributes.AutoLayout;
 
             // create a type in the module
             _builder = _moduleBuilder.DefineType(
-                String.Format( "{0}.{1}", definition.Namespace ?? _namespace, definition.Name ),
+                String.Format( "{0}.{1}", definition.Namespace ?? _namespace, ( processParentOnly ? "Base" : "" ) + definition.Name ),
                 attr,
                 baseType
             );
 
             // build the properties
             foreach ( var fieldDefinition in definition.Fields )
-                CreateProperty( fieldDefinition );
+                if ( processParentOnly == fieldDefinition.IsParent )
+                    CreateProperty( fieldDefinition );
 
-            CreateConstructor( definition );
+            CreateConstructor( definition, processParentOnly );
 
             return _builder.CreateType();
         }
 
-        private void CreateConstructor( ItemDefinition definition )
+        private void CreateConstructor( ItemDefinition definition, bool processParentOnly )
         {
             var ctor = _builder.DefineConstructor( ConstructorAttr, CallingConventions.Standard, null );
 
@@ -137,14 +146,14 @@ namespace Laan.ContentMatters.Engine
             gen.Emit( OpCodes.Call, _builder.BaseType.GetConstructor( Type.EmptyTypes ) );
 
             // instantiate an instance of each List field
-            foreach ( var def in definition.Fields.Where( fld => fld.FieldType == FieldType.List ) )
+            foreach ( var def in definition.Fields.Where( fld => fld.FieldType == FieldType.List && processParentOnly == fld.IsParent ) )
             {
                 Type referredType = _moduleBuilder.GetType( def.GetReferenceType( _moduleBuilder ), true, false );
                 Type type = typeof( List<> ).MakeGenericType( referredType );
 
                 gen.Emit( OpCodes.Ldarg_0 );
                 gen.Emit( OpCodes.Newobj, type.GetConstructor( Type.EmptyTypes ) );
-                gen.Emit( OpCodes.Callvirt, _setterMethods[ def ] );
+                gen.Emit( OpCodes.Callvirt, _setterMethods[def] );
             }
 
             gen.Emit( OpCodes.Ret );
@@ -157,8 +166,17 @@ namespace Laan.ContentMatters.Engine
 
         public void BuildAssemblyFromDefintions( Type baseType, List<ItemDefinition> definitions )
         {
+            List<Pair<ItemDefinition, Type>> parents = new List<Pair<ItemDefinition, Type>>();
             foreach ( var def in definitions )
-                AddType( baseType, def );
+            {
+                Type parentType = AddType( baseType, def, true );
+                parents.Add( new Pair<ItemDefinition, Type>( def, parentType ) );
+            }
+
+            foreach (Pair<ItemDefinition, Type> parent in parents.Reverse<Pair<ItemDefinition, Type>>())
+            {
+                AddType( parent.Second, parent.First );            	
+            }
 
             SaveAssembly();
         }

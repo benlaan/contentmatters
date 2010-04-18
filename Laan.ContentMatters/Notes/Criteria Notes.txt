@@ -1,0 +1,77 @@
+============================================================================================================================================
+    Data Selection Logic
+============================================================================================================================================
+
+----------------------------------------
+/Blogs/My-Blog
+----------------------------------------
+SELECT * 
+FROM Blogs 
+WHERE Title = "My Blog"
+
+CreateCriteria( typeof( Blog ), "b" )
+	.Add( Expression.Eq( "b.Title", "My Blog" ) )
+
+
+----------------------------------------
+/Blogs/My-Blog/Posts/A-Post
+----------------------------------------
+SELECT P.* 
+FROM Blogs B
+
+JOIN Posts P
+  ON P.BlogID = B.ID
+  
+WHERE B.Title = "My Blog"
+  AND P.Title = "A-Post"
+
+
+CreateCriteria( typeof( Blog ), "b" )
+	.Add( Expression.Eq( "b.Title", "My Blog" ) )
+	.CreateCriteria( "b.Posts", "p", JoinType.InnerJoin )
+		.Add( Expression.Eq( "p.Title", "My Blog" ) )
+  
+----------------------------------------
+/Blogs/My-Blog/Posts/A-Post/Comments
+----------------------------------------
+SELECT C.* 
+FROM Blogs B
+
+JOIN Posts P
+  ON P.BlogID = B.ID
+  
+JOIN Comments C
+  ON C.PostID = P.ID
+  
+WHERE B.Title = "My Blog"
+  AND P.Title = "A Post"
+
+CreateCriteria( typeof( Blog ), "b" )
+	.Add( Expression.Eq( "b.Title", "My Blog" ) )
+	.CreateCriteria( "b.Posts", "p", JoinType.InnerJoin )
+		.Add( Expression.Eq( "p.Title", "My Blog" ) )
+		.CreateCriteria( "p.Comments", "c", JoinType.InnerJoin )
+
+  
+----------------------------------------
+/Blogs/My-Blog/Posts/A-Post/Comments/Good-Stuff
+----------------------------------------
+SELECT C.* 
+FROM Blogs B
+
+JOIN Posts P
+  ON P.BlogID = B.ID
+  
+JOIN Comments C
+  ON C.PostID = P.ID
+  
+WHERE B.Title = "My Blog"
+  AND P.Title = "A Post"
+  AND C.Title = "Good Stuff"
+  
+CreateCriteria( typeof( Blog ), "b" )
+	.Add( Expression.Eq( "b.Title", "My Blog" ) )
+	.CreateCriteria( "b.Posts", "p", JoinType.InnerJoin )
+		.Add( Expression.Eq( "p.Title", "My Blog" ) )
+		.CreateCriteria( "p.Comments", "c", JoinType.InnerJoin )
+			.Add( Expression.Eq( "c.Title", "Good Stuff" ) )
