@@ -9,15 +9,18 @@ using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Controllers;
 using Laan.ContentMatters.Loaders;
 using Laan.Persistence.Interfaces;
-using System.Web.Mvc;
 
 namespace Laan.ContentMatters.Engine
 {
-    public class EmptyHandler : IHttpHandler
+    public class CumulousHandler : IHttpHandler
     {
-    	public EmptyHandler( RequestContext requestContext, IKernel kernel )
-    	{
-    		
+        private RequestContext _requestContext;
+        private IKernel _kernel;
+        
+        public CumulousHandler( RequestContext requestContext, IKernel kernel )
+        {
+            _kernel = kernel;
+            _requestContext = requestContext;
     	}
     
         #region IHttpHandler Members
@@ -28,27 +31,6 @@ namespace Laan.ContentMatters.Engine
         }
 
         public virtual void ProcessRequest(HttpContext context)
-        {
- 	        
-        }
-
-        #endregion
-    }
-
-    internal class PageRouteHttpHandler : MvcHandler // EmptyHandler
-    {
-        private IKernel _kernel;
-        private RequestContext _requestContext;
-
-        public PageRouteHttpHandler( RequestContext requestContext, IKernel kernel ) : base( requestContext )
-        {
-            _requestContext = requestContext;
-            _kernel = kernel;
-        }
-
-        #region IHttpHandler Members
-
-        protected override void ProcessRequest( HttpContext context )
         {
             IMapper mapper = _kernel.Resolve<IMapper>();
 
@@ -70,11 +52,6 @@ namespace Laan.ContentMatters.Engine
             var controller = _kernel.Resolve<IPageController>();
             controller.Execute( _requestContext );
         }
-
-        //public bool IsReusable
-        //{
-        //    get { return true; }
-        //}
 
         #endregion
     }

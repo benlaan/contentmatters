@@ -75,7 +75,7 @@ namespace Laan.ContentMatters.Engine.Data
             while ( sitePage != null )
             {
                 if (sitePage.Key != null)
-                    criteria = criteria.Add( Expression.Eq( "Title", sitePage.Key ) );
+                    criteria = criteria.Add( Expression.InsensitiveLike( "Title", sitePage.Key ) );
 
                 sitePage = sitePage.Parent;
                 if (sitePage == null)

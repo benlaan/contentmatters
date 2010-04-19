@@ -64,9 +64,9 @@ namespace Laan.ContentMatters.Engine
             return _currentType.DefineField( fieldName, fieldType, FieldAttributes.Private );
         }
 
-        private MethodBuilder CreateGetter( FieldBuilder accessField )
+        private MethodBuilder CreateGetter( FieldBuilder accessField, string propertyName )
         {
-            var getter = _currentType.DefineMethod( "get_" + accessField.Name, MethodAttributes, accessField.FieldType, Type.EmptyTypes );
+            var getter = _currentType.DefineMethod( "get_" + propertyName, MethodAttributes, accessField.FieldType, Type.EmptyTypes );
 
             var gen = getter.GetILGenerator();
             gen.Emit( OpCodes.Ldarg_0 );
@@ -76,9 +76,9 @@ namespace Laan.ContentMatters.Engine
             return getter;
         }
 
-        private MethodBuilder CreateSetter( FieldBuilder field )
+        private MethodBuilder CreateSetter( FieldBuilder field, string propertyName )
         {
-            var setter = _currentType.DefineMethod( "set_" + field.Name, MethodAttributes, null, new[] { field.FieldType } );
+            var setter = _currentType.DefineMethod( "set_" + propertyName, MethodAttributes, null, new[] { field.FieldType } );
 
             var gen = setter.GetILGenerator();
             gen.Emit( OpCodes.Ldarg_0 );
@@ -91,16 +91,16 @@ namespace Laan.ContentMatters.Engine
 
         private void CreateProperty( FieldDefinition definition )
         {
-            var fieldType = GetSystemType( definition, _types, _moduleBuilder );
+            var fieldType = GetSystemType( definition, _types );
             var fieldName = "_" + definition.Name.ToJavaCase();
 
             // backing field
             var accessField = CreateBackingField( fieldName, fieldType );
 
             // accessors
-            var getter = CreateGetter( accessField );
-            var setter = CreateSetter( accessField );
-            _setterMethods[definition] = setter;
+            var getter = CreateGetter( accessField, definition.Name );
+            var setter = CreateSetter( accessField, definition.Name );
+            _setterMethods[ definition ] = setter;
 
             // property, with linked accessors
             var property = _currentType.DefineProperty( definition.Name, PropertyAttributes.None, fieldType, null );
@@ -108,9 +108,9 @@ namespace Laan.ContentMatters.Engine
             property.SetSetMethod( setter );
         }
 
-        private string GetReferenceType( FieldDefinition definition )
+        private TypeBuilder GetReferenceType( string type )
         {
-            return definition.ReferenceType.Contains( '.' ) ? definition.ReferenceType : _moduleBuilder.ScopeName + "." + definition.ReferenceType;
+            return GetType( type.Contains( '.' ) ? type : _moduleBuilder.ScopeName + "." + type );
         }
 
         private TypeBuilder GetType( string referenceType )
@@ -122,7 +122,7 @@ namespace Laan.ContentMatters.Engine
             throw new Exception( String.Format( "Type Not Found: {0}", referenceType ) );
         }
 
-        private Type GetSystemType( FieldDefinition definition, Dictionary<string, TypeBuilder> types, ModuleBuilder moduleBuilder )
+        private Type GetSystemType( FieldDefinition definition, Dictionary<string, TypeBuilder> types )
         {
             var lookup = new Dictionary<FieldType, Type>()
             {
@@ -146,19 +146,18 @@ namespace Laan.ContentMatters.Engine
 
             if ( definition.ReferenceType != null )
             {
-                var referenceType = GetReferenceType( definition );
+                var referenceType = GetReferenceType( definition.ReferenceType );
 
                 switch ( definition.FieldType )
                 {
                     case FieldType.List:
 
-                        Type referredType = GetType( referenceType );
-                        Type listOfType = typeof( IList<> ).MakeGenericType( referredType );
+                        Type listOfType = typeof( IList<> ).MakeGenericType( referenceType );
                         lookup.Add( FieldType.List, listOfType );
                         break;
 
                     case FieldType.Reference:
-                        lookup.Add( FieldType.Reference, GetType( referenceType ) );
+                        lookup.Add( FieldType.Reference, referenceType );
                         break;
                 }
             }
@@ -173,7 +172,7 @@ namespace Laan.ContentMatters.Engine
         public Type AddType( Type baseType, ItemDefinition definition )
         {
             Type type = BuildType( baseType, definition );
-            BuildTypeBody( definition );
+            BuildPropertiesAndConstructor( definition );
             return type;
         }
 
@@ -195,14 +194,15 @@ namespace Laan.ContentMatters.Engine
             return _currentType;
         }
 
-        private void BuildTypeBody( ItemDefinition definition )
+        private void BuildPropertiesAndConstructor( ItemDefinition definition )
         {
             // build the properties
             foreach ( var fieldDefinition in definition.Fields )
                 CreateProperty( fieldDefinition );
 
-            //CreateConstructor( definition );
+            CreateConstructor( definition );
         }
+
         private void CreateConstructor( ItemDefinition definition )
         {
             var ctor = _currentType.DefineConstructor( ConstructorAttr, CallingConventions.Standard, null );
@@ -216,11 +216,13 @@ namespace Laan.ContentMatters.Engine
             // instantiate an instance of each List field
             foreach ( var def in definition.Fields.Where( fld => fld.FieldType == FieldType.List ) )
             {
-                Type referredType = GetType( GetReferenceType( def ) );
+                Type referredType = GetReferenceType( def.ReferenceType );
                 Type type = typeof( List<> ).MakeGenericType( referredType );
+                ConstructorInfo open = typeof( List<> ).GetConstructor( new Type[ 0 ] );
+                ConstructorInfo ci   = TypeBuilder.GetConstructor( type, open );
 
                 gen.Emit( OpCodes.Ldarg_0 );
-                gen.Emit( OpCodes.Newobj, type.GetConstructor( Type.EmptyTypes ) );
+                gen.Emit( OpCodes.Newobj, ci );
                 gen.Emit( OpCodes.Callvirt, _setterMethods[def] );
             }
 
@@ -238,14 +240,18 @@ namespace Laan.ContentMatters.Engine
             foreach ( var def in definitions )
                 BuildType( baseType, def );
 
-            //foreach ( var def in definitions )
-            //    BuildTypeBody( def );
+            foreach ( var definition in definitions )
+            {
+                _currentType = GetReferenceType( definition.Name );
+                BuildPropertiesAndConstructor( definition );
+            }
 
             // Actually construct the types
             foreach ( var type in _types )
-                type.GetType();
+                type.Value.CreateType();
 
             SaveAssembly();
         }
     }
+
 }

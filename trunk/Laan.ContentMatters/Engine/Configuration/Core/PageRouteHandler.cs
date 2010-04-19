@@ -8,7 +8,7 @@ using Castle.MicroKernel;
 
 namespace Laan.ContentMatters.Engine
 {
-    public class PageRouteHandler : IRouteHandler
+    public class PageRouteHandler : CumulousRouteHandler
     {
         private IKernel _kernel;
 
@@ -19,9 +19,9 @@ namespace Laan.ContentMatters.Engine
 
         #region IRouteHandler Members
 
-        public IHttpHandler GetHttpHandler( RequestContext requestContext )
+        public override IHttpHandler GetHttpHandler( RequestContext requestContext )
         {
-            return new PageRouteHttpHandler( requestContext, _kernel );
+            return GetHandlerForVersion( requestContext );
         }
 
         #endregion
