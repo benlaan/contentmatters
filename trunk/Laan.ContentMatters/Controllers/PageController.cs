@@ -14,9 +14,15 @@ namespace Laan.ContentMatters.Controllers
             _log = log;
         }
 
-        public ActionResult Index( string key )
+        public ActionResult Index()
         {
-            _log.Debug( String.Format( "Index({0})", key ) );
+            _log.Debug( "Index" );
+            return View();
+        }
+
+        public ActionResult Detail( string key )
+        {
+            _log.Debug( String.Format( "Detail({0})", key ) );
             return View();
         }
 

@@ -82,7 +82,6 @@ namespace Laan.ContentMatters.Loaders
             }
         }
 
-
         private void WriteElement( XmlReader reader, XmlWriter writer, PageLayout layout )
         {
             switch ( reader.Name )
@@ -119,9 +118,9 @@ namespace Laan.ContentMatters.Loaders
 
             string fileName;
             if ( pageView.Layout != null )
-                fileName = Laan.Library.IO.Path.Combine( _appData, "Layouts", layout.Page + ".xml" );
+                fileName = Laan.Library.IO.Path.Combine( _appData, "Layouts",  Data.ExpandVariables( layout.Page ) + ".xml" );
             else
-                fileName = Laan.Library.IO.Path.Combine( _appData, "Views", pageView.Page + ".xml" );
+                fileName = Laan.Library.IO.Path.Combine( _appData, "Views",  Data.ExpandVariables( pageView.Page ) + ".xml" );
 
             XmlReaderSettings settings = new XmlReaderSettings();
 
@@ -195,7 +194,7 @@ namespace Laan.ContentMatters.Loaders
 
         public View Load( Page page )
         {
-            string fullPath = Laan.Library.IO.Path.Combine( _appData, "Layouts", page.Layout.Page + ".xml" );
+            string fullPath = Laan.Library.IO.Path.Combine( _appData, "Layouts", Data.ExpandVariables( page.Layout.Page ) + ".xml" );
 
             View view = new View();
             view.Html = GenerateHtml( fullPath, page.Layout );

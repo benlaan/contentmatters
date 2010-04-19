@@ -137,6 +137,9 @@
     <Compile Include="Build.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Engine\Configuration\Core\CumulousHandler.cs" />
+    <Compile Include="Engine\Configuration\Core\CumulousMvcHandler.cs" />
+    <Compile Include="Engine\Configuration\Core\CumulousRouteHandler.cs" />
     <Compile Include="Engine\Configuration\Owner.cs" />
     <Compile Include="Engine\Configuration\Core\PageNotFoundException.cs" />
     <Compile Include="Engine\Data\DataDictionary.cs" />
@@ -170,7 +173,6 @@
     <Compile Include="Engine\Configuration\Page.cs" />
     <Compile Include="Engine\Configuration\PageConfiguration.cs" />
     <Compile Include="Engine\Configuration\Core\PageRouteHandler.cs" />
-    <Compile Include="Engine\Configuration\Core\PageRouteHttpHandler.cs" />
     <Compile Include="Engine\Configuration\Core\ServerMapper.cs" />
     <Compile Include="Engine\Configuration\Site.cs" />
     <Compile Include="Engine\Configuration\SitePage.cs" />
