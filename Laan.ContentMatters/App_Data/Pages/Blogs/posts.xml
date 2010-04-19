@@ -1,6 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <page name="posts" detailPage="post">
-  <data name="posts" type="post" select="parent" order="Created" paged="true"/>
+  
+  <!--
+    <data name="post" type="posts">
+      <select when="parent" top="10" order="Created"/>
+      <select when="key">
+        <select name .. sort comments somehow!!!/>
+      </select>
+    </data>
+  -->
+  
+  <data name="posts" type="post" select="parent" top="10" order="Created"/>
+  <data name="post" type="post" select="key">
+    <data name="comments" order="Created"/>
+  </data>
   
   <layout page="site\master">
     <view zone="sidebar" page="sidebar" />

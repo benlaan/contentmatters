@@ -3,10 +3,13 @@
   name="Blogs" description="our blog collection"
 >  
   <data name="blogs" type="blog" select="all" top="10" order="Created"/>
+  <data name="blog" type="blog" select="key">
+    <data name="posts" order="Created desc"/>
+  </data>
   
   <layout page="site\master">
     <view zone="sidebar" page="sidebar" />
-    <view zone="body" page="blogs\list"/>
+    <view zone="body" page="blogs\$action"/>
     <view zone="footer" page="footer"/>
   </layout>
 </page>
