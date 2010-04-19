@@ -4,7 +4,7 @@
     <h1>Recent News</h1>
     <list data="$news">
       <detail>
-        <h2><a href="/">$item.Title</a></h2>
+        <h2><a href="News/$item.Title/">$item.Title</a></h2>
         <p>$item.Description</p>
         <br/>
         by $item.Author

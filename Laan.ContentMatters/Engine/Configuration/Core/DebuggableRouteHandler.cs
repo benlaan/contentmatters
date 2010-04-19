@@ -4,19 +4,20 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Laan.ContentMatters.Engine;
+using Castle.MicroKernel;
 
 namespace Laan.ContentMatters.Engine
 {
-    public class DebuggableRouteHandler : IRouteHandler
+    public class DebuggableRouteHandler : CumulousRouteHandler
     {
-        public IHttpHandler GetHttpHandler( RequestContext requestContext )
+        public override IHttpHandler GetHttpHandler( RequestContext requestContext )
         {
             if ( HasQueryStringKey( "routeInfo", requestContext.HttpContext.Request ) )
             {
                 OutputRouteDiagnostics( requestContext.RouteData, requestContext.HttpContext );
             }
 
-            return new PageRouteHttpHandler( requestContext, IoC.Container.Kernel );
+            return GetHandlerForVersion( requestContext );
         }
 
         private bool HasQueryStringKey( string keyToTest, HttpRequestBase request )

@@ -4,7 +4,7 @@
     <h1>Blogs</h1>
     <list each="$blog" data="$blogs">
       <detail>
-        <h2><a href="/">$blog.Title</a></h2>
+        <h2><a href="Blogs/$blog.Title/Posts">$blog.Title</a></h2>
         <p>$blog.Description</p>
         <br/>
         by $blog.Author.Name

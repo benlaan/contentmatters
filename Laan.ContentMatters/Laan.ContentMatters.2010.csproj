@@ -67,6 +67,9 @@
     <Reference Include="Laan.Library">
       <HintPath>..\References\Laan.Library.dll</HintPath>
     </Reference>
+    <Reference Include="Laan.NHibernate.Appender">
+      <HintPath>..\..\Laan.ContentMatters\References\Laan.NHibernate.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Laan.Persistence">
       <HintPath>..\References\Laan.Persistence.dll</HintPath>
     </Reference>
@@ -116,14 +119,23 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Engine\Configuration\Core\CumulousMvcHandler.cs" />
+    <Compile Include="Engine\Configuration\Core\CumulousRouteHandler.cs" />
+    <Compile Include="Engine\Configuration\Core\CumulousViewEngine.cs" />
+    <Compile Include="Engine\Configuration\Core\CustomControllerFactory.cs" />
+    <Compile Include="Engine\Configuration\Core\DebuggableRouteHandler.cs" />
+    <Compile Include="Engine\Configuration\Core\PageNotFoundException.cs" />
+    <Compile Include="Engine\Configuration\Core\PageRouteHandler.cs" />
+    <Compile Include="Engine\Configuration\Core\CumulousHandler.cs" />
+    <Compile Include="Engine\Configuration\Core\ServerMapper.cs" />
+    <Compile Include="Engine\Configuration\Core\TypeConstructor.cs" />
+    <Compile Include="Engine\Configuration\Core\XmlProvider.cs" />
     <Compile Include="Engine\Configuration\Owner.cs" />
     <Compile Include="Engine\Configuration\SiteProperties.cs" />
-    <Compile Include="Engine\Core\PageNotFoundException.cs" />
     <Compile Include="Engine\Data\DataDictionary.cs" />
     <Compile Include="Engine\HtmlProviders\WikipediaProvider.cs" />
     <Compile Include="Engine\Interfaces\IDataDictionary.cs" />
     <Compile Include="Engine\HtmlProviders\ListProvider.cs" />
-    <Compile Include="Engine\Core\XmlProvider.cs" />
     <Compile Include="Engine\Interfaces\IController.cs" />
     <Compile Include="Controllers\IPageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
@@ -131,7 +143,6 @@
     <Compile Include="Engine\Configuration\PageView.cs" />
     <Compile Include="Engine\Configuration\DataSource.cs" />
     <Compile Include="Engine\Configuration\HtmlFile.cs" />
-    <Compile Include="Engine\Core\CumulousViewEngine.cs" />
     <Compile Include="Engine\Interfaces\IHtmlProvider.cs" />
     <Compile Include="Engine\Configuration\Layout.cs" />
     <Compile Include="Engine\Data\DataProvider.cs" />
@@ -142,22 +153,16 @@
     <Compile Include="Engine\Loaders\PageLoader.cs" />
     <Compile Include="Engine\Configuration\SelectionMode.cs" />
     <Compile Include="View.cs" />
-    <Compile Include="Engine\Core\DebuggableRouteHandler.cs" />
     <Compile Include="Engine\Services\DefinitionService.cs" />
     <Compile Include="Engine\Interfaces\IDefinitionService.cs" />
     <Compile Include="Engine\Configuration\Page.cs" />
     <Compile Include="Engine\Configuration\PageConfiguration.cs" />
-    <Compile Include="Engine\Core\PageRouteHandler.cs" />
-    <Compile Include="Engine\Core\PageRouteHttpHandler.cs" />
-    <Compile Include="Engine\Core\ServerMapper.cs" />
     <Compile Include="Engine\Configuration\Site.cs" />
     <Compile Include="Engine\Configuration\SitePage.cs" />
-    <Compile Include="Engine\Core\CustomControllerFactory.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Engine\Core\TypeConstructor.cs" />
     <Compile Include="Engine\Loaders\ViewLoader.cs" />
     <Compile Include="Extensions\Path.cs" />
     <Compile Include="Global.asax.cs">
@@ -229,7 +234,9 @@
     <Content Include="App_Data\Views\Home\popular_posts.xml" />
     <Content Include="App_Data\Views\Home\recent_posts.xml" />
     <Content Include="App_Data\Views\Home\welcome.xml" />
-    <Content Include="App_Data\Views\News\recent.xml" />
+    <Content Include="App_Data\Views\News\recent.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\Views\Recipe\master.xml" />
     <Content Include="App_Data\Views\Recipe\sidebar.xml" />
     <Content Include="App_Data\Views\footer.xml">
@@ -245,6 +252,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App_Data\Data.s3db" />
+    <None Include="Engine\Configuration\Core\TypeConstructor.cs.bak" />
     <None Include="Templates\Blog\Index.vm" />
     <None Include="Templates\Blog\Item.vm" />
     <None Include="Templates\Blog\View.vm" />
