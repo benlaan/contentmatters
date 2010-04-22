@@ -49,7 +49,7 @@ namespace Laan.ContentMatters.Tests
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "blogs", page.Name );
-            Assert.AreEqual( "my blog", page.Key );
+            Assert.AreEqual( "My Blog", page.Key );
             Assert.AreEqual( "detail", page.Action );
         }
 
@@ -77,9 +77,9 @@ namespace Laan.ContentMatters.Tests
             Assert.IsNotNull( page );
             Assert.AreEqual( "posts", page.Name );
             Assert.AreEqual( "detail", page.Action );
-            Assert.AreEqual( "a short thought", page.Key );
+            Assert.AreEqual( "A Short Thought", page.Key );
             Assert.AreEqual( "blogs", page.Parent.Name );
-            Assert.AreEqual( "my blog", page.Parent.Key );
+            Assert.AreEqual( "My Blog", page.Parent.Key );
         }
 
         [Test]

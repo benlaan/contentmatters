@@ -264,17 +264,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App_Data\Data.s3db" />
-    <None Include="Templates\Blog\Index.vm" />
-    <None Include="Templates\Blog\Item.vm" />
-    <None Include="Templates\Blog\View.vm" />
-    <None Include="Templates\Post\Item.vm" />
-    <None Include="Templates\Post\View.vm" />
-    <None Include="Templates\_default\Item.vm" />
-    <None Include="Templates\_default\View.vm" />
-    <None Include="Templates\_default\Index.vm" />
-    <None Include="Views\File\List.vm" />
-    <None Include="Views\Home\About.vm" />
-    <None Include="Views\Master\Site.vm" />
     <Content Include="Images\bg.jpg" />
     <Content Include="Images\bullet.gif" />
     <Content Include="Images\clock.gif" />
@@ -290,7 +279,6 @@
     <Content Include="Notes\Provider Notes.txt" />
     <Content Include="Notes\Routes.txt" />
     <Content Include="Notes\TODO.txt" />
-    <Content Include="Views\Home\home.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -299,14 +287,6 @@
     <Content Include="Scripts\jquery-1.3.2.min.js" />
     <Content Include="Scripts\jquery-1.3.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.3.2.min-vsdoc.js" />
-    <Content Include="Views\Account\ChangePassword.aspx" />
-    <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
-    <None Include="Views\Account\LogOn.vm" />
-    <Content Include="Views\Account\Register.aspx" />
-    <None Include="Views\Home\Index.vm" />
-    <Content Include="Views\Shared\Error.aspx" />
-    <None Include="Views\Shared\logon.vm" />
-    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
