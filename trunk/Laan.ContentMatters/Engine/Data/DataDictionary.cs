@@ -30,8 +30,7 @@ namespace Laan.ContentMatters.Engine.Data
             _hardFail = hardFail;
             
             // compile the regex to find words and variables
-            _regex = new Regex( @"\$?[_A-Za-z][\w\.]*(\(\))?|[\s\]|[\w\\\/\:\-\=\+\*;,.!\<\>\'\""]", RegexOptions.Compiled );
-
+            _regex = new Regex( @"\$?[_A-Za-z][\w\.]*|[\<\/\>\s\x21-\x23\x25-\x7D]+", RegexOptions.Compiled );
             _data = new Dictionary<string, object>();
         }
 
@@ -58,26 +57,27 @@ namespace Laan.ContentMatters.Engine.Data
             // Traverse
             while ( ++index < parts.Length )
             {
-                if (instance == null)
+                if ( instance == null )
                     break;
 
-                Type t = instance.GetType();
-                var prop = t.GetProperty( parts[ index ] );
-                if ( prop == null )
+                var type = instance.GetType();
+                var prop = type.GetProperty( parts[ index ] );
+
+                if ( prop != null )
+                    instance = prop.GetValue( instance, null );
+                else
                 {
-                    var method = t.GetMethod( parts[ index ].Trim( '(', ')' ) );
-                    if ( method == null )
+                    var method = type.GetMethod( parts[ index ].Trim( '(', ')' ) );
+                    if ( method != null )
+                        instance = method.Invoke( instance, null );
+                    else
                     {
                         if ( _hardFail )
-                            throw new ArgumentException( String.Format( "Property '{0}' not found on type '{1}' for key '{2}'", parts[ index ], t.Name, key ) );
-                        else
-                            return key;
+                            throw new ArgumentException( String.Format( "Property '{0}' not found on type '{1}' for key '{2}'", parts[ index ], type.Name, key ) );
+                        
+                        return key;
                     }
-                    else
-                        instance = method.Invoke( instance, null );
                 }
-                else
-                    instance = prop.GetValue( instance, null );
             }
 
             return instance;
@@ -99,16 +99,6 @@ namespace Laan.ContentMatters.Engine.Data
         public bool Remove( string key )
         {
             return _data.Remove( key );
-        }
-
-        public ICollection<string> Keys
-        {
-            get { return _data.Keys; }
-        }
-        
-        public ICollection<object> Values
-        {
-            get { return _data.Values; }
         }
         
         public object this[ string key ]

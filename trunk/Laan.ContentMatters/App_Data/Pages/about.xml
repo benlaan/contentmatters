@@ -1,21 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <page 
     name="About"
-    description="about us, in case you are interested.."
+    description="about the site, and us too.."
 >
-  <!--<data name="home.news" type="news" select="all" order="date desc" top="10"/>-->
 
   <layout page="site\master">
     <view zone="sidebar" page="sidebar" />
-    <view zone="body" page="news\recent"/>
+    <view zone="body" page="Home\about"/>
     <view zone="footer" page="footer"/>
   </layout>
-  <view id="split">
-    <view id="welcome" zone="top"/>
-    <view id="fav_lists" zone="bottom">
-      <view id="recent_posts" zone="left"/>
-      <view id="popular_posts" zone="right"/>
-    </view>
-  </view>
- 
 </page>

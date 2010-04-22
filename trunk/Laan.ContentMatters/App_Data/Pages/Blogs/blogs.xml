@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<page 
-  name="Blogs" description="our blog collection"
->  
+<page name="Blogs" description="our blog collection">  
+  
   <data name="blogs" type="blog" select="all" top="10" order="Created"/>
   <data name="blog" type="blog" select="key">
     <data name="posts" order="Created desc"/>

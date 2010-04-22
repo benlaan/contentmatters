@@ -36,6 +36,7 @@ namespace Laan.ContentMatters.Tests
         {
             SitePage page = _pageLoader.GetPageFromPath( path );
             Assert.AreEqual(page.Name, "home");
+            Assert.AreEqual( "index", page.Action );
         }
 
         [Test]
@@ -49,6 +50,7 @@ namespace Laan.ContentMatters.Tests
             Assert.IsNotNull( page );
             Assert.AreEqual( "blogs", page.Name );
             Assert.AreEqual( "my blog", page.Key );
+            Assert.AreEqual( "detail", page.Action );
         }
 
         [Test]
@@ -61,6 +63,7 @@ namespace Laan.ContentMatters.Tests
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "posts", page.Name );
+            Assert.AreEqual( "edit", page.Action );
         }
 
         [Test]
@@ -73,6 +76,7 @@ namespace Laan.ContentMatters.Tests
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "posts", page.Name );
+            Assert.AreEqual( "detail", page.Action );
             Assert.AreEqual( "a short thought", page.Key );
             Assert.AreEqual( "blogs", page.Parent.Name );
             Assert.AreEqual( "my blog", page.Parent.Key );
@@ -101,6 +105,7 @@ namespace Laan.ContentMatters.Tests
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "blogs", page.Name );
+            Assert.AreEqual( "detail", page.Action );
             Assert.AreEqual( "my blog", page.Key, StringComparison.InvariantCultureIgnoreCase );
         }
 
@@ -114,7 +119,8 @@ namespace Laan.ContentMatters.Tests
 
             Assert.IsNotNull( page );
             Assert.AreEqual( "posts", page.Name );
-            Assert.AreEqual( "my blog", page.Parent.Key, StringComparison.InvariantCultureIgnoreCase);
+            Assert.AreEqual( "index", page.Action );
+            Assert.AreEqual( "my blog", page.Parent.Key, StringComparison.InvariantCultureIgnoreCase );
         }
 
         [Test]
@@ -129,6 +135,7 @@ namespace Laan.ContentMatters.Tests
             Assert.AreEqual( "blogs", page.Parent.Name );
             Assert.AreEqual( "my blog", page.Parent.Key, StringComparison.InvariantCultureIgnoreCase );
             Assert.AreEqual( "posts", page.Name );
+            Assert.AreEqual( "detail", page.Action );
             Assert.AreEqual( "an interesting story", page.Key, StringComparison.InvariantCultureIgnoreCase );
         }
     }

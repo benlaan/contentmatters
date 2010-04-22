@@ -125,7 +125,7 @@ namespace Laan.ContentMatters.Loaders
                     throw new PageNotFoundException( path );
                 
             }
-            sitePage.Page.Action = sitePage.Page.Key != null ? "Detail" : "Index";
+            sitePage.Page.Action = sitePage.Page.Action ?? ( sitePage.Page.Key != null ? "detail" : "index" );
             return sitePage;
         }
 

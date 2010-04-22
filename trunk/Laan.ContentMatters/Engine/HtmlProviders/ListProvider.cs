@@ -12,40 +12,31 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
 {
     public class ListProvider : XmlProvider
     {
-        public ListProvider()
-        {
 
-        }
-
-        protected override void WriteXml( XmlReader element, Stream stream )
+        protected override void WriteXml( XmlReader reader, XmlWriter writer )
         {
-            string dataName = GetRequiredAttribute( element, "data" );
-            string classDeclaration = element.GetAttribute( "class" );
-            string itemName = element.GetAttribute( "each" ) ?? "$item";
+            string dataName = GetRequiredAttribute( reader, "data" );
+            string itemName = reader.GetAttribute( "each" ) ?? "$item";
 
             string pattern = itemName;
-            if ( !element.IsEmptyElement )
+            if ( !reader.IsEmptyElement )
             {
-                EnsureChildElementExists( element, "detail" );
-                pattern = element.ReadInnerXml();
-                element.Read();
+                EnsureChildElementExists( reader, "detail" );
+                pattern = reader.ReadInnerXml();
+                reader.Read();
             }
 
-            XmlTextWriter writer = new XmlTextWriter( stream, Encoding.UTF8 );
-            writer.Formatting = Formatting.Indented;
-            writer.WriteStartElement( "ul" );
-            if ( !String.IsNullOrEmpty( classDeclaration ) )
-                writer.WriteAttributeString( "class", classDeclaration );
+            WriteElementWithOptionalClass( "ul", reader, writer );
 
             object value;
             if ( Data.TryGetValue( dataName, out value ) )
             {
-                if (value is string )
+                if ( value is string )
                     writer.WriteString( ( string )value );
 
                 var items = value as IEnumerable;
                 if ( items == null )
-                    throw new ArgumentException( "the list data attribute must refernece an IEnumerable object" );
+                    throw new ArgumentException( "the list data attribute must reference an IEnumerable object" );
 
                 foreach ( var item in items )
                 {
@@ -61,7 +52,6 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
             }
 
             writer.WriteFullEndElement();
-            writer.Flush();
         }
 
         #region IXmlProvider Members

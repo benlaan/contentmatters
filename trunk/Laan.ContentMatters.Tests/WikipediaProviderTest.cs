@@ -47,11 +47,10 @@ namespace Laan.ContentMatters.Tests
             string input = "<wiki>Words</wiki>";
             String output = GetXml( input, data );
 
-            new[] 
-            { 
-                "<a href=\"http://www.wikipedia.org/wiki/Words\" title=\"Visit Wikipedia for information about Words\">Words</a>" 
-            }
-            .Compare( output );            
+            Assert.AreEqual( 
+                "<a href=\"http://www.wikipedia.org/wiki/Words\" title=\"Visit Wikipedia for information about Words\">Words</a>", 
+                output 
+            );
         }
 
         [Test]
@@ -63,11 +62,10 @@ namespace Laan.ContentMatters.Tests
             string input = "<wiki>Many Words</wiki>";
             String output = GetXml( input, data );
 
-            new[] 
-            { 
-                "<a href=\"http://www.wikipedia.org/wiki/Many_Words\" title=\"Visit Wikipedia for information about Many Words\">Many Words</a>" 
-            }
-            .Compare( output );
+            Assert.AreEqual(
+                "<a href=\"http://www.wikipedia.org/wiki/Many_Words\" title=\"Visit Wikipedia for information about Many Words\">Many Words</a>",
+                output
+            );
         }
 
         [Test]
@@ -79,11 +77,10 @@ namespace Laan.ContentMatters.Tests
             string input = "<wiki href=\"Intelligibility_(philosophy)\">Many Words</wiki>";
             String output = GetXml( input, data );
 
-            new[] 
-            { 
-                "<a href=\"http://www.wikipedia.org/wiki/Intelligibility_(philosophy)\" title=\"Visit Wikipedia for information about Many Words\">Many Words</a>" 
-            }
-            .Compare( output );
+            Assert.AreEqual(
+                "<a href=\"http://www.wikipedia.org/wiki/Intelligibility_(philosophy)\" title=\"Visit Wikipedia for information about Many Words\">Many Words</a>",
+                output
+            );
         }
 
     }

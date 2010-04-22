@@ -15,7 +15,6 @@ namespace Laan.ContentMatters.Configuration
         {
             DataSources = new List<DataSource>();
             Layout = new PageLayout();
-            Action = "index";
         }
 
         public string Action { get; set; }
@@ -35,7 +34,7 @@ namespace Laan.ContentMatters.Configuration
         [XmlAttribute( "title" )]
         public string Title
         {
-            get { return _title ?? Name; }
+            get { return !String.IsNullOrEmpty(_title) ? _title : Name; }
             set { _title = value; }
         }
 

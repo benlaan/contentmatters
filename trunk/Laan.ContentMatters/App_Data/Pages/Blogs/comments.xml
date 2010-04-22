@@ -1,4 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <page name="comments">
-  <data name="all.comments" type="comment" select="key"/>
+  <data name="comments" type="comment" select="parent"/>
+
+  <layout page="site\master">
+    <view zone="sidebar" page="sidebar" />
+    <view zone="body" page="comments\list"/>
+    <view zone="footer" page="footer"/>
+  </layout>
 </page>

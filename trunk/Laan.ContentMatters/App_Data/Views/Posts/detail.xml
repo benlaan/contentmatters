@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view>
+  <div class="post">
+    <h1>$post.Title</h1>
+    <div class="body_text">
+      <p>$post.Body</p>
+    </div>
+    <br/>
+    <div class="author">
+      by $post.Author.Name <span class="date">$post.Modified</span>
+    </div>
+    <div class="">
+      <list each="$comment" data="$post.Comments">
+        <detail>
+          <p>$comment.Body</p>
+          <br/>
+          <div class="author">
+            by $comment.Author.Name
+            <br/>
+            $comment.Modified
+          </div>
+        </detail>
+      </list>
+    </div>
+  </div>
+</view>

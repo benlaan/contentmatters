@@ -34,8 +34,16 @@
 * Page Layout inheritance
 	- allow child pages to reuse the layout defined above (if possible!)
 	- define abstract layouts which pages 'flesh out'
+    - layout inheritance should default to true?
+    - should use the layout of the parent page, *but* change the view called 'zone'
+
+    <page>
+        <layout inherited="true">
+            <view zone="body" page="new\view"/>
+        </layout>
+    </page>
 			
-* More datasources
+* More data sources
 	- Directory Listings
 	- OData urls
 	- How to define various data items - polymorphic XML?
@@ -48,7 +56,7 @@
 
 * jQuery integration within provider model
 
-	Ensure required script initialisations are aggreagated, and run at the 'end' of the html file
+	Ensure required script initialisations are aggregated, and run at the 'end' of the html file
 	Ensure required 'using' scripts are referenced and added once-only to the head section (will 
 		require a second pass)
 			
@@ -101,3 +109,5 @@
 	- To provider a front-end to manage:
 		Site heirarchy (sitemap tree and selected page)
 		Page Layout, View selection
+
+* Use Type folder for detail, preview, and list templates

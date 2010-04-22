@@ -62,7 +62,7 @@ namespace Laan.ContentMatters.Engine.Services
             EnsureDefinitionsHasParentProperty( defs );
 
             var typeConstructor = new TypeConstructor( CustomNamespace, Path.Combine( _appData, "Models" ) );
-            typeConstructor.BuildAssemblyFromDefintions( typeof( Item ), defs );
+            typeConstructor.BuildAssemblyFromDefinitions( typeof( Item ), defs );
         }
     }
 }

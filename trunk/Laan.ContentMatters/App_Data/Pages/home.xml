@@ -2,7 +2,7 @@
 <page 
     name="Home"
     description="our place on the web.." 
-    title="Home Page"
+    title="Welcome"
 >
   <data name="news" type="news" select="all" top="5"/>
   <data name="blogs" type="blog" select="all" top="5"/>
@@ -16,8 +16,8 @@
         <view zone="top" page="home\welcome" />
         <view zone="bottom">
           <layout page="vert-split">
-            <view zone="left" page="blogs\list"/>
-            <view zone="right" page="news\recent"/>
+            <view zone="left" page="blogs\index"/>
+            <view zone="right" page="news\index"/>
           </layout>
         </view>
       </layout>

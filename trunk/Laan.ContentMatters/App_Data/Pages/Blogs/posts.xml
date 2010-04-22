@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<page name="posts" detailPage="post">
+<page name="Posts" description="some blog posts..">
   
   <!--
-    <data name="post" type="posts">
-      <select when="parent" top="10" order="Created"/>
-      <select when="key">
-        <select name .. sort comments somehow!!!/>
+    <data type="post">
+      <select when="parent" name="posts" top="10" order="Created desc"/>
+      <select when="key" name="post">
+        <select list="comments" top="20" order="Created"/>
       </select>
     </data>
   -->
@@ -17,7 +17,7 @@
   
   <layout page="site\master">
     <view zone="sidebar" page="sidebar" />
-    <view zone="body" page="posts\list"/>
+    <view zone="body" page="posts\$action"/>
     <view zone="footer" page="footer"/>
   </layout>
 </page>
