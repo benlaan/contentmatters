@@ -7,6 +7,6 @@
     <StartWorkingDirectory>C:\Code\GoogleCode\ContentMatters\Laan.ContentMatters.Tests\bin\Debug\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
 </Project>

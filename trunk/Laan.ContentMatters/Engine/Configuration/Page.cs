@@ -38,12 +38,6 @@ namespace Laan.ContentMatters.Configuration
             set { _title = value; }
         }
 
-        //[XmlAttribute( "folder" )]
-        //public string Folder { get; set; }
-
-        //[XmlAttribute( "detailPage" )]
-        //public string DetailPage { get; set; }
-
         [XmlElement( "layout" )]
         public PageLayout Layout { get; set; }
 

@@ -74,7 +74,7 @@ namespace Laan.ContentMatters.Loaders
             LoadSite();
 
             string[] actionList = new[] { "index", "list", "edit", "delete", "new" };
-            string[] folders = path.ToLower().Trim( '/' ).Split( new[] { "/" }, StringSplitOptions.RemoveEmptyEntries );
+            string[] folders = path.Trim( '/' ).Split( new[] { "/" }, StringSplitOptions.RemoveEmptyEntries );
 
             Page parentPage = null;
             SitePage sitePage = null;
@@ -104,7 +104,7 @@ namespace Laan.ContentMatters.Loaders
                     // assume that if the page can't be found, the 'folder' is actually either
                     // an action or a key. If it can be found then assign it a parent page
                     if ( actionList.Any( action => String.Compare( action, folder, true ) == 0 ) )
-                        page.Action = folder;
+                        page.Action = folder.ToLower();
                     else
                         page.Key = folder.Replace( '-', ' ' );
                 }

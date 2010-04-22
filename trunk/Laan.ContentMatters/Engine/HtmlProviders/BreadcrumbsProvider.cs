@@ -16,7 +16,7 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
     {
         public class Page
         {
-            public string Title { get; set; }
+            public string Text { get; set; }
             public string Link { get; set; }
             
         }
@@ -45,10 +45,10 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
             {
                 // Add 'Key' as a page
                 if ( page.Key != null )
-                    results.Add( new Page { Title = page.Key, Link = page.Link + "/" + page.Key } );
+                    results.Add( new Page { Text = page.Key, Link = page.Link + "/" + page.Key } );
 
                 // Add page itself
-                results.Add( new Page { Title = page.Title, Link = page.Link } );
+                results.Add( new Page { Text = page.Title, Link = page.Link } );
                 
                 page = page.Parent;
             }
@@ -70,7 +70,7 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
                 {
                     writer.WriteStartElement( "a" );
                     writer.WriteAttributeString( "href", sitePage.Link );
-                    writer.WriteValue( sitePage.Title );
+                    writer.WriteValue( sitePage.Text );
                     writer.WriteFullEndElement();
 
                     if ( sitePage != last )

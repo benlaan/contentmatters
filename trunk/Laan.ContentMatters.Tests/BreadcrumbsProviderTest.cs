@@ -42,7 +42,7 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_With_No_Child_Pages()
         {
             // Setup
-            var page = new SitePage { Title = "Blogs" };
+            var page = new SitePage { Page = new Page { Name = "Blogs" } };
             var data = new DataDictionary( true ) { { "page", page } };
 
 
@@ -56,7 +56,7 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_Empty_Due_To_Hiding_Single_Page_Is_False()
         {
             // Setup
-            var page = new SitePage { Title = "Blogs" };
+            var page = new SitePage { Page = new Page { Name = "Blogs" } };
             var data = new DataDictionary( true ) { { "page", page } };
 
 
@@ -70,9 +70,8 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_Empty_Due_To_Hiding_Single_Page_Is_True()
         {
             // Setup
-            var page = new SitePage { Title = "Blogs" };
+            var page = new SitePage { Page = new Page { Name = "Blogs" } };
             var data = new DataDictionary( true ) { { "page", page } };
-
 
             string input = "<crumbs data=\"$page\" hideSingle=\"true\"/>";
             String output = GetXml( input, data );
@@ -84,8 +83,8 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_With_Child_Page()
         {
             // Setup
-            var blogs = new SitePage { Title = "Blogs", Parent = null };
-            var page = new SitePage { Title = "My Blog", Parent = blogs };
+            var blogs = new SitePage { Page = new Page { Name = "Blogs" } };
+            var page = new SitePage { Page = new Page { Name = "My Blog" }, Parent = blogs };
 
             var data = new DataDictionary( true ) { { "page", page } };
 
@@ -99,8 +98,8 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_With_Child_Page_With_Hide_Single_True()
         {
             // Setup
-            var blogs = new SitePage { Title = "Blogs", Parent = null };
-            var page = new SitePage { Title = "My Blog", Parent = blogs };
+            var blogs = new SitePage { Page = new Page { Name = "Blogs" } };
+            var page = new SitePage { Page = new Page { Name = "My Blog" }, Parent = blogs };
 
             var data = new DataDictionary( true ) { { "page", page } };
 
@@ -114,9 +113,9 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_With_Nested_Child_Pages()
         {
             // Setup
-            var blogs = new SitePage { Title = "Blogs", Parent = null };
-            var posts = new SitePage { Title = "My Blog", Parent = blogs };
-            var page  = new SitePage { Title = "Posts", Parent = posts };
+            var blogs = new SitePage { Page = new Page { Name = "Blogs" } };
+            var posts = new SitePage { Page = new Page { Name = "My Blog" }, Parent = blogs };
+            var page  = new SitePage { Page = new Page { Name = "Posts" }, Parent = posts };
 
             var data = new DataDictionary( true ) { { "page", page } };
 
@@ -129,8 +128,8 @@ namespace Laan.ContentMatters.Tests
         public void Can_Render_With_Specified_Separator()
         {
             // Setup
-            var blogs = new SitePage { Title = "Blogs", Parent = null, Page = new Page { Key = "My Blog" } };
-            var page  = new SitePage { Title = "Posts", Parent = blogs };
+            var blogs = new SitePage { Name = "Blogs", Parent = null, Page = new Page { Key = "My Blog" } };
+            var page  = new SitePage { Name = "Posts", Parent = blogs };
 
             var data = new DataDictionary( true ) { { "page", page } };
 

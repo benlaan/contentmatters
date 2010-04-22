@@ -29,7 +29,7 @@ namespace Laan.ContentMatters.Configuration
                     return _link;
 
                 string parentLink = Parent != null ? Parent.Link : "";
-                return String.Format( "{0}/{1}", parentLink, Title );
+                return String.Format( "{0}/{1}", parentLink, Page != null ? Page.Name : null );
             }
             set { _link = value; }
         }
@@ -52,7 +52,7 @@ namespace Laan.ContentMatters.Configuration
         [XmlAttribute( "title" )]
         public string Title
         {
-            get { return !String.IsNullOrEmpty( _title ) ? _title : Page.Title; }
+            get { return !String.IsNullOrEmpty( _title ) ? _title : Page != null ? Page.Title : null; }
             set { _title = value; }
         }
 

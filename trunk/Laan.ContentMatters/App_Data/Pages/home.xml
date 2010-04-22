@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <page 
     name="Home"
-    description="our place on the web.." 
-    title="Welcome"
+    description="our place on the web.."
 >
   <data name="news" type="news" select="all" top="5"/>
   <data name="blogs" type="blog" select="all" top="5"/>

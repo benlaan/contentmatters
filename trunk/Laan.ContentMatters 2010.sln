@@ -5,10 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laan.ContentMatters.2010", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laan.ContentMatters.Tests.vs2010", "Laan.ContentMatters.Tests\Laan.ContentMatters.Tests.vs2010.csproj", "{33809869-2AF7-4D15-A783-15B09EAD9DC1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3648003-E047-4267-A62C-B7AA84DF6CD8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{63B88245-1424-4A56-8B7D-79E03808BD8B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laan.Persistence", "References\Laan.Persistence\Laan.Persistence.csproj", "{F8863A9A-34E2-41D5-878B-68B95386704C}"
 EndProject
 Global
@@ -54,8 +50,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{63B88245-1424-4A56-8B7D-79E03808BD8B} = {B3648003-E047-4267-A62C-B7AA84DF6CD8}
 	EndGlobalSection
 EndGlobal
