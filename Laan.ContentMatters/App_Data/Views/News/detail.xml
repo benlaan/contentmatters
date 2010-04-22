@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<view>
+  <div class="welcome">
+    <h1>
+      <a href="/News/$news.Title/">$news.Title</a>
+    </h1>
+    <p class="description">$news.Description</p>
+    <p>$news.Body</p>
+    <br/>
+    <div class="author">
+      by $news.Author.Name <span class="date">$news.Modified</span>
+    </div>
+
+  </div>
+</view>

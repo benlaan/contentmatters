@@ -13,7 +13,6 @@ namespace Laan.ContentMatters.Models
 
             string typeName = GetTypeName( type );
             Title = typeName;
-            TypeName = type.IsGenericType ? "List" : typeName;
         }
 
         private string GetTypeName( Type type )
@@ -25,7 +24,6 @@ namespace Laan.ContentMatters.Models
         }
 
         public virtual int ID { get; set; }
-        public virtual string TypeName { get; set; }
         public virtual DateTime Created { get; set; }
         public virtual DateTime Modified { get; set; }
         public virtual User Author { get; set; }

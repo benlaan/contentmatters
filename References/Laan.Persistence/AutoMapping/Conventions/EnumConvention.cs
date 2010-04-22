@@ -23,22 +23,4 @@ namespace Laan.Persistence.AutoMapping
             return type.IsEnum;
         }
     }
-
-    public class ClassConvention : IClassConvention
-    {
-        #region IConvention<IClassMap> Members
-
-        public bool Accept( IClassMap target )
-        {
-            return true;
-        }
-
-        public void Apply( IClassMap target )
-        {
-            string @namespace = target.EntityType.Namespace.Split( '.' ).Last();
-            target.WithTable( String.Format( "{0}_{1}", @namespace, target.EntityType.Name ) );
-        }
-
-        #endregion
-    }
 }

@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
 using Laan.Persistence;
+
 using NHibernate;
+
 using Castle.Core.Logging;
-using System.Reflection;
 
 namespace Laan.ContentMatters.Engine.Data
 {
@@ -42,13 +44,34 @@ namespace Laan.ContentMatters.Engine.Data
             return method.Invoke( repository, new object[] { page, dataSource } );
         }
 
+        private static bool TypeContainsNamespace( string typeName )
+        {
+            return typeName.Contains( '.' );
+        }
+
         public IDataDictionary Build( SitePage sitePage )
         {
             _data.Clear();
             foreach ( DataSource dataSource in sitePage.Page.DataSources )
             {
-                string type = dataSource.Type;
-                if ( type.Split( new[] { "." }, StringSplitOptions.None ).Count() == 1 )
+                var type = dataSource.Type;
+                var select = dataSource.Select;
+
+                switch ( sitePage.Action )
+                {
+                    case "detail":
+                        if ( select != SelectionMode.Key )
+                            continue;
+                        break;
+
+                    case "index":
+                        //if ( !( new[] { SelectionMode.All, SelectionMode.Parent }.All( sm => sm == select ) ) ) // 
+                        if ( select != SelectionMode.All && select != SelectionMode.Parent )
+                            continue;
+                        break;
+                }
+
+                if ( !TypeContainsNamespace( type ) )
                     type = String.Format( "Laan.ContentMatters.Models.Custom.{0}, Laan.ContentMatters.Models.Custom", dataSource.Type );
 
                 object repository = CreateRepository( type );                

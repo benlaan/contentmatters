@@ -4,12 +4,12 @@
     <h1>Blogs</h1>
     <list each="$blog" data="$blogs">
       <detail>
-        <h2><a href="Blogs/$blog.Title/Posts">$blog.Title</a></h2>
+        <h2>
+          <a href="Blogs/$blog.Title">$blog.Title</a>
+        </h2>
         <p>$blog.Description</p>
         <br/>
-        by $blog.Author.Name
-        <span class="date">$blog.Modified</span>
-        <!--<a class="comments" href="Blogs/$blog.Title/Comments">Comments</a>-->
+        <div class="author">- $blog.Author.Name</div>
       </detail>
     </list>
   </div>

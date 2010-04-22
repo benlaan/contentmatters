@@ -9,6 +9,7 @@ using Laan.ContentMatters.Models;
 using MbUnit.Framework;
 using Laan.ContentMatters.Engine.Services;
 using Laan.Persistence.Interfaces;
+using System.Collections.Generic;
 
 namespace Laan.ContentMatters.Tests
 {
@@ -69,8 +70,7 @@ namespace Laan.ContentMatters.Tests
         [SetUp]
         public void Setup()
         {
-            string path = Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location );
-            _constructor = new TypeConstructor( Namespace, path );
+            _constructor = new TypeConstructor( Namespace, null );
         }
 
         [Test]
@@ -138,14 +138,13 @@ namespace Laan.ContentMatters.Tests
             // Setup
             ItemDefinition cityDef = GetCityDefinition();
             var supplierDef = GetSupplierDefinition();
-            var cityType = _constructor.AddType( typeof( Item ), cityDef );
             supplierDef.Fields.Add( new FieldDefinition { Name = "City", FieldType = FieldType.Reference } );
 
             // Exercise
-            var supplierType = _constructor.AddType( typeof( Item ), supplierDef );
+            _constructor.BuildAssemblyFromDefinitions( typeof( Item ), new List<ItemDefinition> { supplierDef, cityDef } );
+            var cityType = _constructor.Types[ Namespace + ".City" ];
+            var supplierType = _constructor.Types[ Namespace + ".Supplier" ];
             object supplier = Activator.CreateInstance( supplierType );
-
-            //constructor.SaveAssembly();
 
             // Verify outcome
             Assert.IsNotNull( supplier );

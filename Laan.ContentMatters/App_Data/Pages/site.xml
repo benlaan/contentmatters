@@ -1,19 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <site>
   <page name="Home" default="true"/>
-  <page name="News"/>
   <page name="Blogs" folder="blogs">
     <page name="Posts">
       <page name="Comments"/>
     </page>
   </page>
+  <page name="News"/>
   <page name="Photos"/>
   <page name="Files"/>
-  <page name="CookNg" link="http://cookng.laanfamily.com"/>
+  <page name="CookNg" link="http://cookng.laanfamily.com" title="Laan Family Recipe Compendium"/>
   <page name="Code">
-    <page name="SqlFormat" />
-    <page name="ContentMatters" />
-    <page name="RenderTerrain" />
+    <page name="Tools"/>
+    <page name="Projects">
+      <page name="SqlFormat" />
+      <page name="ContentMatters" />
+      <page name="RenderTerrain" />
+    </page>
   </page>
   <page name="About"/>
 </site>

@@ -9,8 +9,6 @@ namespace Laan.ContentMatters.Engine.Interfaces
         void Clear();
         void Add( string key, object value );
         bool Remove( string key );
-        ICollection<string> Keys { get; }
-        ICollection<object> Values { get; }
         object this[ string key ] { get; set; }
         bool TryGetValue( string key, out object value );
     }

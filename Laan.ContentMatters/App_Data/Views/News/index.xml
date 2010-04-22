@@ -7,7 +7,9 @@
         <h2><a href="News/$item.Title/">$item.Title</a></h2>
         <p>$item.Description</p>
         <br/>
-        by $item.Author
+        <div class="author">
+          - $item.Author.Name <span class="date">$item.Modified</span>
+        </div>
       </detail>
     </list>
   </div>

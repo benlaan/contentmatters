@@ -9,6 +9,7 @@ using Laan.ContentMatters.Configuration;
 using Laan.ContentMatters.Engine.Interfaces;
 using Laan.Persistence.Interfaces;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace Laan.ContentMatters.Loaders
 {
@@ -56,29 +57,59 @@ namespace Laan.ContentMatters.Loaders
 
         private void ProcessNodes( XmlReader reader, XmlWriter writer, PageLayout layout )
         {
-            while ( !reader.EOF )
+            try
             {
-                reader.Read();
-                switch ( reader.NodeType )
+                while ( !reader.EOF )
                 {
-                    case XmlNodeType.Element:
-                        WriteElement( reader, writer, layout );
+                    reader.Read();
+                    switch ( reader.NodeType )
+                    {
+                        case XmlNodeType.Element:
+                            WriteElement( reader, writer, layout );
 
-                        break;
+                            break;
 
-                    case XmlNodeType.EndElement:
-                        if ( reader.Name != "view" )
-                            writer.WriteFullEndElement();
-                        break;
+                        case XmlNodeType.EndElement:
+                            if ( reader.Name != "view" )
+                                writer.WriteFullEndElement();
+                            break;
 
-                    case XmlNodeType.Text:
-                        writer.WriteRaw( Data.ExpandVariables( reader.Value ) );
-                        break;
+                        case XmlNodeType.Text:
+                            string value = reader.Value;
+                            string expanded = Data.ExpandVariables( value );
+                            if ( expanded == value )
+                                writer.WriteRaw( value );
+                            else
+                            {
+                                string xml = String.Format( "<view>{0}</view>", expanded );
+                                using ( XmlReader expandedReader = new XmlTextReader( new StringReader( xml ) ) )
+                                {
+                                    expandedReader.Read();
+                                    ProcessNodes( expandedReader, writer, layout );
+                                }
+                            }
+                            break;
 
-                    case XmlNodeType.Comment:
-                        writer.WriteComment( reader.Value );
-                        break;
+                        case XmlNodeType.Comment:
+                            writer.WriteComment( reader.Value );
+                            break;
+                    }
                 }
+            }
+            catch ( Exception ex )
+            {
+                if (writer != null)
+                {
+                    writer.Flush();
+                    Stream ms = ( ( XmlTextWriter )writer ).BaseStream;
+                    ms.Position = 0;
+                    using ( StreamReader sr = new StreamReader( ms, Encoding.ASCII ) )
+                    {
+                        Trace.WriteLine( sr.ReadToEnd().Replace( "\r", "" ) );
+                    }
+                }
+
+                Trace.WriteLine( ex );
             }
         }
 

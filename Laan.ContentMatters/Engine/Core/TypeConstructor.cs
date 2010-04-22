@@ -15,13 +15,12 @@ namespace Laan.ContentMatters.Engine
     {
         private Dictionary<FieldDefinition, MethodInfo> _setterMethods;
 
+        private string _path;
         private AssemblyBuilder _assemblyBuilder;
         private string _fileName;
         private TypeBuilder _currentType;
         private ModuleBuilder _moduleBuilder;
         private string _namespace;
-
-        private Dictionary<string, TypeBuilder> _types;
 
         private MethodAttributes ConstructorAttr =
             MethodAttributes.HideBySig |
@@ -43,17 +42,17 @@ namespace Laan.ContentMatters.Engine
 
         public TypeConstructor( string @namespace, string path )
         {
-            _types = new Dictionary<string, TypeBuilder>();
+            _path = path;
+            Types = new Dictionary<string, TypeBuilder>();
             _namespace = @namespace;
             _setterMethods = new Dictionary<FieldDefinition, MethodInfo>();
             _fileName = @namespace + ".dll";
 
-            var access = path != null ? AssemblyBuilderAccess.RunAndSave : AssemblyBuilderAccess.Run;
-            path = path ?? null;
+            var access = _path != null ? AssemblyBuilderAccess.RunAndSave : AssemblyBuilderAccess.Run;
 
-            _assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly( new AssemblyName( @namespace ), access, path );
+            _assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly( new AssemblyName( @namespace ), access, _path );
 
-            if ( !String.IsNullOrEmpty( path ) )
+            if ( !String.IsNullOrEmpty( _path ) )
                 _moduleBuilder = _assemblyBuilder.DefineDynamicModule( @namespace, _fileName );
             else
                 _moduleBuilder = _assemblyBuilder.DefineDynamicModule( @namespace );
@@ -91,7 +90,7 @@ namespace Laan.ContentMatters.Engine
 
         private void CreateProperty( FieldDefinition definition )
         {
-            var fieldType = GetSystemType( definition, _types );
+            var fieldType = GetSystemType( definition, Types );
             var fieldName = "_" + definition.Name.ToJavaCase();
 
             // backing field
@@ -116,7 +115,7 @@ namespace Laan.ContentMatters.Engine
         private TypeBuilder GetType( string referenceType )
         {
             TypeBuilder result;
-            if ( _types.TryGetValue( referenceType, out result ) )
+            if ( Types.TryGetValue( referenceType, out result ) )
                 return result;
 
             throw new Exception( String.Format( "Type Not Found: {0}", referenceType ) );
@@ -142,7 +141,7 @@ namespace Laan.ContentMatters.Engine
             };
 
             if ( definition.FieldType == FieldType.Reference && definition.ReferenceType == null )
-                definition.ReferenceType = types[definition.Name].FullName;
+                definition.ReferenceType = GetReferenceType( definition.Name ).FullName;
 
             if ( definition.ReferenceType != null )
             {
@@ -171,12 +170,12 @@ namespace Laan.ContentMatters.Engine
 
         public Type AddType( Type baseType, ItemDefinition definition )
         {
-            Type type = BuildType( baseType, definition );
+            TypeBuilder type = BuildType( baseType, definition );
             BuildPropertiesAndConstructor( definition );
-            return type;
+            return type.CreateType();
         }
 
-        private Type BuildType( Type baseType, ItemDefinition definition )
+        private TypeBuilder BuildType( Type baseType, ItemDefinition definition )
         {
             var attr =
                 TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.AutoClass |
@@ -190,7 +189,7 @@ namespace Laan.ContentMatters.Engine
                 baseType
             );
 
-            _types[typeName] = _currentType;
+            Types[ typeName ] = _currentType;
             return _currentType;
         }
 
@@ -231,10 +230,12 @@ namespace Laan.ContentMatters.Engine
 
         public void SaveAssembly()
         {
+            if ( _path == null )
+                return;
             _assemblyBuilder.Save( _fileName );
         }
 
-        public void BuildAssemblyFromDefintions( Type baseType, List<ItemDefinition> definitions )
+        public void BuildAssemblyFromDefinitions( Type baseType, List<ItemDefinition> definitions )
         {
             // define the types
             foreach ( var def in definitions )
@@ -247,11 +248,13 @@ namespace Laan.ContentMatters.Engine
             }
 
             // Actually construct the types
-            foreach ( var type in _types )
+            foreach ( var type in Types )
                 type.Value.CreateType();
 
             SaveAssembly();
         }
+
+        public Dictionary<string, TypeBuilder> Types { get; private set; }
     }
 
 }

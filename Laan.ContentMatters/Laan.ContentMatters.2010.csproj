@@ -119,20 +119,21 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
-    <Compile Include="Engine\Configuration\Core\CumulousMvcHandler.cs" />
-    <Compile Include="Engine\Configuration\Core\CumulousRouteHandler.cs" />
-    <Compile Include="Engine\Configuration\Core\CumulousViewEngine.cs" />
-    <Compile Include="Engine\Configuration\Core\CustomControllerFactory.cs" />
-    <Compile Include="Engine\Configuration\Core\DebuggableRouteHandler.cs" />
-    <Compile Include="Engine\Configuration\Core\PageNotFoundException.cs" />
-    <Compile Include="Engine\Configuration\Core\PageRouteHandler.cs" />
-    <Compile Include="Engine\Configuration\Core\CumulousHandler.cs" />
-    <Compile Include="Engine\Configuration\Core\ServerMapper.cs" />
-    <Compile Include="Engine\Configuration\Core\TypeConstructor.cs" />
-    <Compile Include="Engine\Configuration\Core\XmlProvider.cs" />
     <Compile Include="Engine\Configuration\Owner.cs" />
     <Compile Include="Engine\Configuration\SiteProperties.cs" />
+    <Compile Include="Engine\Core\CumulousHandler.cs" />
+    <Compile Include="Engine\Core\CumulousMvcHandler.cs" />
+    <Compile Include="Engine\Core\CumulousRouteHandler.cs" />
+    <Compile Include="Engine\Core\CumulousViewEngine.cs" />
+    <Compile Include="Engine\Core\CustomControllerFactory.cs" />
+    <Compile Include="Engine\Core\DebuggableRouteHandler.cs" />
+    <Compile Include="Engine\Core\PageNotFoundException.cs" />
+    <Compile Include="Engine\Core\PageRouteHandler.cs" />
+    <Compile Include="Engine\Core\ServerMapper.cs" />
+    <Compile Include="Engine\Core\TypeConstructor.cs" />
+    <Compile Include="Engine\Core\XmlProvider.cs" />
     <Compile Include="Engine\Data\DataDictionary.cs" />
+    <Compile Include="Engine\HtmlProviders\BreadcrumbsProvider.cs" />
     <Compile Include="Engine\HtmlProviders\WikipediaProvider.cs" />
     <Compile Include="Engine\Interfaces\IDataDictionary.cs" />
     <Compile Include="Engine\HtmlProviders\ListProvider.cs" />
@@ -201,7 +202,9 @@
     <Content Include="App_Data\Pages\about.xml" />
     <Content Include="App_Data\Pages\Blogs\blogs.xml" />
     <Content Include="App_Data\Pages\Blogs\comments.xml" />
-    <Content Include="App_Data\Pages\Blogs\posts.xml" />
+    <Content Include="App_Data\Pages\Blogs\posts.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\Pages\code.xml" />
     <Content Include="App_Data\Pages\files.xml" />
     <Content Include="App_Data\Pages\home.xml" />
@@ -229,14 +232,23 @@
     <Content Include="App_Data\Types\System\float.xml" />
     <Content Include="App_Data\Types\System\integer.xml" />
     <Content Include="App_Data\Types\System\time.xml" />
-    <Content Include="App_Data\Views\Blogs\list.xml" />
+    <Content Include="App_Data\Views\Blogs\detail.xml" />
+    <Content Include="App_Data\Views\Blogs\index.xml" />
     <Content Include="App_Data\Views\Code\list.xml" />
+    <Content Include="App_Data\Views\Home\about.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\Views\Home\popular_posts.xml" />
     <Content Include="App_Data\Views\Home\recent_posts.xml" />
     <Content Include="App_Data\Views\Home\welcome.xml" />
-    <Content Include="App_Data\Views\News\recent.xml">
+    <Content Include="App_Data\Views\News\detail.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\Views\News\index.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\Views\Posts\detail.xml" />
+    <Content Include="App_Data\Views\Posts\index.xml" />
     <Content Include="App_Data\Views\Recipe\master.xml" />
     <Content Include="App_Data\Views\Recipe\sidebar.xml" />
     <Content Include="App_Data\Views\footer.xml">
@@ -252,7 +264,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App_Data\Data.s3db" />
-    <None Include="Engine\Configuration\Core\TypeConstructor.cs.bak" />
     <None Include="Templates\Blog\Index.vm" />
     <None Include="Templates\Blog\Item.vm" />
     <None Include="Templates\Blog\View.vm" />
@@ -271,11 +282,14 @@
     <Content Include="Images\gradientbg.jpg" />
     <Content Include="Images\headerphoto.jpg" />
     <Content Include="Images\page.gif" />
-    <Content Include="Notes.txt" />
     <Content Include="Notes\Core Classes.txt" />
+    <Content Include="Notes\Criteria Notes.txt" />
+    <Content Include="Notes\More Notes.txt" />
+    <Content Include="Notes\More Routes.txt" />
     <Content Include="Notes\Notes.txt" />
     <Content Include="Notes\Provider Notes.txt" />
     <Content Include="Notes\Routes.txt" />
+    <Content Include="Notes\TODO.txt" />
     <Content Include="Views\Home\home.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -294,6 +308,7 @@
     <None Include="Views\Shared\logon.vm" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

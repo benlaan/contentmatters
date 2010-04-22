@@ -5,6 +5,7 @@ using System.Web;
 using System.Reflection.Emit;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace Laan.ContentMatters.Models
 {
@@ -27,6 +28,11 @@ namespace Laan.ContentMatters.Models
 
         [XmlIgnore]
         public bool IsParent { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format( "{0}: {1}{2}", Name, FieldType, ( ReferenceType != null ? "[" + ReferenceType + "]" : "" ) );
+        }
 
     }
 }

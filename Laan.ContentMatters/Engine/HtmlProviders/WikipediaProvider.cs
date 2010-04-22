@@ -10,7 +10,7 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
 {
     public class WikipediaProvider : XmlProvider
     {
-        protected override void WriteXml( XmlReader element, Stream stream )
+        protected override void WriteXml( XmlReader element, XmlWriter writer )
         {
             var href = element.GetAttribute( "href" );
             element.Read();
@@ -23,13 +23,11 @@ namespace Laan.ContentMatters.Engine.HtmlProviders
             string text = Data.ExpandVariables( element.Value );
             href = href ?? text.Replace( ' ', '_' );
 
-            XmlTextWriter writer = new XmlTextWriter( stream, Encoding.UTF8 );
             writer.WriteStartElement( "a" );
             writer.WriteAttributeString( "href", "http://www.wikipedia.org/wiki/" + href );
             writer.WriteAttributeString( "title", "Visit Wikipedia for information about " + text );
             writer.WriteValue( text );
             writer.WriteFullEndElement();
-            writer.Flush();
         }
 
         public override string ElementName

@@ -27,6 +27,7 @@
       <div id="content-wrap">
         <div id="content">
           <div id="main">
+            <crumbs data="$page" class="breadcrumbs" separator=" > " hideSingle="true"/>
             <zone id="body"/>
           </div>
           <div id="sidebar">

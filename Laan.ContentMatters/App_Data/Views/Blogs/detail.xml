@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <view>
-  <div class="welcome">
+  <div class="post">
     <h1>$blog.Title</h1>
     <list each="$post" data="$blog.Posts">
       <detail>
-        <h2><a href="posts/$post.Title/Posts">$post.Title</a></h2>
+        <h2>
+          <a href="/Blogs/$blog.Title/Posts/$post.Title">$post.Title</a>
+        </h2>
         <p>$post.Description</p>
         <br/>
-        by $post.Author.Name
-        <span class="date">$post.Modified</span>
-        <a class="comments" href="Posts/$post.Title/Comments">Comments</a>
+        <div class="post-footer align-right">
+          <a class="comments" href="Posts/$post.Title/Comments">($post.Comments.Count) comment(s)</a>
+          <span class="date">$post.Modified</span>
+        </div>
       </detail>
     </list>
   </div>

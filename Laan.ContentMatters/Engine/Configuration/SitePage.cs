@@ -6,10 +6,11 @@ using System.Diagnostics;
 namespace Laan.ContentMatters.Configuration
 {
     [Serializable]
-    [DebuggerDisplay( "{Name}: {FullPath}" )]
+    [DebuggerDisplay( "{Title}: {FullPath}" )]
     public class SitePage
     {
         private string _link;
+        private string _title;
 
         public SitePage()
         {
@@ -20,15 +21,15 @@ namespace Laan.ContentMatters.Configuration
         public string Name { get; set; }
 
         [XmlAttribute( "link" )]
-        public string Link 
-        { 
+        public string Link
+        {
             get
             {
-                if (_link != null)
+                if ( _link != null )
                     return _link;
 
                 string parentLink = Parent != null ? Parent.Link : "";
-                return String.Format( "{0}/{1}", parentLink, Name );
+                return String.Format( "{0}/{1}", parentLink, Title );
             }
             set { _link = value; }
         }
@@ -41,22 +42,26 @@ namespace Laan.ContentMatters.Configuration
 
         [XmlElement( "page" )]
         public List<SitePage> Pages { get; set; }
-        
+
         [XmlIgnore]
         public Page Page { get; internal set; }
-        
+
         [XmlIgnore]
         public SitePage Parent { get; set; }
-        
+
+        [XmlAttribute( "title" )]
+        public string Title
+        {
+            get { return !String.IsNullOrEmpty( _title ) ? _title : Page.Title; }
+            set { _title = value; }
+        }
+
         [XmlIgnore]
-        public string Title { get { return Page.Title; } }
-        
-        [XmlIgnore]
-        public string Key { get { return Page.Key; } }
-        
+        public string Key { get { return Page != null ? Page.Key : null; } }
+
         [XmlIgnore]
         public string Action { get { return Page.Action; } }
-        
+
         [XmlIgnore]
         public string Description { get { return Page.Description; } }
 

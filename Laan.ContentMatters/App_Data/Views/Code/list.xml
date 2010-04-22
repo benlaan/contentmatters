@@ -2,10 +2,12 @@
 <view>
   <div class="welcome">
     <h1>Projects</h1>
-    <list each="$p" data="$page.Pages">
+    <list each="$subPage" data="$page.Pages">
       <detail>
-        <h2><a href="/">$p.Name</a></h2>
-        <p>$p.Description</p>
+        <h2>
+          <a href="/Code/$subPage.Name">$subPage.Name</a>
+        </h2>
+        <p>$subPage.Description</p>
       </detail>
     </list>
   </div>

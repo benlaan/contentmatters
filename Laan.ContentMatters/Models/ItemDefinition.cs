@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace Laan.ContentMatters.Models
 {
     [ Serializable ]
     [ XmlRoot( "definitions" ) ]
+    [ DebuggerDisplay("{Namespace}.{Name}") ]
     public class ItemDefinition : IItem
     {
         public ItemDefinition()

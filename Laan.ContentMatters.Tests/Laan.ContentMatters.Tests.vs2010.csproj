@@ -145,6 +145,7 @@
   <ItemGroup>
     <Compile Include="BaseTestFixture.cs" />
     <Compile Include="BaseXmlProviderTest.cs" />
+    <Compile Include="BreadcrumbsProviderTest.cs" />
     <Compile Include="WikipediaProviderTest.cs" />
     <Compile Include="DataDictionaryTest.cs" />
     <Compile Include="DataProviderTest.cs" />

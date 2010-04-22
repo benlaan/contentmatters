@@ -5,10 +5,11 @@
     title="News"
 >
   <data name="news" type="news" select="all" top="10"/>
-  
+  <data name="news" type="news" select="key" />
+
   <layout page="site\master">
     <view zone="sidebar" page="sidebar" />
-    <view zone="body" page="news\recent"/>
+    <view zone="body" page="news\$action"/>
     <view zone="footer" page="footer"/>
   </layout>
  

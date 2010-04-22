@@ -90,18 +90,18 @@ namespace Laan.ContentMatters.Engine.Data
             return criteria.List<T>();
         }
 
-        public IList<T> SelectKey( SitePage page, DataSource data )
+        public T SelectKey( SitePage page, DataSource data )
         {
             ICriteria criteria = GetCriteria( data );
-            criteria = criteria.Add( Expression.Eq( "Description", page.Key ) );
-            return criteria.List<T>();
+            criteria = criteria.Add( Expression.InsensitiveLike( "Title", page.Key ) );
+            return criteria.UniqueResult<T>();
         }
 
         public IList<T> SelectRandom( SitePage page, DataSource data )
         {
             data.Order = "NEWID()";
             ICriteria criteria = GetCriteria( data );
-            criteria = criteria.Add( Expression.Eq( "Description", page.Key ) );
+            criteria = criteria.Add( Expression.InsensitiveLike( "Title", page.Key ) );
             return criteria.List<T>();
         }
     }

@@ -1,0 +1,63 @@
+------------------------------------------------------
+
+/home
+
+page home
+
+------------------------------------------------------
+
+/blogs/ben
+
+page   "blogs"
+action "detail"
+key    "ben"
+data
+
+    $blog = "ben"
+    
+------------------------------------------------------
+
+/blogs/ben/posts
+
+page   "posts"
+action "list"
+key    "ben"
+data
+
+    $blog = "ben"
+
+------------------------------------------------------
+
+/blogs/ben/posts/something
+
+page   "posts"
+action "detail"
+key    "something"
+data
+
+    $blog = "ben"
+    $post = "something"
+
+------------------------------------------------------
+
+/blogs/ben/posts/something/comments
+
+page   "comments"
+action "detail"
+data
+
+    $blog = "ben"
+    $post = "something"
+
+
+------------------------------------------------------
+
+/blogs/ben/posts/something/comments/great-post
+
+page   "comment"
+action "detail"
+data
+
+    $blog = "ben"
+    $post = "something"
+
